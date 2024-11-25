@@ -1,0 +1,25 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "This is the gateway for the PositionPal project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/position-pal/gateway.git"
+  },
+  "author": "PositionPal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/position-pal/gateway/issues"
+  },
+  "homepage": "https://github.com/position-pal/gateway#readme",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.12.2",
+    "@grpc/proto-loader": "^0.7.13",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  }
+}
