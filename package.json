@@ -4,7 +4,7 @@
   "description": "This is the gateway for the PositionPal project.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,13 @@
   },
   "homepage": "https://github.com/position-pal/gateway#readme",
   "dependencies": {
-    "@grpc/grpc-js": "^1.12.2",
     "@grpc/proto-loader": "^0.7.13",
     "dotenv": "^16.4.5",
     "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@grpc/grpc-js": "^1.12.2",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }
