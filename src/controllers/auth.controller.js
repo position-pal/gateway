@@ -1,4 +1,5 @@
 const authClient = require('../grpc/clients/authClient');
+const HTTP_STATUS = require('./httpStatusCode');
 
 /**
  * Login endpoint: Authenticates the user and returns a JWT token.
@@ -8,8 +9,6 @@ exports.login = (req, res) => {
         username,
         password
     } = req.body;
-
-    console.log(username, password);
 
     if (!username || !password) {
         return res.status(400).json({
@@ -21,6 +20,7 @@ exports.login = (req, res) => {
         username,
         password
     }, (error, response) => {
+
         if (error) {
             console.error('gRPC Error:', error);
             return res.status(500).json({
@@ -28,7 +28,7 @@ exports.login = (req, res) => {
             });
         }
 
-        if (response.status && response.status.code === 0) {
+        if (response.status && response.status.code === 'OK') {
             // Authentication ok
             res.status(200).json({
                 token: response.token
@@ -36,7 +36,7 @@ exports.login = (req, res) => {
         } else {
             // Authentication error
             res.status(401).json({
-                error: response.status.message || 'Invalid credentials'
+                error: response.status?.message || 'Invalid credentials'
             });
         }
     });
@@ -52,7 +52,6 @@ exports.authorize = (req, res) => {
             error: 'Token is required'
         });
     }
-
     authClient.authorize({
         token
     }, (error, response) => {
