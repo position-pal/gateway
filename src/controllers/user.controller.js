@@ -3,7 +3,7 @@ const userClient = require('../grpc/clients/userClient');
 exports.getUser = (req, res, next) => {
   const { id } = req.params;
 
-  userClient.GetUser({ userId: id }, (error, response) => {
+  userClient.getUser({ userId: id }, (error, response) => {
     if (error) {
       return next(error);
     }
@@ -14,7 +14,7 @@ exports.getUser = (req, res, next) => {
 exports.createUser = (req, res, next) => {
   const userData = req.body;
 
-  userClient.CreateUser({ user: userData }, (error, response) => {
+  userClient.createUser({ user: userData }, (error, response) => {
     if (error) {
       return next(error);
     }
@@ -26,7 +26,7 @@ exports.updateUser = (req, res, next) => {
   const { id } = req.params;
   const userData = req.body;
 
-  userClient.UpdateUser({ userId: id, user: userData }, (error, response) => {
+  userClient.updateUser({ userId: id, user: userData }, (error, response) => {
     if (error) {
       return next(error);
     }
@@ -37,7 +37,7 @@ exports.updateUser = (req, res, next) => {
 exports.deleteUser = (req, res, next) => {
   const { id } = req.params;
 
-  userClient.DeleteUser({ userId: id }, (error, response) => {
+  userClient.deleteUser({ userId: id }, (error, response) => {
     if (error) {
       return next(error);
     }

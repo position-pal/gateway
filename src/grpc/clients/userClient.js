@@ -8,15 +8,15 @@ const userClient = new userProto.UserService(
 
 module.exports = {
   createUser: (user, callback) => {
-    userClient.CreateUser({ user }, callback);
+    userClient.CreateUser(user, callback);
   },
   getUser: (userId, callback) => {
-    userClient.GetUser({ userId }, callback);
+    userClient.GetUser(userId, callback);
   },
   updateUser: (userId, user, callback) => {
-    userClient.UpdateUser({ userId, user }, callback);
+    userClient.UpdateUser(userId, user, callback);
   },
   deleteUser: (userId, callback) => {
-    userClient.DeleteUser({ userId }, callback);
+    userClient.DeleteUser(userId, callback);
   },
 };
