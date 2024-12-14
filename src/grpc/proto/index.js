@@ -16,4 +16,5 @@ const loadProto = (file) => {
 module.exports = {
   userProto: loadProto('user.proto'),
   authProto: loadProto('auth.proto'),
+  groupProto: loadProto('group.proto'),
 };
