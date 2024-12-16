@@ -17,4 +17,7 @@ module.exports = {
   userProto: loadProto('user.proto'),
   authProto: loadProto('auth.proto'),
   groupProto: loadProto('group.proto'),
+  chatProto: loadProto('chat_service.proto'),
+  notificationTokenProto: loadProto('tokens.proto'),
+  trakingProto: loadProto('tracking.proto'),
 };

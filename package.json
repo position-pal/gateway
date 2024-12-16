@@ -4,7 +4,9 @@
   "description": "This is the gateway for the PositionPal project.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prestart": "./dowload_proto.sh",
+    "start": "node src/server.js"
   },
   "repository": {
     "type": "git",
