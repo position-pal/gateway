@@ -24,7 +24,7 @@
     "express": "^4.21.1"
   },
   "devDependencies": {
-    "@grpc/grpc-js": "1.12.4",
+    "@grpc/grpc-js": "1.12.5",
     "jest": "29.7.0",
     "supertest": "7.0.0"
   }
