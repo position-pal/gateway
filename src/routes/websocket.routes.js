@@ -3,15 +3,12 @@ const expressWs = require('express-ws');
 const WebSocket = require('ws');
 
 const router = express.Router();
-expressWs(router); // Initialize express-ws with the router
+expressWs(router);
 
-router.ws('/group/:group/:user', (ws, req) => {
-  const { group, user } = req.params;
 
-  const location_ws = new WebSocket("ws://localhost:5001/group/"+group+"/"+user);
-
-  ws.on('open', () => {
-    const message = {
+/*
+EXAMPLE MESSAGE
+const message = {
       SampledLocation: {
         timestamp: "2024-12-16T15:45:34.789286Z",
         user: user,
@@ -22,13 +19,21 @@ router.ws('/group/:group/:user', (ws, req) => {
         }
       }
     };
+*/
 
-    location_ws.send(JSON.stringify(message));
+router.ws('/location/:group/:user', (ws, req) => {
+  const { group, user } = req.params;
+
+  const location_ws = new WebSocket(`ws://localhost:5001/group/${group}/${user}`);
+
+  // Forward messages from client to location_ws
+  ws.on('message', (msg) => {
+    location_ws.send(msg);
   });
 
-  ws.on('message', (msg) => {
-    console.log('Received message:', msg);
-    // Handle the received message here
+  // Forward messages from location_ws to client
+  location_ws.on('message', (msg) => {
+    ws.send(msg);
   });
 
   ws.on('error', (error) => {
@@ -36,6 +41,7 @@ router.ws('/group/:group/:user', (ws, req) => {
   });
 
   ws.on('close', () => {
+    location_ws.close();
     console.log('WebSocket connection closed');
   });
 });
