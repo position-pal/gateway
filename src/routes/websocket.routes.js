@@ -3,30 +3,30 @@ const expressWs = require('express-ws');
 const WebSocket = require('ws');
 require('dotenv').config();
 
-const LOCATION_SERVICE_URL = process.env.LOCATION_SERVICE_URL || "localhost:5001";
+const LOCATION_SERVICE_URL = process.env.LOCATION_SERVICE_URL || "localhost:8080";
+const LOCATION_SERVICE_API_VERSION = process.env.LOCATION_SERVICE_API_VERSION || "v1";
 const router = express.Router();
 expressWs(router);
-
 
 /*
 EXAMPLE MESSAGE
 const message = {
-      SampledLocation: {
-        timestamp: "2024-12-16T15:45:34.789286Z",
-        user: user,
-        group: group,
-        position: {
-          latitude: 44.139,
-          longitude: 12.243
-        }
-      }
-    };
+  "SampledLocation":{
+    "timestamp":"2024-12-22T10:40:18.967675Z",
+    "user":"luke",
+    "group":"astro",
+    "position":{
+      "latitude":44.487912,
+      "longitude":11.32885
+    }
+  }
+}
 */
 
 router.ws('/location/:group/:user', (ws, req) => {
   const { group, user } = req.params;
 
-  const location_ws = new WebSocket(`ws://${LOCATION_SERVICE_URL}/group/${group}/${user}`);
+  const location_ws = new WebSocket(`ws://${LOCATION_SERVICE_URL}/${LOCATION_SERVICE_API_VERSION}/group/${group}/${user}`);
 
   // Forward messages from client to location_ws
   ws.on('message', (msg) => {
