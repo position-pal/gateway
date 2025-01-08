@@ -1,7 +1,9 @@
 const express = require('express');
 const expressWs = require('express-ws');
 const WebSocket = require('ws');
+require('dotenv').config();
 
+const LOCATION_SERVICE_URL = process.env.LOCATION_SERVICE_URL || "localhost:5001";
 const router = express.Router();
 expressWs(router);
 
@@ -24,7 +26,7 @@ const message = {
 router.ws('/location/:group/:user', (ws, req) => {
   const { group, user } = req.params;
 
-  const location_ws = new WebSocket(`ws://localhost:5001/group/${group}/${user}`);
+  const location_ws = new WebSocket(`ws://${LOCATION_SERVICE_URL}/group/${group}/${user}`);
 
   // Forward messages from client to location_ws
   ws.on('message', (msg) => {
