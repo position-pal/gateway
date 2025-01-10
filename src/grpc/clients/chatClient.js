@@ -1,8 +1,8 @@
 const grpc = require('@grpc/grpc-js');
 const { chatProto } = require('../proto');
 
-const chatClient = new chatProto.ChatService(
-  process.env.CHAT_SERVICE_URL || 'localhost:50052',
+const chatClient = new chatProto.chatservice.ChatService(
+  process.env.CHAT_SERVICE_URL || 'localhost:5052',
   grpc.credentials.createInsecure()
 );
 
