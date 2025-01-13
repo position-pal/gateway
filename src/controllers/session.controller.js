@@ -1,12 +1,12 @@
-const sessionClient = require('../grpc/clients/sessionClient');
+const sessionClient = require("../grpc/clients/sessionClient");
 
-exports.getCurrentSession = (req, res, next) => {
-  const groupId = { value: req.params.group }; 
+exports.getCurrentSession = (req, res) => {
+  const groupId = { value: req.params.group };
   let sessions = [];
   sessionClient.getCurrentSession(
     groupId,
     (response) => sessions.push(response.session),
-    () => res.json({ sessions })
+    () => res.json({ sessions }),
   );
 };
 
