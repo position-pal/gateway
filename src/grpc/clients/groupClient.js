@@ -1,9 +1,9 @@
-const grpc = require('@grpc/grpc-js');
-const { groupProto } = require('../proto');
+const grpc = require("@grpc/grpc-js");
+const { groupProto } = require("../proto");
 
 const groupClient = new groupProto.GroupService(
-  process.env.USER_SERVICE_URL || 'localhost:50051',
-  grpc.credentials.createInsecure()
+  process.env.USER_SERVICE_URL || "localhost:50051",
+  grpc.credentials.createInsecure(),
 );
 
 module.exports = {

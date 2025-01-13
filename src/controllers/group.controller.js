@@ -1,4 +1,4 @@
-const groupClient = require('../grpc/clients/groupClient');
+const groupClient = require("../grpc/clients/groupClient");
 
 exports.createGroup = (req, res, next) => {
   const groupData = req.body;
@@ -26,12 +26,15 @@ exports.updateGroup = (req, res, next) => {
   const { id } = req.params;
   const groupData = req.body;
 
-  groupClient.updateGroup({ groupId: id, group: groupData }, (error, response) => {
-    if (error) {
-      return next(error);
-    }
-    res.status(200).json(response.group);
-  });
+  groupClient.updateGroup(
+    { groupId: id, group: groupData },
+    (error, response) => {
+      if (error) {
+        return next(error);
+      }
+      res.status(200).json(response.group);
+    },
+  );
 };
 
 exports.deleteGroup = (req, res, next) => {
@@ -41,7 +44,10 @@ exports.deleteGroup = (req, res, next) => {
     if (error) {
       return next(error);
     }
-    res.status(200).json({ message: 'Group deleted successfully', groupId: response.groupId });
+    res.status(200).json({
+      message: "Group deleted successfully",
+      groupId: response.groupId,
+    });
   });
 };
 
