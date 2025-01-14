@@ -16,7 +16,6 @@ app.use('/api', jwtAuth);
 app.use('/api', routes);
 app.use('/ws', websocketRoutes); // Use the WebSocket routes
 
-
 // Middleware for error management
 app.use(errorHandler);
 
