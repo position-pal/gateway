@@ -1,4 +1,5 @@
 const { authorize } = require('../grpc/clients/authClient');
+const HTTP_STATUS = require('../controllers/httpStatusCode');
 
 function jwtAuthMiddleware(req, res, next) {
     if (req.path.startsWith('/auth/login')) {
@@ -10,7 +11,7 @@ function jwtAuthMiddleware(req, res, next) {
     const token = req.headers.authorization || '';
     authorize({token}, (err, response) => {
         if (err || !response?.authorized) {
-            return res.status(401).json({ error: 'Unauthorized, missing Authorization' });
+            return res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: 'Unauthorized, missing Authorization' });
         }
         next();
     });
