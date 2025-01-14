@@ -7,12 +7,12 @@ name: CI/CD Dispatcher
 on:
   push:
     paths-ignore:
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - 'LICENSE'
-      - '.gitignore'
-      - '.mergify.yml'
-      - 'renovate.json'
+      - "README.md"
+      - "CHANGELOG.md"
+      - "LICENSE"
+      - ".gitignore"
+      - ".mergify.yml"
+      - "renovate.json"
   pull_request:
   workflow_dispatch:
 
@@ -33,7 +33,7 @@ jobs:
       github.event_name != 'pull_request'
       || github.event.pull_request.head.repo.full_name != github.repository
     steps:
-      - run: 'true'
+      - run: "true"
 
   ci-cd:
     needs: dispatcher

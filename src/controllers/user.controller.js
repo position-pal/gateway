@@ -42,6 +42,8 @@ exports.deleteUser = (req, res, next) => {
     if (error) {
       return next(error);
     }
-    res.status(HTTP_STATUS.OK).json({ message: "User deleted successfully", userId: response.userId });
+    res
+      .status(HTTP_STATUS.OK)
+      .json({ message: "User deleted successfully", userId: response.userId });
   });
 };
