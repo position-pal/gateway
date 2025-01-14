@@ -1,5 +1,5 @@
-const groupClient = require('../grpc/clients/groupClient');
-const HTTP_STATUS = require('./httpStatusCode');
+const groupClient = require("../grpc/clients/groupClient");
+const HTTP_STATUS = require("./httpStatusCode");
 
 
 exports.createGroup = (req, res, next) => {
@@ -43,7 +43,7 @@ exports.deleteGroup = (req, res, next) => {
     if (error) {
       return next(error);
     }
-    res.status(HTTP_STATUS.OK).json({ message: 'Group deleted successfully', groupId: response.groupId });
+    res.status(HTTP_STATUS.OK).json({ message: "Group deleted successfully", groupId: response.groupId });
   });
 };
 

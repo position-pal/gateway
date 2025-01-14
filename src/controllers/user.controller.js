@@ -1,5 +1,5 @@
-const userClient = require('../grpc/clients/userClient');
-const HTTP_STATUS = require('./httpStatusCode');
+const userClient = require("../grpc/clients/userClient");
+const HTTP_STATUS = require("./httpStatusCode");
 
 exports.getUser = (req, res, next) => {
   const { id } = req.params;
@@ -42,6 +42,6 @@ exports.deleteUser = (req, res, next) => {
     if (error) {
       return next(error);
     }
-    res.status(HTTP_STATUS.OK).json({ message: 'User deleted successfully', userId: response.userId });
+    res.status(HTTP_STATUS.OK).json({ message: "User deleted successfully", userId: response.userId });
   });
 };

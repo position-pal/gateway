@@ -1,5 +1,5 @@
-const chatClient = require('../grpc/clients/chatClient');
-const HTTP_STATUS = require('./httpStatusCode');
+const chatClient = require("../grpc/clients/chatClient");
+const HTTP_STATUS = require("./httpStatusCode");
 
 exports.getLastMessages = (req, res, next) => {
   const { group_id, client_id, number_of_messages } = req.body;

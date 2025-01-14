@@ -2,7 +2,7 @@ const grpc = require("@grpc/grpc-js");
 const { trakingProto } = require("../proto");
 
 const sessionClient = new trakingProto.UserSessionService(
-  process.env.LOCATION_SERVICE_URL || '"127.0.0.1:8080"',
+  process.env.LOCATION_SERVICE_URL || "127.0.0.1:8080",
   grpc.credentials.createInsecure(),
 );
 
