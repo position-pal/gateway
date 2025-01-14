@@ -5,7 +5,6 @@ import globals from "globals";
 import eslintPluginJest from "eslint-plugin-jest";
 
 /** @type {import('eslint').Linter.Config[]} */
-/** @type {import('eslint').Linter.Config[]} */
 export default [
   {
     files: ["**/*.js"],

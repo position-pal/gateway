@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "jest",
+    "test:jest": "jest",
+    "test:cucumber": "cucumber-js",
+    "test": "npm run test:jest && npm run test:cucumber",
     "prestart": "./dowload_proto.sh",
     "prepare": "husky",
     "format": "prettier --write .",
@@ -31,6 +33,7 @@
   "devDependencies": {
     "@commitlint/cli": "19.6.1",
     "@commitlint/config-conventional": "19.6.0",
+    "@cucumber/cucumber": "^11.2.0",
     "@eslint/js": "9.18.0",
     "@grpc/grpc-js": "1.12.5",
     "eslint": "9.18.0",
