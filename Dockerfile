@@ -1,4 +1,4 @@
-FROM node:20-slim
+FROM node:22
 RUN groupadd -r nonroot && useradd -r -g nonroot nonroot
 WORKDIR /app
 # Create and set npm cache directory with correct permissions
