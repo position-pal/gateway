@@ -1,9 +1,12 @@
-FROM node:22
+FROM node:20-slim
 RUN groupadd -r nonroot && useradd -r -g nonroot nonroot
-USER nonroot
 WORKDIR /app
-COPY package.json package-lock.json ./
+# Create and set npm cache directory with correct permissions
+ENV NPM_CONFIG_CACHE=/app/.npm
+RUN mkdir -p /app/.npm && chown -R nonroot:nonroot /app
+USER nonroot
+COPY --chown=nonroot:nonroot package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts
-COPY src ./src
+COPY --chown=nonroot:nonroot src ./src
 EXPOSE 3000
 CMD ["node", "src/server.js"]
