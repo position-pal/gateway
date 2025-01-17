@@ -5,8 +5,8 @@ WORKDIR /app
 ENV NPM_CONFIG_CACHE=/app/.npm
 RUN mkdir -p /app/.npm && chown -R nonroot:nonroot /app
 USER nonroot
-COPY --chown=nonroot:nonroot package.json package-lock.json ./
+COPY --chmod=755 package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts
-COPY --chown=nonroot:nonroot src ./src
+COPY --chmod=755 src ./src
 EXPOSE 3000
 CMD ["node", "src/server.js"]
