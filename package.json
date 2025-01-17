@@ -49,5 +49,8 @@
     "prettier": "3.4.2",
     "supertest": "7.0.0",
     "semantic-release-preconfigured-conventional-commits": "1.1.119"
+  },
+  "overrides": {
+    "conventional-changelog-conventionalcommits": ">= 8.0.0"
   }
 }
