@@ -1,41 +1,32 @@
 const express = require("express");
 const expressWs = require("express-ws");
+const { ensureWebSocketIsOpen } = require("../utils/ws-utils");
 const WebSocket = require("ws");
 require("dotenv").config();
 
-const LOCATION_SERVICE_URL = process.env.LOCATION_SERVICE_URL || "127.0.0.1:8080";
-const LOCATION_SERVICE_API_VERSION = process.env.LOCATION_SERVICE_API_VERSION || "v1";
+const LOCATION_HTTP_URL = process.env.LOCATION_SERVICE_HTTP_URL || "127.0.0.1:8080";
+const LOCATION_API_VERSION = process.env.LOCATION_SERVICE_API_VERSION || "v1";
 
-const CHAT_SERVICE_URL = process.env.CHAT_SERVICE_URL || "127.0.0.1:8081";
-const CHAT_SERVICE_API_VERSION = process.env.CHAT_SERVICE_API_VERSION || "v1";
+const CHAT_HTTP_URL = process.env.CHAT_SERVICE_HTTP_URL || "127.0.0.1:8081";
+const CHAT_API_VERSION = process.env.CHAT_SERVICE_API_VERSION || "v1";
+
 const router = express.Router();
 expressWs(router);
-
-/*
-EXAMPLE MESSAGE FOR LOCATION SERVICE
-const message = {
-  "SampledLocation":{
-    "timestamp":"2024-12-22T10:40:18.967675Z",
-    "user":"luke",
-    "group":"astro",
-    "position":{
-      "latitude":44.487912,
-      "longitude":11.32885
-    }
-  }
-}
-*/
-
 router.ws("/location/:group/:user", (ws, req) => {
   const { group, user } = req.params;
 
   const location_ws = new WebSocket(
-    `ws://${LOCATION_SERVICE_URL}/${LOCATION_SERVICE_API_VERSION}/group/${group}/${user}`,
+    `ws://${LOCATION_HTTP_URL}/${LOCATION_API_VERSION}/group/${group}/${user}`,
   );
 
   // Forward messages from client to location_ws
-  ws.on("message", (msg) => {
-    location_ws.send(msg);
+  ws.on("message", async (msg) => {
+    try {
+      await ensureWebSocketIsOpen(location_ws);
+      location_ws.send(msg);
+    } catch (error) {
+      console.error("Error sending message to location_ws:", error);
+    }
   });
 
   // Forward messages from location_ws to client
@@ -48,8 +39,10 @@ router.ws("/location/:group/:user", (ws, req) => {
   });
 
   ws.on("close", () => {
-    location_ws.close();
-    console.log("WebSocket connection closed");
+    if (location_ws.readyState === WebSocket.OPEN) {
+      location_ws.close();
+      console.log("WebSocket connection closed");
+    }
   });
 });
 
@@ -57,12 +50,17 @@ router.ws("/chat/:group/:user", (ws, req) => {
   const { group, user } = req.params;
 
   const chat_ws = new WebSocket(
-    `ws://${CHAT_SERVICE_URL}/${CHAT_SERVICE_API_VERSION}/messages/${group}?user=${user}`,
+    `ws://${CHAT_HTTP_URL}/${CHAT_API_VERSION}/messages/${group}?user=${user}`,
   );
 
   // Forward messages from client to chat_ws
-  ws.on("message", (msg) => {
-    chat_ws.send(msg);
+  ws.on("message", async (msg) => {
+    try {
+      await ensureWebSocketIsOpen(chat_ws);
+      chat_ws.send(msg);
+    } catch (error) {
+      console.error("Error sending message to location_ws:", error);
+    }
   });
 
   // Forward messages from chat_ws to client
@@ -75,8 +73,10 @@ router.ws("/chat/:group/:user", (ws, req) => {
   });
 
   ws.on("close", () => {
-    chat_ws.close();
-    console.log("WebSocket connection closed");
+    if (chat_ws.readyState === WebSocket.OPEN) {
+      chat_ws.close();
+      console.log("WebSocket connection closed");
+    }
   });
 });
 
