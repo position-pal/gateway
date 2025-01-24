@@ -3,10 +3,8 @@ const expressWs = require("express-ws");
 const WebSocket = require("ws");
 require("dotenv").config();
 
-const LOCATION_SERVICE_URL =
-  process.env.LOCATION_SERVICE_URL || "127.0.0.1:8080";
-const LOCATION_SERVICE_API_VERSION =
-  process.env.LOCATION_SERVICE_API_VERSION || "v1";
+const LOCATION_SERVICE_URL = process.env.LOCATION_SERVICE_URL || "127.0.0.1:8080";
+const LOCATION_SERVICE_API_VERSION = process.env.LOCATION_SERVICE_API_VERSION || "v1";
 
 const CHAT_SERVICE_URL = process.env.CHAT_SERVICE_URL || "127.0.0.1:8081";
 const CHAT_SERVICE_API_VERSION = process.env.CHAT_SERVICE_API_VERSION || "v1";

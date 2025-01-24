@@ -27,15 +27,12 @@ exports.updateGroup = (req, res, next) => {
   const { id } = req.params;
   const groupData = req.body;
 
-  groupClient.updateGroup(
-    { groupId: id, group: groupData },
-    (error, response) => {
-      if (error) {
-        return next(error);
-      }
-      res.status(HTTP_STATUS.OK).json(response.group);
-    },
-  );
+  groupClient.updateGroup({ groupId: id, group: groupData }, (error, response) => {
+    if (error) {
+      return next(error);
+    }
+    res.status(HTTP_STATUS.OK).json(response.group);
+  });
 };
 
 exports.deleteGroup = (req, res, next) => {

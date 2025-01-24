@@ -31,4 +31,9 @@ export default [
   },
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
+  {
+    rules: {
+      "prettier/prettier": ["error", { printWidth: 100 }],
+    },
+  },
 ];
