@@ -9,7 +9,7 @@ BeforeAll(async () => {
     console.error("Error while setting up the test environment:", error);
     process.exit(1);
   }
-})
+});
 
 AfterAll(async () => {
   console.log("Tearing down the local testing environment");
@@ -19,4 +19,4 @@ AfterAll(async () => {
     console.error("Error while tearing down the test environment:", error);
     process.exit(1);
   }
-})
+});
