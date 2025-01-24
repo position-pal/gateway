@@ -10,26 +10,24 @@ exports.getCurrentSession = (req, res) => {
   );
 };
 
-exports.getCurrentLocation = (req, res, next) => {
-  const userId = { username: req.params.user };
-  sessionClient.getCurrentLocation(userId, (error, response) => {
+const getScope = (req) => ({
+  user: { username: req.params.user },
+  group: { value: req.params.group },
+});
+
+const handleSessionRequest = (method, req, res, next) => {
+  const scope = getScope(req);
+  sessionClient[method](scope, (error, response) => {
     if (error) return next(error);
     res.json(response);
   });
 };
 
-exports.getCurrentState = (req, res, next) => {
-  const userId = { username: req.params.user };
-  sessionClient.getCurrentState(userId, (error, response) => {
-    if (error) return next(error);
-    res.json(response);
-  });
-};
+exports.getCurrentLocation = (req, res, next) =>
+  handleSessionRequest("getCurrentLocation", req, res, next);
 
-exports.getCurrentTracking = (req, res, next) => {
-  const userId = { username: req.params.user };
-  sessionClient.getCurrentTracking(userId, (error, response) => {
-    if (error) return next(error);
-    res.json(response);
-  });
-};
+exports.getCurrentState = (req, res, next) =>
+  handleSessionRequest("getCurrentState", req, res, next);
+
+exports.getCurrentTracking = (req, res, next) =>
+  handleSessionRequest("getCurrentTracking", req, res, next);

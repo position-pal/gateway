@@ -13,7 +13,7 @@
     "test": "npm run test:jest && npm run test:cucumber",
     "prestart": "./dowload_proto.sh",
     "prepare": "husky",
-    "format": "prettier --write .",
+    "format": "eslint . --fix",
     "lint": "eslint ."
   },
   "repository": {

@@ -2,7 +2,7 @@ const grpc = require("@grpc/grpc-js");
 const { trakingProto } = require("../proto");
 
 const sessionClient = new trakingProto.UserSessionService(
-  process.env.LOCATION_SERVICE_URL || "127.0.0.1:8080",
+  process.env.LOCATION_SERVICE_GRPC_URL || "127.0.0.1:50052",
   grpc.credentials.createInsecure(),
 );
 
@@ -12,13 +12,13 @@ module.exports = {
     call.on("data", onData);
     call.on("end", onEnd);
   },
-  getCurrentLocation: (userId, callback) => {
-    sessionClient.GetCurrentLocation(userId, callback);
+  getCurrentLocation: (scope, callback) => {
+    sessionClient.GetCurrentLocation(scope, callback);
   },
-  getCurrentState: (userId, callback) => {
-    sessionClient.GetCurrentState(userId, callback);
+  getCurrentState: (scope, callback) => {
+    sessionClient.GetCurrentState(scope, callback);
   },
-  getCurrentTracking: (userId, callback) => {
-    sessionClient.GetCurrentTracking(userId, callback);
+  getCurrentTracking: (scope, callback) => {
+    sessionClient.GetCurrentTracking(scope, callback);
   },
 };
