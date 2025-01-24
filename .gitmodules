@@ -1,0 +1,3 @@
+[submodule "local-deployment"]
+	path = local-deployment
+	url = https://github.com/position-pal/local-deployment.git

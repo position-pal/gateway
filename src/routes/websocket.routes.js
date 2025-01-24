@@ -64,8 +64,13 @@ router.ws("/chat/:group/:user", (ws, req) => {
   });
 
   // Forward messages from chat_ws to client
-  chat_ws.on("message", (msg) => {
-    ws.send(msg);
+  chat_ws.on("message", async (msg) => {
+    try {
+      await ensureWebSocketIsOpen(chat_ws);
+      ws.send(msg);
+    } catch (error) {
+      console.error("Error sending message to chat_ws:", error);
+    }
   });
 
   ws.on("error", (error) => {

@@ -43,3 +43,6 @@ docker-compose.override.yml
 # Temp
 tmp/
 temp/
+
+# Generated reports
+reports/

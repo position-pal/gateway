@@ -3,6 +3,7 @@
     "paths": ["tests/**/*.feature", "tests/**/*.feature.md"],
     "formatOptions": {
       "snippetInterface": "synchronous"
-    }
+    },
+    "format": ["html:reports/cucumber-report.html"]
   }
 }
