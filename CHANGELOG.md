@@ -1,3 +1,33 @@
+## [2.0.0](https://github.com/position-pal/gateway/compare/1.0.0...2.0.0) (2025-01-24)
+
+### ⚠ BREAKING CHANGES
+
+* **grpc:** use latest grpc api version
+
+### Dependency updates
+
+* **deps:** update dependency eslint-plugin-prettier to v5.2.3 ([#20](https://github.com/position-pal/gateway/issues/20)) ([30db5bf](https://github.com/position-pal/gateway/commit/30db5bff09ce245edce9d7bbc6a91a6af513180d))
+* **deps:** update node.js to ae2f3d4 ([#21](https://github.com/position-pal/gateway/issues/21)) ([2326807](https://github.com/position-pal/gateway/commit/232680790083516b28d2b5b25411819f92e2e5cb))
+
+### Bug Fixes
+
+* **ws:** fix endpoints and prevent to close and send messages via a not ready ws ([0a88cf0](https://github.com/position-pal/gateway/commit/0a88cf0c467576c09cf5d2556757663114211225))
+
+### Build and continuous integration
+
+* **deps:** pin dependencies ([#18](https://github.com/position-pal/gateway/issues/18)) ([cbaad8f](https://github.com/position-pal/gateway/commit/cbaad8fd463b55bb889e19a9e8d309c7ccb6b756))
+* **deps:** update docker/build-push-action digest to ca877d9 ([#22](https://github.com/position-pal/gateway/issues/22)) ([bec432a](https://github.com/position-pal/gateway/commit/bec432a1744641d19aa2a0d21d5cae8881646f7e))
+* **deps:** update nick-fields/retry action to v3 ([#19](https://github.com/position-pal/gateway/issues/19)) ([68aa7e5](https://github.com/position-pal/gateway/commit/68aa7e52aff594cb4d8f6901485383b78da9def2))
+
+### Style improvements
+
+* configure maxline to 100 chars ([bf76d39](https://github.com/position-pal/gateway/commit/bf76d39b61f5f5885bb6eec006a378873b33a211))
+
+### Refactoring
+
+* **grpc:** use latest grpc api version ([fac7a38](https://github.com/position-pal/gateway/commit/fac7a38f8eda5418195b6794ca4559c2c1f5dd81))
+* replace hardcoded strings with http statuses constants ([3edd362](https://github.com/position-pal/gateway/commit/3edd3626ac53aa92b51f2a8a05f6634e12370340))
+
 ## 1.0.0 (2025-01-17)
 
 ### Features
