@@ -24,6 +24,10 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Test
+        if: contains(strategy.matrix.os, 'ubuntu')
+        env:
+          MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
+          AKKA_LICENSE_KEY: ${{ secrets.AKKA_LICENSE_KEY }}
         uses: nick-fields/retry@7152eba30c6575329ac0576536151aca5a72780e # v3
         with:
           max_attempts: 2
