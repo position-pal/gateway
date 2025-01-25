@@ -1,3 +1,5 @@
+const WebSocket = require("ws");
+
 async function ensureWebSocketIsOpen(ws) {
   return new Promise((resolve, reject) => {
     if (ws.readyState === WebSocket.OPEN) {
