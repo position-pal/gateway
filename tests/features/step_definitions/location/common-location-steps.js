@@ -7,10 +7,10 @@ Given("I'm a logged user", async () => {
       userData: {
         name: "Luke",
         surname: "Skywalker",
-        email: "skywalker@gmail.com",
+        email: "luke.skywalker@gmail.com",
         role: "user",
       },
-      password: "I'm sexy and I know it",
+      password: "luk3Skyw4lk3r!",
       group: "astro",
     });
     global.leia = await setupUser({
@@ -20,7 +20,7 @@ Given("I'm a logged user", async () => {
         email: "leila.organa@gmail.com",
         role: "user",
       },
-      password: "Please_Help_Me_Obi-Wan",
+      password: "wowLeia123@",
       group: "astro",
     });
   }
