@@ -1,22 +1,27 @@
 const { BeforeAll, AfterAll } = require("@cucumber/cucumber");
 const { execSync } = require("child_process");
 
-BeforeAll(async () => {
-  console.log("Bring up the local testing environment");
-  try {
-    execSync(`/bin/bash ./local-deployment/local-deploy.sh up && sleep 5`, { stdio: "inherit" });
-  } catch (error) {
-    console.error("Error while setting up the test environment:", error);
-    process.exit(1);
-  }
-});
+const deploymentScript = "./local-deployment/local-deploy.sh";
 
-AfterAll(async () => {
-  console.log("Tearing down the local testing environment");
+const runDeployment = (command) => {
   try {
-    execSync("/bin/bash ./local-deployment/local-deploy.sh down", { stdio: "inherit" });
+    execSync(`/bin/bash ${deploymentScript} ${command}`, { stdio: "inherit" });
   } catch (error) {
-    console.error("Error while tearing down the test environment:", error);
+    console.error(`Deployment error: ${command}`, error);
     process.exit(1);
   }
-});
+}
+
+const setupLocalDeployment = () => {
+  console.log("Bring up the local testing environment");
+  runDeployment('up && sleep 5');
+}
+
+const teardownLocalDeployment = () => {
+  console.log("Tearing down the local testing environment");
+  runDeployment('down');
+}
+
+BeforeAll(async () => setupLocalDeployment());
+
+AfterAll(async () => teardownLocalDeployment());

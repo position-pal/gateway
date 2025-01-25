@@ -1,13 +1,25 @@
+/**
+ * The location of the University of Bologna, Cesena Campus (Italy).
+ * @type {{latitude: number, longitude: number}}
+ */
 const cesenaCampusLocation = {
   latitude: 44.147843982335836,
   longitude: 12.23510261898422,
 };
 
+/**
+ * The location of Piazza del Popolo in Cesena (Italy).
+ * @type {{latitude: number, longitude: number}}
+ */
 const piazzaDelPopoloLocation = {
   latitude: 44.13734012989611,
   longitude: 12.243828352831988,
 };
 
+/**
+ * A testable path for location updates, starting from {@link piazzaDelPopoloLocation} and ending at {@link cesenaCampusLocation  }.
+ * @returns {[{latitude: number, longitude: number},{latitude: number, longitude: number},{latitude: number, longitude: number},{latitude: number, longitude: number},{latitude: number, longitude: number},null,null,null,null,null]}
+ */
 function testablePath() {
   return [
     piazzaDelPopoloLocation,

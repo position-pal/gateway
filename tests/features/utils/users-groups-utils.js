@@ -1,28 +1,16 @@
-const luke = {
-  userData: {
-    name: "Luke",
-    surname: "Skywalker",
-    email: "skywalker@gmail.com",
-    role: "user",
-  },
-  password: "I'm sexy and I know it",
-  group: "astro",
-  token: null,
-};
+const { fetchSuccessfulPostRequest } = require("./api-request-utils");
 
-const leia = {
-  userData: {
-    name: "Leia",
-    surname: "Organa",
-    email: "leila.organa@gmail.com",
-    role: "user",
-  },
-  password: "Please_Help_Me_Obi-Wan",
-  group: "astro",
-  token: null,
+const pick = (obj, keys) => Object.fromEntries(keys.map(key => [key, obj[key]]));
+
+async function setupUser(userDetails) {
+  const registrationData = pick(userDetails, ["userData", "password"]);
+  await fetchSuccessfulPostRequest("api/users", "", registrationData);
+  const loginData = { username: userDetails.userData.email, password: userDetails.password };
+  const authResponse = await fetchSuccessfulPostRequest("api/auth/login", "", loginData);
+  return {
+    ...userDetails,
+    token: authResponse.token
+  };
 }
 
-module.exports = {
-  luke,
-  leia,
-};
+module.exports = { setupUser };

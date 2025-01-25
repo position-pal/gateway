@@ -3,25 +3,21 @@ const { Then, When, After } = require("@cucumber/cucumber");
 const { createWebsocket, closeWebsocket } = require("../../utils/ws-utils");
 const { testableLocationUpdates } = require("../../utils/tracking-utils");
 const { eventually } = require("../../utils/timings");
-const { astroGroupId, leia, luke } = require("../../utils/users-groups-utils");
 
-const testablePath = testableLocationUpdates(luke, astroGroupId);
 const receivedUpdates = [];
 
 When("I access my group tracking information", async () => {
-  this.leiaWs = await createWebsocket(`ws/location/${astroGroupId}/${leia}`);
-  this.lukeWs = await createWebsocket(`ws/location/${astroGroupId}/${luke}`);
+  this.leiaWs = await createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
+  this.lukeWs = await createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
-  for (const update of testablePath) {
+  this.testablePath = testableLocationUpdates(global.luke.userData.email, global.luke.group);
+  for (const update of this.testablePath) {
     await this.lukeWs.send(JSON.stringify(update));
   }
 });
 
-Then(
-  "I should see the real-time location of online group members",
-  { timeout: 10_000 },
-  async () => {
-    const expectedUpdates = testablePath.map((update) => ({
+Then("I should see the real-time location of online group members", { timeout: 10_000 }, async () => {
+    const expectedUpdates = this.testablePath.map((update) => ({
       UserUpdate: {
         ...update.SampledLocation,
         position: [update.SampledLocation.position], // position may not be present in the received updates

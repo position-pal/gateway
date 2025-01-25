@@ -2,18 +2,17 @@ const { expect } = require("chai");
 const { Then, When, After } = require("@cucumber/cucumber");
 const { createWebsocket, closeWebsocket } = require("../../utils/ws-utils");
 const { cesenaCampusLocation, sample } = require("../../utils/tracking-utils");
-const { astroGroupId, leia, luke } = require("../../utils/users-groups-utils");
-const { expectSuccessfulResponse } = require("../../utils/api-request-utils");
+const { expectSuccessfulGetRequest } = require("../../utils/api-request-utils");
 const { continually, eventually } = require("../../utils/timings");
 
 const receivedUpdates = [];
 
 When("I stop sharing my location with that group", async () => {
-  this.leiaWs = await createWebsocket(`ws/location/${astroGroupId}/${leia}`);
+  this.leiaWs = await createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
-  this.lukeWs = await createWebsocket(`ws/location/${astroGroupId}/${luke}`);
+  this.lukeWs = await createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
   await this.lukeWs.send(
-    JSON.stringify(sample(new Date(), luke, astroGroupId, cesenaCampusLocation)),
+    JSON.stringify(sample(new Date(), global.luke.userData.email, global.luke.group, cesenaCampusLocation)),
   );
 });
 
@@ -29,13 +28,17 @@ Then("my state should be updated to `Inactive`", { timeout: 100_000 }, async () 
     async () => {
       expect(
         receivedUpdates.some(
-          (update) => update.UserUpdate.user === luke && update.UserUpdate.status === "Inactive",
+          (update) => update.UserUpdate.user === global.luke.userData.email && update.UserUpdate.status === "Inactive",
         ),
       ).to.be.true;
-      await expectSuccessfulResponse(`/api/session/state/${astroGroupId}/${luke}`, {
-        status: { code: "OK", message: "" },
-        state: "INACTIVE",
-      });
+      await expectSuccessfulGetRequest(
+        `/api/session/state/${global.luke.group}/${global.luke.userData.email}`,
+        global.luke.token,
+        {
+          status: { code: "OK", message: "" },
+          state: "INACTIVE",
+        }
+      );
     },
     90_000,
     2_000,
@@ -43,10 +46,14 @@ Then("my state should be updated to `Inactive`", { timeout: 100_000 }, async () 
 });
 
 Then("my last known location should still be available", async () => {
-  await expectSuccessfulResponse(`/api/session/location/${astroGroupId}/${luke}`, {
-    status: { code: "OK", message: "" },
-    location: cesenaCampusLocation,
-  });
+  await expectSuccessfulGetRequest(
+    `/api/session/location/${global.luke.group}/${global.luke.userData.email}`,
+    global.luke.token,
+    {
+      status: { code: "OK", message: "" },
+      location: cesenaCampusLocation,
+    }
+  );
 });
 
 After(async () => {
