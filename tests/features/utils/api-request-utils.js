@@ -8,9 +8,9 @@ async function expectSuccessfulRequest(
   method,
   route,
   token,
-  requestBody = {},
   expectedResponseCode,
   expectedResponseBody,
+  requestBody = {},
 ) {
   let req = request(gatewayEndpoint)[method](route).set("Authorization", `Bearer ${token}`);
   if (method === "post") {
@@ -24,11 +24,11 @@ async function expectSuccessfulRequest(
 }
 
 async function expectSuccessfulGetRequest(route, token, expectedResponseBody) {
-  await expectSuccessfulRequest("get", route, token, {}, 200, expectedResponseBody);
+  await expectSuccessfulRequest("get", route, token, 200, expectedResponseBody, {});
 }
 
 async function expectSuccessfulPostRequest(route, token, requestBody, expectedResponseCode, expectedResponseBody) {
-  await expectSuccessfulRequest("post", route, token, requestBody, expectedResponseCode, expectedResponseBody);
+  await expectSuccessfulRequest("post", route, token, expectedResponseCode, expectedResponseBody, requestBody);
 }
 
 async function fetchSuccessfulRequest(method, route, token, requestBody = {}) {
