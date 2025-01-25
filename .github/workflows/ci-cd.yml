@@ -24,7 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Test
-        if: contains(strategy.matrix.os, 'ubuntu')
+        # Tests need docker to run, that is not available on macOS and Windows ouch!
+        if: contains(matrix.os, 'ubuntu')
         env:
           MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
           AKKA_LICENSE_KEY: ${{ secrets.AKKA_LICENSE_KEY }}
