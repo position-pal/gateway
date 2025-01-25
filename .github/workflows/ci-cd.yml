@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          submodules: true
       - name: Set up Node ${{ matrix.jvm-version }}
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
         with:
@@ -22,6 +24,11 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Test
+        # Tests need docker to run, that is not available on macOS and Windows ouch!
+        if: contains(matrix.os, 'ubuntu')
+        env:
+          MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
+          AKKA_LICENSE_KEY: ${{ secrets.AKKA_LICENSE_KEY }}
         uses: nick-fields/retry@7152eba30c6575329ac0576536151aca5a72780e # v3
         with:
           max_attempts: 2

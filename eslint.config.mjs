@@ -33,7 +33,7 @@ export default [
   eslintPluginPrettierRecommended,
   {
     rules: {
-      "prettier/prettier": ["error", { printWidth: 100 }],
+      "prettier/prettier": ["error", { printWidth: 120 }],
     },
   },
 ];

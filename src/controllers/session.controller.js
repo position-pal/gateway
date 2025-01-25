@@ -23,11 +23,8 @@ const handleSessionRequest = (method, req, res, next) => {
   });
 };
 
-exports.getCurrentLocation = (req, res, next) =>
-  handleSessionRequest("getCurrentLocation", req, res, next);
+exports.getCurrentLocation = (req, res, next) => handleSessionRequest("getCurrentLocation", req, res, next);
 
-exports.getCurrentState = (req, res, next) =>
-  handleSessionRequest("getCurrentState", req, res, next);
+exports.getCurrentState = (req, res, next) => handleSessionRequest("getCurrentState", req, res, next);
 
-exports.getCurrentTracking = (req, res, next) =>
-  handleSessionRequest("getCurrentTracking", req, res, next);
+exports.getCurrentTracking = (req, res, next) => handleSessionRequest("getCurrentTracking", req, res, next);
