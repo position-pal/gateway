@@ -17,3 +17,16 @@ If you have already cloned the repo, you can initialize the submodule with:
 ```bash
 git submodule update --init --recursive
 ```
+
+To update the submodule to a specific commit:
+
+```bash
+cd local-deployment
+git fetch
+git checkout <COMMIT>
+cd ..
+git add local-deployment
+git commit -m "chore(deps): update local-deployment to <COMMIT>"
+```
+**Do not checkouts to a branch in the submodule, always use a commit hash.**
+Checking out to a branch can result different people working on different commits of the submodule!

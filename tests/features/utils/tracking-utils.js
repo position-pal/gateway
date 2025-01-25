@@ -18,7 +18,7 @@ const piazzaDelPopoloLocation = {
 
 /**
  * A testable path for location updates, starting from {@link piazzaDelPopoloLocation} and ending at {@link cesenaCampusLocation  }.
- * @returns {[{latitude: number, longitude: number},{latitude: number, longitude: number},{latitude: number, longitude: number},{latitude: number, longitude: number},{latitude: number, longitude: number},null,null,null,null,null]}
+ * @returns {Array<{latitude: number, longitude: number}>} An array of locations.
  */
 function testablePath() {
   return [
@@ -35,11 +35,25 @@ function testablePath() {
   ];
 }
 
+/**
+ * A testable sequence of location updates (i.e. location service responses).
+ * @param userId The user identifier.
+ * @param groupId The group identifier
+ * @returns {{SampledLocation: {timestamp: *, user: *, group: *, position: *}}[]}
+ */
 function testableLocationUpdates(userId, groupId) {
   const path = testablePath();
   return path.map((location, i) => sample(new Date(Date.now() + i * 10000), userId, groupId, location));
 }
 
+/**
+ * A location sample.
+ * @param timestamp The timestamp.
+ * @param userId The user identifier.
+ * @param groupId The group identifier.
+ * @param location The location.
+ * @returns {{SampledLocation: {timestamp: string, user, group, position}}} A location sample.
+ */
 function sample(timestamp, userId, groupId, location) {
   return {
     SampledLocation: {
