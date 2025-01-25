@@ -37,9 +37,7 @@ function testablePath() {
 
 function testableLocationUpdates(userId, groupId) {
   const path = testablePath();
-  return path.map((location, i) =>
-    sample(new Date(Date.now() + i * 10000), userId, groupId, location),
-  );
+  return path.map((location, i) => sample(new Date(Date.now() + i * 10000), userId, groupId, location));
 }
 
 function sample(timestamp, userId, groupId, location) {

@@ -37,7 +37,7 @@ Then("my state should be updated to `Inactive`", { timeout: 100_000 }, async () 
         {
           status: { code: "OK", message: "" },
           state: "INACTIVE",
-        }
+        },
       );
     },
     90_000,
@@ -52,7 +52,7 @@ Then("my last known location should still be available", async () => {
     {
       status: { code: "OK", message: "" },
       location: cesenaCampusLocation,
-    }
+    },
   );
 });
 

@@ -19,7 +19,7 @@ Then("my last known location should be updated", { timeout: 15_000 }, async () =
       {
         status: { code: "OK", message: "" },
         location: piazzaDelPopoloLocation,
-      }
+      },
     );
   }, 10_000);
 });
@@ -32,7 +32,8 @@ Then("my state should be `Active`", { timeout: 15_000 }, async () => {
       {
         status: { code: "OK", message: "" },
         state: "ACTIVE",
-      });
+      },
+    );
   }, 10_000);
 });
 

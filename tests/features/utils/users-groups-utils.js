@@ -1,6 +1,6 @@
 const { fetchSuccessfulPostRequest } = require("./api-request-utils");
 
-const pick = (obj, keys) => Object.fromEntries(keys.map(key => [key, obj[key]]));
+const pick = (obj, keys) => Object.fromEntries(keys.map((key) => [key, obj[key]]));
 
 async function setupUser(userDetails) {
   const registrationData = pick(userDetails, ["userData", "password"]);
@@ -9,7 +9,7 @@ async function setupUser(userDetails) {
   const authResponse = await fetchSuccessfulPostRequest("api/auth/login", "", loginData);
   return {
     ...userDetails,
-    token: authResponse.token
+    token: authResponse.token,
   };
 }
 

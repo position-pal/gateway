@@ -25,9 +25,7 @@ async function continually(checkCondition, duration = 60_000, interval = 1_000) 
  *                          is met within the timeout or rejects if the timeout is reached.
  */
 async function eventually(checkCondition, duration = 60_000, interval = 1_000) {
-  await waitFor(async () =>
-    checkCondition(), { timeout: duration, interval: interval }
-  );
+  await waitFor(async () => checkCondition(), { timeout: duration, interval: interval });
 }
 
 module.exports = { continually, eventually };

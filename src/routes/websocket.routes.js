@@ -15,9 +15,7 @@ expressWs(router);
 router.ws("/location/:group/:user", (ws, req) => {
   const { group, user } = req.params;
 
-  const location_ws = new WebSocket(
-    `ws://${LOCATION_HTTP_URL}/${LOCATION_API_VERSION}/group/${group}/${user}`,
-  );
+  const location_ws = new WebSocket(`ws://${LOCATION_HTTP_URL}/${LOCATION_API_VERSION}/group/${group}/${user}`);
 
   // Forward messages from client to location_ws
   ws.on("message", async (msg) => {
@@ -49,9 +47,7 @@ router.ws("/location/:group/:user", (ws, req) => {
 router.ws("/chat/:group/:user", (ws, req) => {
   const { group, user } = req.params;
 
-  const chat_ws = new WebSocket(
-    `ws://${CHAT_HTTP_URL}/${CHAT_API_VERSION}/messages/${group}?user=${user}`,
-  );
+  const chat_ws = new WebSocket(`ws://${CHAT_HTTP_URL}/${CHAT_API_VERSION}/messages/${group}?user=${user}`);
 
   // Forward messages from client to chat_ws
   ws.on("message", async (msg) => {

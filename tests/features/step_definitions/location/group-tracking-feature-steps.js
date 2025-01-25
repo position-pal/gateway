@@ -17,16 +17,15 @@ When("I access my group tracking information", async () => {
 });
 
 Then("I should see the real-time location of online group members", { timeout: 10_000 }, async () => {
-    const expectedUpdates = this.testablePath.map((update) => ({
-      UserUpdate: {
-        ...update.SampledLocation,
-        position: [update.SampledLocation.position], // position may not be present in the received updates
-        status: "Active",
-      },
-    }));
-    await eventually(() => expect(receivedUpdates).to.deep.equal(expectedUpdates), 5_000);
-  },
-);
+  const expectedUpdates = this.testablePath.map((update) => ({
+    UserUpdate: {
+      ...update.SampledLocation,
+      position: [update.SampledLocation.position], // position may not be present in the received updates
+      status: "Active",
+    },
+  }));
+  await eventually(() => expect(receivedUpdates).to.deep.equal(expectedUpdates), 5_000);
+});
 
 Then("the last known location of offline group members", () => {
   // TOOD: session

@@ -30,10 +30,7 @@ Then("the route discarded", () => {});
 
 Then("my state is updated to `Active`", () => {});
 
-Then(
-  "my group's members receive a notification indicating the route has been successfully stopped",
-  () => {},
-);
+Then("my group's members receive a notification indicating the route has been successfully stopped", () => {});
 
 // ---
 
@@ -41,17 +38,11 @@ Given("a user in my group is in routing mode", () => {});
 
 When("the user has not arrived by the estimated time", () => {});
 
-Then(
-  "I receive an alert notification indicating the user has not arrived by the estimated time",
-  () => {},
-);
+Then("I receive an alert notification indicating the user has not arrived by the estimated time", () => {});
 
 When("the user has been stuck in the same position for a while", () => {});
 
-Then(
-  "I receive an alert notification indicating the user has been stuck in the same position for a while",
-  () => {},
-);
+Then("I receive an alert notification indicating the user has been stuck in the same position for a while", () => {});
 
 When("the user has gone offline", () => {});
 

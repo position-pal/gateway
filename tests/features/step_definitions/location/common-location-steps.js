@@ -1,5 +1,5 @@
 const { Given } = require("@cucumber/cucumber");
-const { setupUser } = require("../../utils/users-groups-utils")
+const { setupUser } = require("../../utils/users-groups-utils");
 
 Given("I'm a logged user", async () => {
   if (!global.luke) {

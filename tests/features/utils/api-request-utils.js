@@ -4,9 +4,15 @@ const axios = require("axios");
 
 const gatewayEndpoint = "http://127.0.0.1:3000";
 
-async function expectSuccessfulRequest(method, route, token, requestBody = {}, expectedResponseCode, expectedResponseBody) {
-  let req = request(gatewayEndpoint)[method](route)
-    .set("Authorization", `Bearer ${token}`);
+async function expectSuccessfulRequest(
+  method,
+  route,
+  token,
+  requestBody = {},
+  expectedResponseCode,
+  expectedResponseBody,
+) {
+  let req = request(gatewayEndpoint)[method](route).set("Authorization", `Bearer ${token}`);
   if (method === "post") {
     req = req.send(requestBody);
   }

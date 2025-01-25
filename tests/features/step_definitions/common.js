@@ -10,17 +10,17 @@ const runDeployment = (command) => {
     console.error(`Deployment error: ${command}`, error);
     process.exit(1);
   }
-}
+};
 
 const setupLocalDeployment = () => {
   console.log("Bring up the local testing environment");
-  runDeployment('up && sleep 5');
-}
+  runDeployment("up && sleep 5");
+};
 
 const teardownLocalDeployment = () => {
   console.log("Tearing down the local testing environment");
-  runDeployment('down');
-}
+  runDeployment("down");
+};
 
 BeforeAll(async () => setupLocalDeployment());
 
