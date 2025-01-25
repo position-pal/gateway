@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/position-pal/gateway/compare/2.0.0...2.0.1) (2025-01-25)
+
+### Bug Fixes
+
+* **ws:** add missing require ([251b860](https://github.com/position-pal/gateway/commit/251b8608776e64637eac0cb65e4939f74fc8c652))
+
 ## [2.0.0](https://github.com/position-pal/gateway/compare/1.0.0...2.0.0) (2025-01-24)
 
 ### ⚠ BREAKING CHANGES
