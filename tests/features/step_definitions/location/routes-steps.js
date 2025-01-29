@@ -125,8 +125,8 @@ Then("my group's members receive a notification indicating the route has been su
 
 Given("a user in my group is in routing mode", async () => {
   receivedUpdates = [];
-  this.lukeWs = createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
-  this.leiaWs = createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
+  this.lukeWs = await createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
+  this.leiaWs = await createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
   const routingModeActivationEvent = startRouteEvent(
     global.luke.userData.email,
