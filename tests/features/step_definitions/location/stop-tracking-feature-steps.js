@@ -11,9 +11,7 @@ When("I stop sharing my location with that group", async () => {
   this.leiaWs = await createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
   this.lukeWs = await createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
-  await this.lukeWs.send(
-    JSON.stringify(sample(new Date(), global.luke.userData.email, global.luke.group, cesenaCampusLocation)),
-  );
+  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.email, global.luke.group, cesenaCampusLocation)));
 });
 
 Then("the group's members should not see my location anymore", { timeout: 40_000 }, async () => {
