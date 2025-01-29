@@ -28,7 +28,8 @@ Then("I should see the real-time location of online group members", { timeout: 2
 });
 
 Then("the last known location of offline group members", () => {
-  // TOOD: session
+  // TOOD session
+  return "pending";
 });
 
 After(async () => {

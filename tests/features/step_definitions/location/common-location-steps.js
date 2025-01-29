@@ -3,7 +3,6 @@ const { setupUser, setupGroup } = require("../../utils/users-groups-utils");
 
 Given("I'm a logged user", async () => {
   if (!global.luke) {
-    console.log("Setting up users...");
     global.luke = await setupUser({
       userData: {
         name: "Luke",

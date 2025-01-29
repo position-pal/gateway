@@ -22,7 +22,7 @@ When("I activate the routing mode indicating a destination and the ETA", async (
     global.luke.group,
     piazzaDelPopoloLocation,
     cesenaCampusLocation,
-    new Date(Date.now() + 1_000 * 60 * 15),
+    new Date(Date.now() + 1_000 * 60 * 15), // ETA: in 15 minutes
   );
   await this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
   await this.lukeWs.send(
@@ -45,6 +45,7 @@ Then("my state is updated to `Routing`", { timeout: 15_000 }, async () => {
 
 Then("my group's members receive a notification indicating I've started a routing", () => {
   // TODO: notification service
+  return "pending";
 });
 
 Then(
@@ -65,7 +66,6 @@ Then(
 // ---
 
 Given("I'm in routing mode", async () => {
-  console.log("I'm in routing mode");
   receivedUpdates = [];
   this.lukeWs = await createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
   this.leiaWs = await createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
@@ -75,24 +75,20 @@ Given("I'm in routing mode", async () => {
     global.luke.group,
     piazzaDelPopoloLocation,
     cesenaCampusLocation,
-    new Date(Date.now() + 1_000 * 60 * 15),
+    new Date(Date.now() + 1_000 * 60 * 15), // ETA: in 15 minutes
   );
   await this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
 });
 
 When("I arrive at the destination", async () => {
-  console.log("I arrive at the destination");
   await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.email, global.luke.group, cesenaCampusLocation)));
 });
 
 When("I stop the routing", async () => {
-  console.log("I stop the routing");
   await this.lukeWs.send(JSON.stringify(stopRouteEvent(global.luke.userData.email, global.luke.group)));
 });
 
 Then("the routing is stopped", { timeout: 20_000 }, async () => {
-  console.log("the routing is stopped");
-  // TODO: receive stopped event
   await eventually(async () => {
     expect(
       receivedUpdates.some(
@@ -100,31 +96,74 @@ Then("the routing is stopped", { timeout: 20_000 }, async () => {
       ),
     ).to.be.true;
   }, 15_000);
-  console.log("OK! Test passed");
 });
 
 Then("the route discarded", () => {
   // TODO: check the tracking session is none
+  return "pending";
 });
 
-Then("my state is updated to `Active`", () => {});
+Then("my state is updated to `Active`", { timeout: 15_000 }, async () => {
+  await eventually(async () => {
+    await expectSuccessfulGetRequest(
+      `/api/session/state/${global.luke.group}/${global.luke.userData.email}`,
+      global.luke.token,
+      {
+        status: { code: "OK", message: "" },
+        state: "ACTIVE",
+      },
+    );
+  }, 10_000);
+});
 
 Then("my group's members receive a notification indicating the route has been successfully stopped", () => {
   // TODO: notification service
+  return "pending";
 });
 
 // ---
 
-Given("a user in my group is in routing mode", () => {});
+Given("a user in my group is in routing mode", async () => {
+  receivedUpdates = [];
+  this.lukeWs = createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
+  this.leiaWs = createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
+  this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
+  const routingModeActivationEvent = startRouteEvent(
+    global.luke.userData.email,
+    global.luke.group,
+    piazzaDelPopoloLocation,
+    cesenaCampusLocation,
+    new Date(Date.now() + 1_000 * 60), // ETA: in 1 minute
+  );
+  this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
+  await this.lukeWs.send(
+    JSON.stringify(sample(global.luke.userData.email, global.luke.group, piazzaDelPopoloLocation)),
+  );
+});
 
-When("the user has not arrived by the estimated time", () => {});
+When("the user has gone offline", () => {
+  return "pending";
+});
 
-Then("I receive an alert notification indicating the user has not arrived by the estimated time", () => {});
+When("the user has not arrived by the estimated time", { timeout: 70_000 }, async () => {
+  return "pending";
+});
 
-When("the user has been stuck in the same position for a while", () => {});
+When("the user has been stuck in the same position for a while", () => {
+  return "pending";
+});
 
-Then("I receive an alert notification indicating the user has been stuck in the same position for a while", () => {});
+Then("I receive an alert notification indicating the user has not arrived by the estimated time", () => {
+  // TODO: notification service
+  return "pending";
+});
 
-When("the user has gone offline", () => {});
+Then("I receive an alert notification indicating the user has been stuck in the same position for a while", () => {
+  // TODO: notification service
+  return "pending";
+});
 
-Then("I receive an alert notification indicating the user has gone offline", () => {});
+Then("I receive an alert notification indicating the user has gone offline", () => {
+  // TODO: notification service
+  return "pending";
+});

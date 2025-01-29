@@ -21,6 +21,7 @@ Feature: Users routes tracking
     Examples:
       | event |
       | I arrive at the destination |
+      | I stop the routing |
 
   Scenario Outline: Route notifications
     Given a user in my group is in routing mode  
