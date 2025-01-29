@@ -43,7 +43,7 @@ function testablePath() {
  */
 function testableLocationUpdates(userId, groupId) {
   const path = testablePath();
-  return path.map((location, i) => sample(new Date(Date.now() + i * 10000), userId, groupId, location));
+  return path.map((location, i) => sample(userId, groupId, location, new Date(Date.now() + i * 10_000)));
 }
 
 /**
@@ -54,13 +54,36 @@ function testableLocationUpdates(userId, groupId) {
  * @param location The location.
  * @returns {{SampledLocation: {timestamp: string, user, group, position}}} A location sample.
  */
-function sample(timestamp, userId, groupId, location) {
+function sample(userId, groupId, location, timestamp = new Date()) {
+  return createEvent("SampledLocation", userId, groupId, { position: location }, timestamp);
+}
+
+function startRouteEvent(userId, groupId, location, destination, eta, timestamp = new Date()) {
+  return createEvent(
+    "RoutingStarted",
+    userId,
+    groupId,
+    {
+      position: location,
+      mode: "Driving",
+      destination: destination,
+      expectedArrival: eta.toISOString(),
+    },
+    timestamp,
+  );
+}
+
+function stopRouteEvent(userId, groupId, timestamp) {
+  return createEvent("RoutingStopped", userId, groupId, {}, timestamp);
+}
+
+function createEvent(type, userId, groupId, additionalData = {}, timestamp = new Date()) {
   return {
-    SampledLocation: {
+    [type]: {
       timestamp: timestamp.toISOString(),
       user: userId,
       group: groupId,
-      position: location,
+      ...additionalData,
     },
   };
 }
@@ -69,5 +92,7 @@ module.exports = {
   cesenaCampusLocation,
   piazzaDelPopoloLocation,
   sample,
+  startRouteEvent,
+  stopRouteEvent,
   testableLocationUpdates,
 };

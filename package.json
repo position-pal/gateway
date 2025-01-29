@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node src/server.js",
     "test:jest": "jest --passWithNoTests",
-    "test:cucumber": "cucumber-js --tags \"not @ignore\"",
+    "test:cucumber": "cucumber-js --tags 'not @ignore'",
     "test": "npm run test:jest && npm run test:cucumber",
     "prepare": "husky",
     "format": "eslint . --fix",

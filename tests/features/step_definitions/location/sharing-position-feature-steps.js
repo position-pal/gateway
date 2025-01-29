@@ -6,9 +6,7 @@ const { expectSuccessfulGetRequest } = require("../../utils/api-request-utils");
 
 When("I start sharing my location", async () => {
   this.leiaWs = await createWebsocket(`ws/location/${global.astro.id}/${global.leia.userData.id}`, global.leia.token);
-  await this.leiaWs.send(
-    JSON.stringify(sample(new Date(), global.leia.userData.id, global.astro.id, piazzaDelPopoloLocation)),
-  );
+  await this.leiaWs.send(JSON.stringify(sample(global.leia.userData.email, global.leia.group, piazzaDelPopoloLocation)));
 });
 
 Then("my last known location should be updated", { timeout: 15_000 }, async () => {
