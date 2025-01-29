@@ -45,7 +45,7 @@ Then("my state is updated to `Routing`", { timeout: 15_000 }, async () => {
 
 Then("my group's members receive a notification indicating I've started a routing", () => {
   // TODO: notification service
-  return "pending";
+  this.skip();
 });
 
 Then(
@@ -100,7 +100,7 @@ Then("the routing is stopped", { timeout: 20_000 }, async () => {
 
 Then("the route discarded", () => {
   // TODO: check the tracking session is none
-  return "pending";
+  this.skip();
 });
 
 Then("my state is updated to `Active`", { timeout: 15_000 }, async () => {
@@ -118,7 +118,7 @@ Then("my state is updated to `Active`", { timeout: 15_000 }, async () => {
 
 Then("my group's members receive a notification indicating the route has been successfully stopped", () => {
   // TODO: notification service
-  return "pending";
+  this.skip();
 });
 
 // ---
@@ -142,28 +142,28 @@ Given("a user in my group is in routing mode", async () => {
 });
 
 When("the user has gone offline", () => {
-  return "pending";
+  this.skip();
 });
 
 When("the user has not arrived by the estimated time", { timeout: 70_000 }, async () => {
-  return "pending";
+  this.skip();
 });
 
 When("the user has been stuck in the same position for a while", () => {
-  return "pending";
+  this.skip();
 });
 
 Then("I receive an alert notification indicating the user has not arrived by the estimated time", () => {
   // TODO: notification service
-  return "pending";
+  this.skip();
 });
 
 Then("I receive an alert notification indicating the user has been stuck in the same position for a while", () => {
   // TODO: notification service
-  return "pending";
+  this.skip();
 });
 
 Then("I receive an alert notification indicating the user has gone offline", () => {
   // TODO: notification service
-  return "pending";
+  this.skip();
 });
