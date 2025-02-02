@@ -1,3 +1,21 @@
+## [2.1.0](https://github.com/position-pal/gateway/compare/2.0.1...2.1.0) (2025-02-02)
+
+### Dependency updates
+
+* **api-deps:** update local-deployment digest to 122b6c9 ([#29](https://github.com/position-pal/gateway/issues/29)) ([341af3f](https://github.com/position-pal/gateway/commit/341af3f38d7ed9fd2edf183de0297458497fa7ee))
+* **deps:** pin dependencies ([#24](https://github.com/position-pal/gateway/issues/24)) ([c6b002b](https://github.com/position-pal/gateway/commit/c6b002bb3f34686591515ee9cab01f16ff90fd43))
+* **deps:** update eslint monorepo to v9.19.0 ([#27](https://github.com/position-pal/gateway/issues/27)) ([f14776b](https://github.com/position-pal/gateway/commit/f14776b21a2162144ee357fe27b46f8b9cda8115))
+* **deps:** update local-deployment digest to 3013667 ([#28](https://github.com/position-pal/gateway/issues/28)) ([1d33123](https://github.com/position-pal/gateway/commit/1d33123496020d4e3ee5d9b160b2c542139023df))
+
+### Tests
+
+* add test infrastructure and end-to-end tracking location tests ([#23](https://github.com/position-pal/gateway/issues/23)) ([1e290ef](https://github.com/position-pal/gateway/commit/1e290ef609b3d3449f0fcd34398435d524df0601))
+
+### Build and continuous integration
+
+* **deps:** update actions/setup-node action to v4.2.0 ([#26](https://github.com/position-pal/gateway/issues/26)) ([87fa28a](https://github.com/position-pal/gateway/commit/87fa28a5b2f9837f883ffeb2e287946e198575f6))
+* **deps:** update actions/setup-node digest to 1d0ff46 ([#25](https://github.com/position-pal/gateway/issues/25)) ([284a843](https://github.com/position-pal/gateway/commit/284a84392bb126ac0826c431e1b49c6220bbb9a3))
+
 ## [2.0.1](https://github.com/position-pal/gateway/compare/2.0.0...2.0.1) (2025-01-25)
 
 ### Bug Fixes
