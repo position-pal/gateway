@@ -1,3 +1,9 @@
+## [2.2.0](https://github.com/position-pal/gateway/compare/2.1.0...2.2.0) (2025-02-02)
+
+### Dependency updates
+
+* **api-deps:** update local-deployment digest to 3000d57 ([#30](https://github.com/position-pal/gateway/issues/30)) ([7b804fd](https://github.com/position-pal/gateway/commit/7b804fd72fd021d13f4b4d67afea9dec0ae87ca1))
+
 ## [2.1.0](https://github.com/position-pal/gateway/compare/2.0.1...2.1.0) (2025-02-02)
 
 ### Dependency updates
