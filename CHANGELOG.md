@@ -1,3 +1,13 @@
+## [2.3.0](https://github.com/position-pal/gateway/compare/2.2.0...2.3.0) (2025-02-03)
+
+### Features
+
+* authentication improvement ([321a618](https://github.com/position-pal/gateway/commit/321a618a84733a8dc16f82d40d9f99df035dbbcc))
+
+### Dependency updates
+
+* **api-deps:** update local-deployment digest to cf7c3a8 ([#32](https://github.com/position-pal/gateway/issues/32)) ([6ca3eb3](https://github.com/position-pal/gateway/commit/6ca3eb3c2f1b12c3e06368e253c7870aa602e3e3))
+
 ## [2.2.0](https://github.com/position-pal/gateway/compare/2.1.0...2.2.0) (2025-02-02)
 
 ### Dependency updates
