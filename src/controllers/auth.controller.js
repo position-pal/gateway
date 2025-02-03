@@ -67,3 +67,31 @@ exports.authorize = (req, res) => {
     },
   );
 };
+
+exports.authorizeUserToAccessGroup = (req, res) => {
+  const { token, groupId } = req.body;
+
+  if (!token || !groupId) {
+    return res.status(HTTP_STATUS.BAD_CONTENT).json({
+      error: "Token and groupId are required",
+    });
+  }
+  authClient.authorizeUserToAccessGroup(
+    {
+      token,
+      groupId,
+    },
+    (error, response) => {
+      if (error) {
+        console.error("gRPC Error:", error);
+        return res.status(HTTP_STATUS.GENERIC_ERROR).json({
+          error: "Internal server error",
+        });
+      }
+
+      res.status(HTTP_STATUS.OK).json({
+        authorized: response.authorized,
+      });
+    },
+  );
+};
