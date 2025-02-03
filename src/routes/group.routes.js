@@ -1,13 +1,16 @@
 const express = require("express");
 const groupController = require("../controllers/group.controller");
+const groupAuthMiddleware = require("../middlewares/groupAuth");
 
 const router = express.Router();
 
+router.use("/:id", groupAuthMiddleware);
+
 router.post("/", groupController.createGroup);
-router.get("/:id", groupController.getGroup);
-router.put("/:id", groupController.updateGroup);
-router.delete("/:id", groupController.deleteGroup);
-router.post("/:id/addMember", groupController.addMember);
-router.post("/:id/removeMember", groupController.removeMember);
+router.get("/:group", groupController.getGroup);
+router.put("/:group", groupController.updateGroup);
+router.delete("/:group", groupController.deleteGroup);
+router.post("/:group/addMember", groupController.addMember);
+router.post("/:group/removeMember", groupController.removeMember);
 
 module.exports = router;

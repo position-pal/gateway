@@ -2,6 +2,7 @@ const express = require("express");
 const expressWs = require("express-ws");
 const WebSocket = require("ws");
 const { ensureWebSocketIsOpen } = require("../utils/ws-utils");
+const groupAuthMiddleware = require("../middlewares/groupAuth");
 require("dotenv").config();
 
 const LOCATION_HTTP_URL = process.env.LOCATION_SERVICE_HTTP_URL || "127.0.0.1:8080";
@@ -12,6 +13,9 @@ const CHAT_API_VERSION = process.env.CHAT_SERVICE_API_VERSION || "v1";
 
 const router = express.Router();
 expressWs(router);
+
+router.use(groupAuthMiddleware);
+
 router.ws("/location/:group/:user", (ws, req) => {
   const { group, user } = req.params;
 

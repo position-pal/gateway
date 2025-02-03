@@ -13,4 +13,7 @@ module.exports = {
   authorize: (token, callback) => {
     authClient.Authorize(token, callback);
   },
+  authorizeUserToAccessGroup: (request, callback) => {
+    authClient.AuthorizeUserToAccessGroup(request, callback);
+  },
 };
