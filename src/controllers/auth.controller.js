@@ -1,5 +1,5 @@
 const authClient = require("../grpc/clients/authClient");
-const { HttpBaseError } = require("../middlewares/errors/errors.utils");
+const HttpBaseError = require("../middlewares/errors/errors.utils");
 const HTTP_STATUS = require("./httpStatusCode");
 
 /**
@@ -9,7 +9,7 @@ exports.login = (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    next(new HttpBaseError(HTTP_STATUS.BAD_CONTENT, "Bad content", "Username and password are required"));
+    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Username and password are required"));
   }
 
   authClient.authenticate(
@@ -38,7 +38,7 @@ exports.authorize = (req, res, next) => {
   const { token } = req.body;
 
   if (!token) {
-    next(new HttpBaseError(HTTP_STATUS.BAD_CONTENT, "Bad content", "Token is required"));
+    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Token is required"));
   }
   authClient.authorize(
     {
@@ -60,7 +60,7 @@ exports.authorizeUserToAccessGroup = (req, res, next) => {
   const { token, groupId } = req.body;
 
   if (!token || !groupId) {
-    next(new HttpBaseError(HTTP_STATUS.BAD_CONTENT, "Bad content", "Token and groupId are required"));
+    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Token and groupId are required"));
   }
   authClient.authorizeUserToAccessGroup(
     {
