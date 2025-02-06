@@ -2,7 +2,7 @@ const express = require("express");
 const expressWs = require("express-ws");
 const WebSocket = require("ws");
 const { ensureWebSocketIsOpen } = require("../utils/ws-utils");
-const groupAuthMiddleware = require("../middlewares/groupAuth");
+const groupAuthMiddleware = require("../middlewares/groupAuth.middleware");
 require("dotenv").config();
 
 const LOCATION_HTTP_URL = process.env.LOCATION_SERVICE_HTTP_URL || "127.0.0.1:8080";

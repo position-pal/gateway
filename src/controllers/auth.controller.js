@@ -21,15 +21,9 @@ exports.login = (req, res, next) => {
       if (error) {
         next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
-
-      if (response.status && response.status.code === "OK") {
-        // Authentication ok
-        res.status(HTTP_STATUS.OK).json({
-          token: response.token,
-        });
-      } else {
-        next(new HttpBaseError(HTTP_STATUS.UNAUTHORIZED, "Unauthorized", "Invalid username or password"));
-      }
+      res.locals.status = response.status;
+      res.locals.data = { token: response.token };
+      next();
     },
   );
 };
@@ -49,9 +43,11 @@ exports.authorize = (req, res, next) => {
         next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
 
-      res.status(HTTP_STATUS.OK).json({
+      res.locals.status = response.status;
+      res.locals.data = {
         authorized: response.authorized,
-      });
+      };
+      next();
     },
   );
 };
@@ -72,9 +68,11 @@ exports.authorizeUserToAccessGroup = (req, res, next) => {
         next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
 
-      res.status(HTTP_STATUS.OK).json({
+      res.locals.status = response.status;
+      res.locals.data = {
         authorized: response.authorized,
-      });
+      };
+      next();
     },
   );
 };

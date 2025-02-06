@@ -1,4 +1,4 @@
-const { HttpBaseError } = require("../middlewares/errors/errors.utils");
+const { HttpBaseError } = require("./errors/errors.utils");
 const HTTP_STATUS = require("../controllers/httpStatusCode");
 
 // eslint-disable-next-line no-unused-vars
