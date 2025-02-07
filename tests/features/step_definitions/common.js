@@ -3,7 +3,8 @@ const { execSync } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 
-const deploymentScript = "./local-deployment/local-deploy.sh";
+const deploymentScriptName = "./local-deployment/local-deploy.sh";
+const deploymentScript = path.resolve(deploymentScriptName);
 
 BeforeAll(async () => setupLocalDeployment());
 
@@ -11,19 +12,21 @@ AfterAll(async () => teardownLocalDeployment());
 
 const setupLocalDeployment = () => {
   console.log("Bring up the local testing environment");
-  runDeployment("up && sleep 5");
+  run("ls -la");
+  run("docker build --no-cache -t local-gateway .");
+  run(`${deploymentScript} up`);
+  run("sleep 5");
 };
 
 const teardownLocalDeployment = () => {
   console.log("Tearing down the local testing environment");
-  runDeployment("down");
+  run(`${deploymentScript} down`);
 };
 
-const runDeployment = (command) => {
+const run = (command) => {
   try {
-    const absoluteScriptPath = path.resolve(deploymentScript);
     const shell = getShell();
-    execSync(`${shell} ${absoluteScriptPath} ${command}`, { stdio: "inherit" });
+    execSync(command, { shell: shell, stdio: "inherit" });
   } catch (error) {
     console.error(`Deployment error: ${command}`, error);
     process.exit(1);
