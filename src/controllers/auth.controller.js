@@ -1,16 +1,15 @@
 const authClient = require("../grpc/clients/authClient");
+const HttpBaseError = require("../middlewares/errors/errors.utils");
 const HTTP_STATUS = require("./httpStatusCode");
 
 /**
  * Login endpoint: Authenticates the user and returns a JWT token.
  */
-exports.login = (req, res) => {
+exports.login = (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(HTTP_STATUS.BAD_CONTENT).json({
-      error: "Username and password are required",
-    });
+    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Username and password are required"));
   }
 
   authClient.authenticate(
@@ -20,34 +19,20 @@ exports.login = (req, res) => {
     },
     (error, response) => {
       if (error) {
-        console.error("gRPC Error:", error);
-        return res.status(HTTP_STATUS.GENERIC_ERROR).json({
-          error: "Internal server error",
-        });
+        next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
-
-      if (response.status && response.status.code === "OK") {
-        // Authentication ok
-        res.status(HTTP_STATUS.OK).json({
-          token: response.token,
-        });
-      } else {
-        // Authentication error
-        res.status(HTTP_STATUS.UNAUTHORIZED).json({
-          error: response.status?.message || "Invalid credentials",
-        });
-      }
+      res.locals.status = response.status;
+      res.locals.data = { token: response.token };
+      next();
     },
   );
 };
 
-exports.authorize = (req, res) => {
+exports.authorize = (req, res, next) => {
   const { token } = req.body;
 
   if (!token) {
-    return res.status(HTTP_STATUS.BAD_CONTENT).json({
-      error: "Token is required",
-    });
+    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Token is required"));
   }
   authClient.authorize(
     {
@@ -55,26 +40,23 @@ exports.authorize = (req, res) => {
     },
     (error, response) => {
       if (error) {
-        console.error("gRPC Error:", error);
-        return res.status(HTTP_STATUS.GENERIC_ERROR).json({
-          error: "Internal server error",
-        });
+        next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
 
-      res.status(HTTP_STATUS.OK).json({
+      res.locals.status = response.status;
+      res.locals.data = {
         authorized: response.authorized,
-      });
+      };
+      next();
     },
   );
 };
 
-exports.authorizeUserToAccessGroup = (req, res) => {
+exports.authorizeUserToAccessGroup = (req, res, next) => {
   const { token, groupId } = req.body;
 
   if (!token || !groupId) {
-    return res.status(HTTP_STATUS.BAD_CONTENT).json({
-      error: "Token and groupId are required",
-    });
+    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Token and groupId are required"));
   }
   authClient.authorizeUserToAccessGroup(
     {
@@ -83,15 +65,14 @@ exports.authorizeUserToAccessGroup = (req, res) => {
     },
     (error, response) => {
       if (error) {
-        console.error("gRPC Error:", error);
-        return res.status(HTTP_STATUS.GENERIC_ERROR).json({
-          error: "Internal server error",
-        });
+        next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
 
-      res.status(HTTP_STATUS.OK).json({
+      res.locals.status = response.status;
+      res.locals.data = {
         authorized: response.authorized,
-      });
+      };
+      next();
     },
   );
 };

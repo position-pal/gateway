@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const sessionController = require("../controllers/session.controller");
-const groupAuthMiddleware = require("../middlewares/groupAuth");
+const groupAuthMiddleware = require("../middlewares/groupAuth.middleware");
 
 router.use(groupAuthMiddleware);
 
