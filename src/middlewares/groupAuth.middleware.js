@@ -10,13 +10,20 @@ function groupAuthMiddleware(req, res, next) {
       error: "Token and groupId are required",
     });
   }
-
-  authorizeUserToAccessGroup({ token, groupId }, (err, response) => {
-    if (err || !response?.authorized) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: "Unauthorized access to group" });
+  authGroup(token, groupId).then((authorized) => {
+    if (authorized) {
+      return next();
+    } else {
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: "Unauthorized access to group" });
     }
-    next();
   });
 }
 
-module.exports = groupAuthMiddleware;
+
+async function authGroup(token, groupId){
+  await authorizeUserToAccessGroup({ token, groupId }, (err, response) => {
+    return !(err || !response?.authorized);
+  });
+}
+
+module.exports = {groupAuthMiddleware, authGroup};
