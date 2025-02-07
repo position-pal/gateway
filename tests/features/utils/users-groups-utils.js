@@ -14,7 +14,6 @@ const pick = (obj, keys) => Object.fromEntries(keys.map((key) => [key, obj[key]]
  *         name: "Luke",
  *         surname: "Skywalker",
  *         email: "skywalker@gmail.com",
- *         role: "user",
  *       },
  *       password: "I'm sexy and I know it",
  *       group: "astro",

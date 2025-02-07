@@ -1,5 +1,5 @@
 const { authorizeUserToAccessGroup } = require("../grpc/clients/authClient");
-const HTTP_STATUS = require("../controllers/httpStatusCode");
+const {HTTP_STATUS} = require("../controllers/httpStatusCode");
 
 function groupAuthMiddleware(req, res, next) {
   const token = req.headers.authorization || "";

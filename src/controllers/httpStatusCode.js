@@ -8,4 +8,9 @@ const HTTP_STATUS = {
   GENERIC_ERROR: 500,
 };
 
-module.exports = HTTP_STATUS;
+function getHttpStatusCode(status) {
+  if (status instanceof Number) return status;
+  return HTTP_STATUS[status] ? HTTP_STATUS[status] : HTTP_STATUS.GENERIC_ERROR;
+}
+
+module.exports = {HTTP_STATUS, getHttpStatusCode};

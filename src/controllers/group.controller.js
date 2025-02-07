@@ -1,5 +1,5 @@
 const groupClient = require("../grpc/clients/groupClient");
-const HTTP_STATUS = require("./httpStatusCode");
+const {HTTP_STATUS} = require("./httpStatusCode");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 exports.createGroup = (req, res, next) => {

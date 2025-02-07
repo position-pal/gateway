@@ -1,5 +1,5 @@
-const { HttpBaseError } = require("./errors/errors.utils");
-const HTTP_STATUS = require("../controllers/httpStatusCode");
+const HttpBaseError = require("./errors/errors.utils");
+const {HTTP_STATUS} = require("../controllers/httpStatusCode");
 
 // eslint-disable-next-line no-unused-vars
 function defaultErrorHandler(err, req, res, next) {

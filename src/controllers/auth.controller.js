@@ -1,6 +1,6 @@
 const authClient = require("../grpc/clients/authClient");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
-const HTTP_STATUS = require("./httpStatusCode");
+const {HTTP_STATUS} = require("./httpStatusCode");
 
 /**
  * Login endpoint: Authenticates the user and returns a JWT token.

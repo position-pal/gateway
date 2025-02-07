@@ -1,5 +1,5 @@
 const notificationClient = require("../grpc/clients/notificationClient");
-const HTTP_STATUS = require("../controllers/httpStatusCode");
+const {HTTP_STATUS} = require("../controllers/httpStatusCode");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 exports.registerToken = (req, res, next) => {
