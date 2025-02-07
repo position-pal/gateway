@@ -1,3 +1,25 @@
+## [2.4.0](https://github.com/position-pal/gateway/compare/2.3.0...2.4.0) (2025-02-07)
+
+### Features
+
+* error middleware ([#38](https://github.com/position-pal/gateway/issues/38)) ([cf3fc7a](https://github.com/position-pal/gateway/commit/cf3fc7a708c886bc0c63900822db39d7f0b9c9ce))
+
+### Dependency updates
+
+* **deps:** update commitlint monorepo to v19.7.1 ([#41](https://github.com/position-pal/gateway/issues/41)) ([9389aa5](https://github.com/position-pal/gateway/commit/9389aa50f54c33405e8564970228487e378517d8))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.120 ([#44](https://github.com/position-pal/gateway/issues/44)) ([080027d](https://github.com/position-pal/gateway/commit/080027d39705782b40a3d98cc22953b5a612733e))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.121 ([#45](https://github.com/position-pal/gateway/issues/45)) ([50efab7](https://github.com/position-pal/gateway/commit/50efab76888ad920d14d9ac37997bd30316fc8fb))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.122 ([#46](https://github.com/position-pal/gateway/issues/46)) ([80a31c6](https://github.com/position-pal/gateway/commit/80a31c688ad4c7e1e94f6b7d17e7d1523565b006))
+* **deps:** update local-deployment digest to 36b4961 ([#33](https://github.com/position-pal/gateway/issues/33)) ([61f3afc](https://github.com/position-pal/gateway/commit/61f3afc4ccaa7e951221d1a3aeec99753396d6e3))
+* **deps:** update node.js to 3962f5a ([#39](https://github.com/position-pal/gateway/issues/39)) ([66d5f87](https://github.com/position-pal/gateway/commit/66d5f87da0dfff1d7d88d82027644e2934124fc8))
+* **deps:** update node.js to 5145c88 ([#40](https://github.com/position-pal/gateway/issues/40)) ([fd4f669](https://github.com/position-pal/gateway/commit/fd4f6694598bad39b0c65d2dc8c50fb0ba394d1e))
+* **deps:** update node.js to debe7ff ([#37](https://github.com/position-pal/gateway/issues/37)) ([40de6ee](https://github.com/position-pal/gateway/commit/40de6ee5b1f00af7f626743a157b7d1067f19998))
+
+### Build and continuous integration
+
+* **deps:** update docker/setup-buildx-action digest to f7ce87c ([#42](https://github.com/position-pal/gateway/issues/42)) ([2a82eb8](https://github.com/position-pal/gateway/commit/2a82eb8779f51766ac4d64ede494990aa2163327))
+* **deps:** update docker/setup-qemu-action digest to 4574d27 ([#43](https://github.com/position-pal/gateway/issues/43)) ([3f7a92b](https://github.com/position-pal/gateway/commit/3f7a92bf6798330edfef8ba25289a6ad720b4007))
+
 ## [2.3.0](https://github.com/position-pal/gateway/compare/2.2.0...2.3.0) (2025-02-03)
 
 ### Features
