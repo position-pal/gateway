@@ -6,9 +6,9 @@ const fs = require("fs");
 const deploymentScriptName = "./local-deployment/local-deploy.sh";
 const deploymentScript = path.resolve(deploymentScriptName);
 
-//BeforeAll(async () => setupLocalDeployment());
+BeforeAll(async () => setupLocalDeployment());
 
-//AfterAll(async () => teardownLocalDeployment());
+AfterAll(async () => teardownLocalDeployment());
 
 const setupLocalDeployment = () => {
   console.log("Bring up the local testing environment");
