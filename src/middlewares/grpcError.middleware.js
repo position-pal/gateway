@@ -1,20 +1,21 @@
-const { HttpBaseError } = require("./errors/errors.utils");
+const HttpBaseError = require("./errors/errors.utils");
+const {getHttpStatusCode} = require("../controllers/httpStatusCode");
 
 function grpcErrorHandler(req, res, next) {
   const status = res.locals.status;
+  const statusCode = getHttpStatusCode(status.code);
 
-  if (status.code.startsWith("2")) {
-    const response = {
+  if (String(statusCode).startsWith("2")) {
+    res.locals.data = {
       success: true,
       date: new Date(),
       data: res.locals.data,
-      code: status.code,
+      code: statusCode,
     };
-    res.locals.data = response;
-    res.locals.code = status.code;
+    res.locals.code = statusCode;
     next();
   } else {
-    return next(new HttpBaseError(status.code, "Generic Error", status.message));
+    return next(new HttpBaseError(statusCode, "Generic Error", status.message));
   }
 }
 
