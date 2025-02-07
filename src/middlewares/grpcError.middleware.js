@@ -1,6 +1,5 @@
 const { HttpBaseError } = require("./errors/errors.utils");
 
-// eslint-disable-next-line no-unused-vars
 function grpcErrorHandler(req, res, next) {
   const status = res.locals.status;
 
