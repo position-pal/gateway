@@ -1,3 +1,9 @@
+## [2.5.0](https://github.com/position-pal/gateway/compare/2.4.0...2.5.0) (2025-02-07)
+
+### Features
+
+* notification route ([#47](https://github.com/position-pal/gateway/issues/47)) ([d153982](https://github.com/position-pal/gateway/commit/d153982c074458aee86e442e165b57efc119dedd))
+
 ## [2.4.0](https://github.com/position-pal/gateway/compare/2.3.0...2.4.0) (2025-02-07)
 
 ### Features
