@@ -8,7 +8,6 @@ Given("I'm a logged user", async () => {
         name: "Luke",
         surname: "Skywalker",
         email: "luke.skywalker@gmail.com",
-        role: "user",
       },
       password: "luk3Skyw4lk3r!",
       group: "astro",
@@ -16,9 +15,8 @@ Given("I'm a logged user", async () => {
     global.leia = await setupUser({
       userData: {
         name: "Leia",
-        surname: "Organa",
-        email: "leila.organa@gmail.com",
-        role: "user",
+        surname: "Skywalker",
+        email: "leila.Skywalker@gmail.com",
       },
       password: "wowLeia123@",
       group: "astro",
