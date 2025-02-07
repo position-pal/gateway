@@ -6,15 +6,15 @@ const {HTTP_STATUS} = require("./httpStatusCode");
  * Login endpoint: Authenticates the user and returns a JWT token.
  */
 exports.login = (req, res, next) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!username || !password) {
+  if (!email || !password) {
     next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Username and password are required"));
   }
 
   authClient.authenticate(
     {
-      username,
+      email,
       password,
     },
     (error, response) => {
