@@ -12,7 +12,9 @@ exports.getUser = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.OK).json(response.user);
+    res.locals.status = response.status;
+    res.locals.data = response.user;
+    next();
   });
 };
 
@@ -26,7 +28,9 @@ exports.createUser = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.CREATED).json(response.user);
+    res.locals.status = response.status;
+    res.locals.data = response.user;
+    next();
   });
 };
 
@@ -44,7 +48,9 @@ exports.updateUser = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.OK).json(response.user);
+    res.locals.status = response.status;
+    res.locals.data = response.user;
+    next();
   });
 };
 
@@ -58,6 +64,8 @@ exports.deleteUser = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.OK).json({ message: "User deleted successfully", userId: response.userId });
+    res.locals.status = response.status;
+    res.locals.data = { message: "User deleted successfully", userId: response.userId };
+    next();
   });
 };

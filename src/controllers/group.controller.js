@@ -12,7 +12,9 @@ exports.createGroup = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.CREATED).json(response.group);
+    res.locals.status = response.status;
+    res.locals.data = response.group;
+    next();
   });
 };
 
@@ -26,7 +28,9 @@ exports.getGroup = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.OK).json(response.group);
+    res.locals.status = response.status;
+    res.locals.data = response.group;
+    next();
   });
 };
 
@@ -44,7 +48,9 @@ exports.updateGroup = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.OK).json(response.group);
+    res.locals.status = response.status;
+    res.locals.data = response.group;
+    next();
   });
 };
 
@@ -58,10 +64,12 @@ exports.deleteGroup = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.OK).json({
+    res.locals.status = response.status;
+    res.locals.data = {
       message: "Group deleted successfully",
       groupId: response.groupId,
-    });
+    };
+    next();
   });
 };
 
@@ -79,7 +87,9 @@ exports.addMember = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.OK).json(response.group);
+    res.locals.status = response.status;
+    res.locals.data = response.group;
+    next();
   });
 };
 
@@ -97,6 +107,8 @@ exports.removeMember = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.status(HTTP_STATUS.OK).json(response.group);
+    res.locals.status = response.status;
+    res.locals.data = response.group;
+    next();
   });
 };

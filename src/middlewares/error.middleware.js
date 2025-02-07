@@ -24,4 +24,4 @@ function defaultErrorHandler(err, req, res, next) {
   return res.send(response);
 }
 
-module.exports = { defaultErrorHandler };
+module.exports = defaultErrorHandler;

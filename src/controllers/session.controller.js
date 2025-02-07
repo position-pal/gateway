@@ -11,12 +11,16 @@ exports.getCurrentSession = (req, res, next) => {
   let sessions = [];
   sessionClient.getCurrentSession(
     { value: groupId },
-    (response) => sessions.push(response.session),
+    (response) => {
+      sessions.push(response.session);
+      res.locals.status = response.status;
+    },
     (error) => {
       if (error) {
         return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
-      res.json({ sessions });
+      res.locals.data = { sessions };
+      next();
     },
   );
 };
@@ -36,10 +40,12 @@ const handleSessionRequest = (method, req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
-    res.json(response);
+    res.locals.status = response.status;
+    res.locals.data = response;
+    next();
   });
 };
 
-exports.startSession = (req, res, next) => handleSessionRequest("startSession", req, res, next);
-exports.endSession = (req, res, next) => handleSessionRequest("endSession", req, res, next);
-exports.getSession = (req, res, next) => handleSessionRequest("getSession", req, res, next);
+exports.getCurrentLocation = (req, res, next) => handleSessionRequest("getCurrentLocation", req, res, next);
+exports.getCurrentState = (req, res, next) => handleSessionRequest("getCurrentState", req, res, next);
+exports.getCurrentTracking = (req, res, next) => handleSessionRequest("getCurrentTracking", req, res, next);

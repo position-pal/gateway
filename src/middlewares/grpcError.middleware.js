@@ -19,6 +19,4 @@ function grpcErrorHandler(req, res, next) {
   }
 }
 
-module.exports = {
-  grpcErrorHandler,
-};
+module.exports = grpcErrorHandler;

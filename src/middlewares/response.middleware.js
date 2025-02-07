@@ -16,4 +16,4 @@ function defaultResponseHandler(req, res, next) {
   return res.send(response);
 }
 
-module.exports = { defaultResponseHandler };
+module.exports = defaultResponseHandler;

@@ -20,6 +20,8 @@ exports.getLastMessages = (req, res, next) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.NOT_FOUND, "Not found", "Messages not found"));
     }
-    res.status(HTTP_STATUS.OK).json(response.messages);
+    res.locals.status = response.status;
+    res.locals.data = response.messages;
+    next();
   });
 };
