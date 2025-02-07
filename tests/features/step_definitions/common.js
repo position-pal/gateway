@@ -12,7 +12,6 @@ AfterAll(async () => teardownLocalDeployment());
 
 const setupLocalDeployment = () => {
   console.log("Bring up the local testing environment");
-  run("ls -la");
   run("docker build --no-cache -t local-gateway .");
   run(`${deploymentScript} up --local gateway:local-gateway`);
   run("sleep 5");
