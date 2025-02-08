@@ -1,5 +1,5 @@
 const userClient = require("../grpc/clients/userClient");
-const {HTTP_STATUS} = require("./httpStatusCode");
+const { HTTP_STATUS } = require("./httpStatusCode");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 exports.getUser = (req, res, next) => {

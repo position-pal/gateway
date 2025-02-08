@@ -1,5 +1,5 @@
 const chatClient = require("../grpc/clients/chatClient");
-const {HTTP_STATUS} = require("./httpStatusCode");
+const { HTTP_STATUS } = require("./httpStatusCode");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 exports.getLastMessages = (req, res, next) => {

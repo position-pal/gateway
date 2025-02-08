@@ -1,5 +1,5 @@
 const { authorizeUserToAccessGroup } = require("../grpc/clients/authClient");
-const {HTTP_STATUS} = require("../controllers/httpStatusCode");
+const { HTTP_STATUS } = require("../controllers/httpStatusCode");
 
 function groupAuthMiddleware(req, res, next) {
   const token = req.headers.authorization || "";
@@ -14,16 +14,15 @@ function groupAuthMiddleware(req, res, next) {
     if (authorized) {
       return next();
     } else {
-        return res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: "Unauthorized access to group" });
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: "Unauthorized access to group" });
     }
   });
 }
 
-
-async function authGroup(token, groupId){
+async function authGroup(token, groupId) {
   await authorizeUserToAccessGroup({ token, groupId }, (err, response) => {
     return !(err || !response?.authorized);
   });
 }
 
-module.exports = {groupAuthMiddleware, authGroup};
+module.exports = { groupAuthMiddleware, authGroup };

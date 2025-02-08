@@ -1,5 +1,3 @@
-const {HTTP_STATUS} = require("../../controllers/httpStatusCode");
-
 class HttpBaseError extends Error {
   constructor(code, name, message) {
     super();

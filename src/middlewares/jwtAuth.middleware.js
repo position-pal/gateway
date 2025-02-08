@@ -1,5 +1,5 @@
 const { authorize } = require("../grpc/clients/authClient");
-const {HTTP_STATUS} = require("../controllers/httpStatusCode");
+const { HTTP_STATUS } = require("../controllers/httpStatusCode");
 
 function jwtAuthMiddleware(req, res, next) {
   if (req.path.startsWith("/auth/login")) {

@@ -2,7 +2,7 @@ const express = require("express");
 const expressWs = require("express-ws");
 const WebSocket = require("ws");
 const { ensureWebSocketIsOpen } = require("../utils/ws-utils");
-const {authGroup} = require("../middlewares/groupAuth.middleware");
+const { authGroup } = require("../middlewares/groupAuth.middleware");
 require("dotenv").config();
 
 const LOCATION_HTTP_URL = process.env.LOCATION_SERVICE_HTTP_URL || "127.0.0.1:8080";
@@ -21,16 +21,20 @@ router.ws("/location/:group/:user", (ws, req) => {
   // Forward messages from client to location_ws
   ws.on("message", async (msg) => {
     //verify if message contains authorization token
-    if (location_ws === null){
+    if (location_ws === null) {
+      console.log("Verifying authorization");
       if (!msg.includes("Authorization")) {
+        console.log("no auth given");
         ws.send("Unauthorized");
         ws.close();
         return;
       } else {
         //get token from json
         const token = JSON.parse(msg).Authorization;
+        console.log(token);
         //verify if user is authorized to access group
-        if (!await authGroup(token, group)){
+        if (!(await authGroup(token, group))) {
+          console.log("Unauthorized");
           ws.send("Unauthorized");
           ws.close();
           return;
@@ -39,7 +43,6 @@ router.ws("/location/:group/:user", (ws, req) => {
         }
       }
     }
-
     try {
       await ensureWebSocketIsOpen(location_ws);
       location_ws.send(msg);
@@ -68,29 +71,29 @@ router.ws("/location/:group/:user", (ws, req) => {
 router.ws("/chat/:group/:user", (ws, req) => {
   const { group, user } = req.params;
 
-  let chat_ws = null
+  let chat_ws = null;
 
   // Forward messages from client to chat_ws
   ws.on("message", async (msg) => {
-      //verify if message contains authorization token
-      if (chat_ws === null){
-        if (!msg.includes("Authorization")) {
+    //verify if message contains authorization token
+    if (chat_ws === null) {
+      if (!msg.includes("Authorization")) {
+        ws.send("Unauthorized");
+        ws.close();
+        return;
+      } else {
+        //get token from json
+        const token = JSON.parse(msg).Authorization;
+        //verify if user is authorized to access group
+        if (!(await authGroup(token, group))) {
           ws.send("Unauthorized");
           ws.close();
           return;
         } else {
-          //get token from json
-          const token = JSON.parse(msg).Authorization;
-          //verify if user is authorized to access group
-          if (!await authGroup(token, group)){
-            ws.send("Unauthorized");
-            ws.close();
-            return;
-          } else {
-            chat_ws = new WebSocket(`ws://${CHAT_HTTP_URL}/${CHAT_API_VERSION}/messages/${group}?user=${user}`);
-          }
+          chat_ws = new WebSocket(`ws://${CHAT_HTTP_URL}/${CHAT_API_VERSION}/messages/${group}?user=${user}`);
         }
       }
+    }
 
     try {
       await ensureWebSocketIsOpen(chat_ws);

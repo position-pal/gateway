@@ -1,5 +1,5 @@
 const sessionClient = require("../grpc/clients/sessionClient");
-const {HTTP_STATUS} = require("./httpStatusCode");
+const { HTTP_STATUS } = require("./httpStatusCode");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 exports.getCurrentSession = (req, res, next) => {

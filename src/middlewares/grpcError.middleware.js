@@ -1,5 +1,5 @@
 const HttpBaseError = require("./errors/errors.utils");
-const {getHttpStatusCode} = require("../controllers/httpStatusCode");
+const { getHttpStatusCode } = require("../controllers/httpStatusCode");
 
 function grpcErrorHandler(req, res, next) {
   const status = res.locals.status;

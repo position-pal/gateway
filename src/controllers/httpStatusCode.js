@@ -13,4 +13,4 @@ function getHttpStatusCode(status) {
   return HTTP_STATUS[status] ? HTTP_STATUS[status] : HTTP_STATUS.GENERIC_ERROR;
 }
 
-module.exports = {HTTP_STATUS, getHttpStatusCode};
+module.exports = { HTTP_STATUS, getHttpStatusCode };

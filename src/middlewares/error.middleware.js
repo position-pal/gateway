@@ -1,8 +1,7 @@
 const HttpBaseError = require("./errors/errors.utils");
-const {HTTP_STATUS} = require("../controllers/httpStatusCode");
+const { HTTP_STATUS } = require("../controllers/httpStatusCode");
 
-// eslint-disable-next-line no-unused-vars
-function defaultErrorHandler(err, req, res, next) {
+function defaultErrorHandler(err, req, res) {
   const response = {
     success: false,
     date: new Date(),
