@@ -20,12 +20,12 @@ async function groupAuthMiddleware(req, res, next) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: "Unauthorized access to group" });
     }
   } catch (error) {
-    return res.status(HTTP_STATUS.GENERIC_ERROR).json({ error: "Internal server error" });
+    return res.status(HTTP_STATUS.GENERIC_ERROR).json({ error: `Internal server error ${error}` });
   }
 }
 
 function authGroup(token, groupId) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     authorizeUserToAccessGroup({ token, groupId }, (err, response) => {
       if (err) {
         return resolve(false);

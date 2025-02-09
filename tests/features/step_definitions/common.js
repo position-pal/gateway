@@ -13,7 +13,7 @@ BeforeAll(async () => setupLocalDeployment());
 const setupLocalDeployment = () => {
   console.log("Bring up the local testing environment");
   run("docker build --no-cache -t local-gateway .");
-  run(`${deploymentScript} up --local gateway:local-gateway`);
+  run(`${deploymentScript} up --override gateway:local-gateway`);
   run("sleep 5");
 };
 
