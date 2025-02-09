@@ -13,8 +13,8 @@ module.exports = {
   getUser: (userId, callback) => {
     userClient.GetUser(userId, callback);
   },
-  updateUser: (userId, user, callback) => {
-    userClient.UpdateUser(userId, user, callback);
+  updateUser: (updateUser, callback) => {
+    userClient.UpdateUser(updateUser, callback);
   },
   deleteUser: (userId, callback) => {
     userClient.DeleteUser(userId, callback);

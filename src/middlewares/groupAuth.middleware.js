@@ -1,28 +1,40 @@
 const { authorizeUserToAccessGroup } = require("../grpc/clients/authClient");
 const { HTTP_STATUS } = require("../controllers/httpStatusCode");
 
-function groupAuthMiddleware(req, res, next) {
+async function groupAuthMiddleware(req, res, next) {
   const token = req.headers.authorization || "";
   const groupId = req.params.group;
 
   if (!token || !groupId) {
-    return res.status(HTTP_STATUS.BAD_CONTENT).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       error: "Token and groupId are required",
     });
   }
-  authGroup(token, groupId).then((authorized) => {
+
+  try {
+    const authorized = await authGroup(token, groupId);
+    console.log("AUTHORIZED: ", authorized);
+
     if (authorized) {
       return next();
     } else {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: "Unauthorized access to group" });
     }
+  } catch (error) {
+    return res.status(HTTP_STATUS.GENERIC_ERROR).json({ error: "Internal server error" });
+  }
+}
+
+function authGroup(token, groupId) {
+  return new Promise((resolve, reject) => {
+    authorizeUserToAccessGroup({ token, groupId }, (err, response) => {
+      if (err) {
+        return resolve(false);
+      }
+      resolve(response?.authorized || false);
+    });
   });
 }
 
-async function authGroup(token, groupId) {
-  await authorizeUserToAccessGroup({ token, groupId }, (err, response) => {
-    return !(err || !response?.authorized);
-  });
-}
 
 module.exports = { groupAuthMiddleware, authGroup };
