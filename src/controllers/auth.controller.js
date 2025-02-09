@@ -21,7 +21,6 @@ exports.login = (req, res, next) => {
       if (error) {
         next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
-      console.log("RESPONSE: ", response);
       res.locals.status = response.status;
       res.locals.data = { token: response.token };
       next();

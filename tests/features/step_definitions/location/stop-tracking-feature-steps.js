@@ -9,16 +9,16 @@ const receivedUpdates = [];
 
 When("I stop sharing my location with that group", async () => {
   this.leiaWs = await createWebsocket(
-    `ws/location/${global.leia.group}/${global.leia.userData.email}`,
+    `ws/location/${global.astro.id}/${global.leia.userData.id}`,
     global.leia.token,
   );
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
   this.lukeWs = await createWebsocket(
-    `ws/location/${global.luke.group}/${global.luke.userData.email}`,
+    `ws/location/${global.astro.id}/${global.luke.userData.id}`,
     global.luke.token,
   );
   await this.lukeWs.send(
-    JSON.stringify(sample(new Date(), global.luke.userData.email, global.luke.group, cesenaCampusLocation)),
+    JSON.stringify(sample(new Date(), global.luke.userData.id, global.astro.id, cesenaCampusLocation)),
   );
 });
 
@@ -34,11 +34,11 @@ Then("my state should be updated to `Inactive`", { timeout: 100_000 }, async () 
     async () => {
       expect(
         receivedUpdates.some(
-          (update) => update.UserUpdate.user === global.luke.userData.email && update.UserUpdate.status === "Inactive",
+          (update) => update.UserUpdate.user === global.luke.userData.id && update.UserUpdate.status === "Inactive",
         ),
       ).to.be.true;
       await expectSuccessfulGetRequest(
-        `/api/session/state/${global.luke.group}/${global.luke.userData.email}`,
+        `/api/session/state/${global.astro.id}/${global.luke.userData.id}`,
         global.luke.token,
         {
           status: { code: "OK", message: "" },
@@ -53,7 +53,7 @@ Then("my state should be updated to `Inactive`", { timeout: 100_000 }, async () 
 
 Then("my last known location should still be available", async () => {
   await expectSuccessfulGetRequest(
-    `/api/session/location/${global.luke.group}/${global.luke.userData.email}`,
+    `/api/session/location/${global.astro.id}/${global.luke.userData.id}`,
     global.luke.token,
     {
       status: { code: "OK", message: "" },

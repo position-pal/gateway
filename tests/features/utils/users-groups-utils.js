@@ -21,13 +21,23 @@ const pick = (obj, keys) => Object.fromEntries(keys.map((key) => [key, obj[key]]
  */
 async function setupUser(userDetails) {
   const registrationData = pick(userDetails, ["userData", "password"]);
-  await fetchSuccessfulPostRequest("api/users", "", registrationData);
+  const createdUser = await fetchSuccessfulPostRequest("api/users", "", registrationData);
   const loginData = { email: userDetails.userData.email, password: userDetails.password };
   const authResponse = await fetchSuccessfulPostRequest("api/auth/login", "", loginData);
   return {
-    ...userDetails,
+    userData: createdUser.data,
     token: authResponse.data.token,
   };
 }
 
-module.exports = { setupUser };
+async function setupGroup(groupDetails) {
+  const createGroupData = {
+    "name": groupDetails.name,
+    "members": groupDetails.members,
+    "createdBy": groupDetails.createdBy
+  }
+  const response = await fetchSuccessfulPostRequest("api/groups", groupDetails.token, createGroupData);
+  return response.data;
+}
+
+module.exports = { setupUser, setupGroup };

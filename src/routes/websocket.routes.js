@@ -22,24 +22,21 @@ router.ws("/location/:group/:user", (ws, req) => {
   ws.on("message", async (msg) => {
     //verify if message contains authorization token
     if (location_ws === null) {
-      console.log("Verifying authorization");
       if (!msg.includes("Authorization")) {
-        console.log("no auth given");
         ws.send("Unauthorized");
         ws.close();
         return;
       } else {
         //get token from json
         const token = JSON.parse(msg).Authorization;
-        console.log(token);
         //verify if user is authorized to access group
         if (!(await authGroup(token, group))) {
-          console.log("Unauthorized");
           ws.send("Unauthorized");
           ws.close();
           return;
         } else {
           location_ws = new WebSocket(`ws://${LOCATION_HTTP_URL}/${LOCATION_API_VERSION}/location/${group}/${user}`);
+          return;
         }
       }
     }

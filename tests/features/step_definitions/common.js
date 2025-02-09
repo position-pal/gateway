@@ -8,12 +8,12 @@ const deploymentScript = path.resolve(deploymentScriptName);
 
 BeforeAll(async () => setupLocalDeployment());
 
-AfterAll(async () => teardownLocalDeployment());
+// AfterAll(async () => teardownLocalDeployment());
 
 const setupLocalDeployment = () => {
   console.log("Bring up the local testing environment");
   run("docker build --no-cache -t local-gateway .");
-  run(`${deploymentScript} up --local gateway:local-gateway`);
+  run(`${deploymentScript} up --local gateway:local-gateway --local user-service:local-user-service`);
   run("sleep 5");
 };
 

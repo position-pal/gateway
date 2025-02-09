@@ -4,13 +4,15 @@ const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 exports.createGroup = (req, res, next) => {
   const groupData = req.body;
-  if (!groupData.name || !groupData.createdBy) {
-    return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group name and owner are required"));
-  }
+  console.log("groupData", groupData);
 
+  if (!groupData.name || !groupData.createdBy) {
+    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group name and owner are required"));
+  }
   groupClient.createGroup({ group: groupData }, (error, response) => {
+    console.log("response", response);
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;

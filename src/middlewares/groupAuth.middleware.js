@@ -13,7 +13,6 @@ async function groupAuthMiddleware(req, res, next) {
 
   try {
     const authorized = await authGroup(token, groupId);
-    console.log("AUTHORIZED: ", authorized);
 
     if (authorized) {
       return next();
