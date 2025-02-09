@@ -35,5 +35,4 @@ function authGroup(token, groupId) {
   });
 }
 
-
 module.exports = { groupAuthMiddleware, authGroup };

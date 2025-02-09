@@ -1,5 +1,5 @@
 const { Given } = require("@cucumber/cucumber");
-const { setupUser, setupGroup} = require("../../utils/users-groups-utils");
+const { setupUser, setupGroup } = require("../../utils/users-groups-utils");
 
 Given("I'm a logged user", async () => {
   if (!global.luke) {
@@ -25,14 +25,14 @@ Given("I'm a logged user", async () => {
 });
 
 Given("I'm in a group with other users", async () => {
-    if (!global.astro) {
-        global.astro = await setupGroup({
-          name: "Astro",
-          members: [global.luke.userData, global.leia.userData],
-          createdBy: global.luke.userData,
-          token: global.luke.token,
-        });
-    }
-    console.log("qualcosa prima ti prego")
-    console.log(global.astro);
+  if (!global.astro) {
+    global.astro = await setupGroup({
+      name: "Astro",
+      members: [global.luke.userData, global.leia.userData],
+      createdBy: global.luke.userData,
+      token: global.luke.token,
+    });
+  }
+  console.log("qualcosa prima ti prego");
+  console.log(global.astro);
 });

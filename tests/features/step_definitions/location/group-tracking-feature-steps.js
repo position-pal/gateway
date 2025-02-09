@@ -7,14 +7,8 @@ const { eventually } = require("../../utils/timings");
 const receivedUpdates = [];
 
 When("I access my group tracking information", async () => {
-  this.leiaWs = await createWebsocket(
-    `ws/location/${global.astro.id}/${global.leia.userData.id}`,
-    global.leia.token,
-  );
-  this.lukeWs = await createWebsocket(
-    `ws/location/${global.astro.id}/${global.luke.userData.id}`,
-    global.luke.token,
-  );
+  this.leiaWs = await createWebsocket(`ws/location/${global.astro.id}/${global.leia.userData.id}`, global.leia.token);
+  this.lukeWs = await createWebsocket(`ws/location/${global.astro.id}/${global.luke.userData.id}`, global.luke.token);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
   this.testablePath = testableLocationUpdates(global.luke.id, global.astro.id);
   for (const update of this.testablePath) {

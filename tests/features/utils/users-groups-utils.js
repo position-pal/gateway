@@ -32,10 +32,10 @@ async function setupUser(userDetails) {
 
 async function setupGroup(groupDetails) {
   const createGroupData = {
-    "name": groupDetails.name,
-    "members": groupDetails.members,
-    "createdBy": groupDetails.createdBy
-  }
+    name: groupDetails.name,
+    members: groupDetails.members,
+    createdBy: groupDetails.createdBy,
+  };
   const response = await fetchSuccessfulPostRequest("api/groups", groupDetails.token, createGroupData);
   return response.data;
 }
