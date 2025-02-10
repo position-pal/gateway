@@ -14,10 +14,6 @@ const CHAT_API_VERSION = process.env.CHAT_SERVICE_API_VERSION || "v1";
 const router = express.Router();
 expressWs(router);
 
-/**
- * Proxy for the Location Service WebSocket.
- * Endpoint: /location/:group/:user
- */
 router.ws("/location/:group/:user", (clientWs, req) => {
   const { group, user } = req.params;
   let locationWs = null;
@@ -26,14 +22,8 @@ router.ws("/location/:group/:user", (clientWs, req) => {
   const initLocationWebSocket = () => {
     const backendUrl = `ws://${LOCATION_HTTP_URL}/${LOCATION_API_VERSION}/group/${group}/${user}`;
     locationWs = new WebSocket(backendUrl);
-    locationWs.on("open", () => {
-        console.log(2);
-        console.log(`Connected to location service at ${backendUrl}`);
-      }
-    );
     locationWs.on("message", (msg) => {
       if (clientWs.readyState === WebSocket.OPEN) {
-        console.log("On message ok: " + msg);
         clientWs.send(msg);
       }
     });
@@ -51,7 +41,6 @@ router.ws("/location/:group/:user", (clientWs, req) => {
     });
   };
 
-  // Handle messages from the client
   clientWs.on("message", async (msg) => {
     if (!authenticated) {
       try {
@@ -90,12 +79,7 @@ router.ws("/location/:group/:user", (clientWs, req) => {
     }
   });
 
-  // Handle client WebSocket errors
-  clientWs.on("error", (error) => {
-    console.error("Client WebSocket error on location endpoint:", error);
-  });
-
-  // When the client connection is closed, close the backend connection if it is open
+  clientWs.on("error", (error) => console.error("Client WebSocket error on location endpoint:", error));
   clientWs.on("close", () => {
     if (locationWs && locationWs.readyState === WebSocket.OPEN) {
       locationWs.close();
@@ -113,7 +97,7 @@ router.ws("/chat/:group/:user", (clientWs, req) => {
    * Initializes the backend WebSocket connection to the chat service.
    * @param {string} initialMsg - The initial message (authentication message) from the client.
    */
-  const initChatWebSocket = (initialMsg) => {
+  const initChatWebSocket = () => {
     const backendUrl = `ws://${CHAT_HTTP_URL}/${CHAT_API_VERSION}/messages/${group}?user=${user}`;
     chatWs = new WebSocket(backendUrl);
 

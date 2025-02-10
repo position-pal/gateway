@@ -1,16 +1,14 @@
 const WebSocket = require("ws");
-const { ensureWebSocketIsOpen } = require("../../../src/utils/ws-utils");
 
 async function createWebsocket(endpoint, token) {
-  const ws = new WebSocket(`ws://localhost:3000/${endpoint}`);
   return new Promise((resolve, reject) => {
+    const ws = new WebSocket(`ws://localhost:3000/${endpoint}`);
     ws.onopen = () => ws.send(JSON.stringify({ Authorization: `Bearer ${token}` }));
     const messageHandler = (event) => {
+      ws.removeEventListener("message", messageHandler);
       if (event.data === "OK") {
-        ws.removeEventListener("message", messageHandler);
         resolve(ws);
       } else {
-        ws.removeEventListener("message", messageHandler);
         reject(new Error(`Unexpected message: ${event.data}`));
       }
     };

@@ -12,7 +12,7 @@ function jwtAuthMiddleware(req, res, next) {
   const token = req.headers.authorization || "";
   authorize({ token }, (err, response) => {
     if (err || !response?.authorized) {
-      return next(new HttpBaseError(HTTP_STATUS.UNAUTHORIZED, "Unauthorized" ,"missing Authorization"));
+      return next(new HttpBaseError(HTTP_STATUS.UNAUTHORIZED, "Unauthorized", "missing Authorization"));
     }
     return next();
   });

@@ -8,16 +8,15 @@ async function groupAuthMiddleware(req, res, next) {
   if (!token || !group) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad Request", "Token and groupId are required"));
   }
-
   try {
     const authorized = await authGroup(token.trim(), group.trim());
     if (authorized) {
       return next();
     } else {
-      return next(new HttpBaseError(HTTP_STATUS.UNAUTHORIZED, "Unauthorized" ,"Unauthorized access to group"));
+      return next(new HttpBaseError(HTTP_STATUS.UNAUTHORIZED, "Unauthorized", "Unauthorized access to group"));
     }
   } catch (error) {
-    return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error" ,"gRPC Error"));
+    return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
   }
 }
 
