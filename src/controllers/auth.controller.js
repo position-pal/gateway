@@ -43,9 +43,7 @@ exports.authorizeUserToAccessGroup = (req, res, next) => {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
     res.locals.status = response.status;
-    res.locals.data = {
-      authorized: response.authorized,
-    };
+    res.locals.data = { authorized: response.authorized };
     return next();
   });
 };
