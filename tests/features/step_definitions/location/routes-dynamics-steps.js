@@ -22,9 +22,10 @@ Given("I'm in routing mode", async () => {
     global.astro.id,
     piazzaDelPopoloLocation,
     cesenaCampusLocation,
-    new Date(Date.now() + 1_000 * 60 * 15), // ETA: in 15 minutes
+    new Date(Date.now() + 1_000 * 60 * 2), // ETA: in 2 minutes
   );
   await this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
+  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, piazzaDelPopoloLocation)));
 });
 
 When("I arrive at the destination", async () => {

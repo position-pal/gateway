@@ -24,12 +24,12 @@ Feature: Users routes tracking
       | I stop the routing |
 
   Scenario Outline: Route notifications
-    Given a user in my group is in routing mode  
+    Given I'm in routing mode
     When <event>
-    Then I receive an alert notification indicating <event>
+    Then my group's members receive a notification indicating <event>
 
     Examples:  
       | event |  
-      | the user has not arrived by the estimated time |  
-      | the user has been stuck in the same position for a while |  
-      | the user has gone offline |  
+      | I have not arrived by the estimated time |
+      | I have been stuck in the same position for a while |
+      | I have gone offline |
