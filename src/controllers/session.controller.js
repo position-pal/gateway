@@ -19,7 +19,7 @@ exports.getCurrentSession = (req, res, next) => {
         return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
       res.locals.data = { sessions };
-      next();
+      return next();
     },
   );
 };
@@ -31,7 +31,6 @@ const getScope = (req) => ({
 
 const handleSessionRequest = (method, req, res, next) => {
   const scope = getScope(req);
-  console.log(`scope is ${scope}`);
   if (!scope.user.value || !scope.group.value) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "User and Group IDs are required"));
   }
@@ -41,7 +40,7 @@ const handleSessionRequest = (method, req, res, next) => {
     }
     res.locals.status = response.status;
     res.locals.data = response;
-    next();
+    return next();
   });
 };
 

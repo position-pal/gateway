@@ -20,6 +20,6 @@ exports.getLastMessages = (req, res, next) => {
     }
     res.locals.status = response.status;
     res.locals.data = response.messages;
-    next();
+    return next();
   });
 };

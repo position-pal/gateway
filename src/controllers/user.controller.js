@@ -13,7 +13,7 @@ exports.getUser = (req, res, next) => {
     }
     res.locals.status = response.status;
     res.locals.data = response.user;
-    next();
+    return next();
   });
 };
 
@@ -28,7 +28,7 @@ exports.createUser = (req, res, next) => {
     }
     res.locals.status = response.status;
     res.locals.data = response.user;
-    next();
+    return next();
   });
 };
 
@@ -47,7 +47,7 @@ exports.updateUser = (req, res, next) => {
     }
     res.locals.status = response.status;
     res.locals.data = response.user;
-    next();
+    return next();
   });
 };
 
@@ -62,6 +62,6 @@ exports.deleteUser = (req, res, next) => {
     }
     res.locals.status = response.status;
     res.locals.data = { message: "User deleted successfully", userId: response.userId };
-    next();
+    return next();
   });
 };

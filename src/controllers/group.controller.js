@@ -5,15 +5,15 @@ const HttpBaseError = require("../middlewares/errors/errors.utils");
 exports.createGroup = (req, res, next) => {
   const groupData = req.body;
   if (!groupData.name || !groupData.createdBy) {
-    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group name and owner are required"));
+    return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group name and owner are required"));
   }
   groupClient.createGroup({ group: groupData }, (error, response) => {
     if (error) {
-      next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
-    next();
+    return next();
   });
 };
 
@@ -28,7 +28,7 @@ exports.getGroup = (req, res, next) => {
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
-    next();
+    return next();
   });
 };
 
@@ -47,7 +47,7 @@ exports.updateGroup = (req, res, next) => {
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
-    next();
+    return next();
   });
 };
 
@@ -65,7 +65,7 @@ exports.deleteGroup = (req, res, next) => {
       message: "Group deleted successfully",
       groupId: response.groupId,
     };
-    next();
+    return next();
   });
 };
 
@@ -84,7 +84,7 @@ exports.addMember = (req, res, next) => {
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
-    next();
+    return next();
   });
 };
 

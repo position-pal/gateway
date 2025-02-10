@@ -1,7 +1,7 @@
 const HttpBaseError = require("./errors/errors.utils");
 const { HTTP_STATUS } = require("../controllers/httpStatusCode");
 
-function defaultErrorHandler(err, req, res) {
+function defaultErrorHandler(err, req, res, next) {
   const response = {
     success: false,
     date: new Date(),
