@@ -3,7 +3,7 @@ const router = express.Router();
 const sessionController = require("../controllers/session.controller");
 const { groupAuthMiddleware } = require("../middlewares/groupAuth.middleware");
 
-router.use(groupAuthMiddleware);
+router.use("/*/:group", groupAuthMiddleware);
 
 router.get("/session/:group", sessionController.getCurrentSession);
 router.get("/location/:group/:user", sessionController.getCurrentLocation);

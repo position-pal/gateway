@@ -50,6 +50,10 @@ exports.authorizeUserToAccessGroup = (req, res, next) => {
   if (!token || !groupId) {
     next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Inside Controller: Token and groupId are required"));
   }
+
+  console.log("CONTROLLER: token", token);
+  console.log("CONTROLLER: groupId", groupId);
+
   authClient.authorizeUserToAccessGroup(
     {
       token,
@@ -59,6 +63,7 @@ exports.authorizeUserToAccessGroup = (req, res, next) => {
       if (error) {
         next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
+      console.log(response);
       res.locals.status = response.status;
       res.locals.data = {
         authorized: response.authorized,

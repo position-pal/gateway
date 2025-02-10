@@ -13,7 +13,7 @@ function grpcErrorHandler(req, res, next) {
       code: statusCode,
     };
     res.locals.code = statusCode;
-    next();
+    return next();
   } else {
     return next(new HttpBaseError(statusCode, "Generic Error", status.message));
   }
