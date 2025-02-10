@@ -15,13 +15,11 @@ const pick = (obj, keys) => Object.fromEntries(keys.map((key) => [key, obj[key]]
  *         surname: "Skywalker",
  *         email: "skywalker@gmail.com",
  *       },
- *       password: "I'm sexy and I know it",
- *       group: "astro",
+ *       password: "luk3Skyw4lk3r!",
  *     });
  */
 async function setupUser(userDetails) {
-  const registrationData = pick(userDetails, ["userData", "password"]);
-  const createdUser = await fetchSuccessfulPostRequest("api/users", "", registrationData);
+  const createdUser = await fetchSuccessfulPostRequest("api/users", "", userDetails);
   const loginData = { email: userDetails.userData.email, password: userDetails.password };
   const authResponse = await fetchSuccessfulPostRequest("api/auth/login", "", loginData);
   return {
@@ -30,12 +28,13 @@ async function setupUser(userDetails) {
   };
 }
 
+/**
+ * Set up a group by creating it, saving its details.
+ * @param groupDetails
+ * @returns {Promise<*>}
+ */
 async function setupGroup(groupDetails) {
-  const createGroupData = {
-    name: groupDetails.name,
-    members: groupDetails.members,
-    createdBy: groupDetails.createdBy,
-  };
+  const createGroupData = pick(groupDetails, ["name", "members", "createdBy"]);
   const response = await fetchSuccessfulPostRequest("api/groups", groupDetails.token, createGroupData);
   return response.data;
 }
