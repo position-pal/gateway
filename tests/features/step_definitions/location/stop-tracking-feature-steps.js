@@ -35,8 +35,10 @@ Then("my state should be updated to `Inactive`", { timeout: 100_000 }, async () 
         `/api/session/state/${global.astro.id}/${global.luke.userData.id}`,
         global.luke.token,
         {
-          status: { code: "OK", message: "" },
-          state: "INACTIVE",
+          data: {
+            status: { code: "OK", message: "" },
+            state: "INACTIVE",
+          },
         },
       );
     },
@@ -50,8 +52,10 @@ Then("my last known location should still be available", async () => {
     `/api/session/location/${global.astro.id}/${global.luke.userData.id}`,
     global.luke.token,
     {
-      status: { code: "OK", message: "" },
-      location: cesenaCampusLocation,
+      data: {
+        status: { code: "OK", message: "" },
+        location: cesenaCampusLocation,
+      },
     },
   );
 });

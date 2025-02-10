@@ -4,14 +4,12 @@ Feature: Users routes tracking
     Given I'm a logged user
     And I'm in a group with other users
 
-  @ignore
   Scenario: User can activate a route that is recorded and visible to group members
     When I activate the routing mode indicating a destination and the ETA
     Then my state is updated to `Routing`
     * my group's members receive a notification indicating I've started a routing
     And my group's members can see the route I've been taken since activating routing mode
 
-  @ignore
   Scenario Outline: A route can be stopped
     Given I'm in routing mode
     When <event>
@@ -25,7 +23,6 @@ Feature: Users routes tracking
       | I arrive at the destination |
       | I stop the routing |
 
-  @ignore
   Scenario Outline: Route notifications
     Given a user in my group is in routing mode  
     When <event>

@@ -50,7 +50,6 @@ exports.authorizeUserToAccessGroup = (req, res, next) => {
   if (!token || !groupId) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Inside Controller: Token and groupId are required"));
   }
-
   authClient.authorizeUserToAccessGroup(
     {
       token,

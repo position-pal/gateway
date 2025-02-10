@@ -17,8 +17,10 @@ Then("my last known location should be updated", { timeout: 15_000 }, async () =
       `/api/session/location/${global.astro.id}/${global.leia.userData.id}`,
       global.leia.token,
       {
-        status: { code: "OK", message: "" },
-        location: piazzaDelPopoloLocation,
+        data: {
+          status: { code: "OK", message: "" },
+          location: piazzaDelPopoloLocation,
+        },
       },
     );
   }, 10_000);
@@ -30,8 +32,10 @@ Then("my state should be `Active`", { timeout: 15_000 }, async () => {
       `/api/session/state/${global.astro.id}/${global.leia.userData.id}`,
       global.leia.token,
       {
-        status: { code: "OK", message: "" },
-        state: "ACTIVE",
+        data: {
+          status: { code: "OK", message: "" },
+          state: "ACTIVE",
+        },
       },
     );
   }, 10_000);

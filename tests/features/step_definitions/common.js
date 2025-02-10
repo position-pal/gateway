@@ -8,7 +8,7 @@ const deploymentScript = path.resolve(deploymentScriptName);
 
 BeforeAll(async () => setupLocalDeployment());
 
-// AfterAll(async () => teardownLocalDeployment());
+AfterAll(async () => teardownLocalDeployment());
 
 const setupLocalDeployment = () => {
   console.log("Bring up the local testing environment");
