@@ -14,30 +14,30 @@ const { expect } = require("chai");
 let receivedUpdates = [];
 
 When("I activate the routing mode indicating a destination and the ETA", async () => {
-  this.lukeWs = await createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
-  this.leiaWs = await createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
+  this.lukeWs = await createWebsocket(`ws/location/${global.astro.id}/${global.luke.userData.id}`, global.luke.token);
+  this.leiaWs = await createWebsocket(`ws/location/${global.astro.id}/${global.leia.userData.id}`, global.leia.token);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
   const routingModeActivationEvent = startRouteEvent(
-    global.luke.userData.email,
-    global.luke.group,
+    global.luke.userData.id,
+    global.astro.id,
     piazzaDelPopoloLocation,
     cesenaCampusLocation,
     new Date(Date.now() + 1_000 * 60 * 15), // ETA: in 15 minutes
   );
   await this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
-  await this.lukeWs.send(
-    JSON.stringify(sample(global.luke.userData.email, global.luke.group, piazzaDelPopoloLocation)),
-  );
+  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, piazzaDelPopoloLocation)));
 });
 
 Then("my state is updated to `Routing`", { timeout: 15_000 }, async () => {
   await eventually(async () => {
     await expectSuccessfulGetRequest(
-      `/api/session/state/${global.luke.group}/${global.luke.userData.email}`,
+      `/api/session/state/${global.astro.id}/${global.luke.userData.id}`,
       global.luke.token,
       {
-        status: { code: "OK", message: "" },
-        state: "ROUTING",
+        data: {
+          status: { code: "OK", message: "" },
+          state: "ROUTING",
+        },
       },
     );
   }, 10_000);
@@ -54,7 +54,7 @@ Then(
     await eventually(async () => {
       expect(
         receivedUpdates.some(
-          (update) => update.UserUpdate.user === global.luke.userData.email && update.UserUpdate.status === "Routing",
+          (update) => update.UserUpdate.user === global.luke.userData.id && update.UserUpdate.status === "Routing",
         ),
       ).to.be.true;
     }, 5_000);
@@ -66,12 +66,12 @@ Then(
 
 Given("I'm in routing mode", async () => {
   receivedUpdates = [];
-  this.lukeWs = await createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
-  this.leiaWs = await createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
+  this.lukeWs = await createWebsocket(`ws/location/${global.astro.id}/${global.luke.userData.id}`, global.luke.token);
+  this.leiaWs = await createWebsocket(`ws/location/${global.astro.id}/${global.leia.userData.id}`, global.leia.token);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
   const routingModeActivationEvent = startRouteEvent(
-    global.luke.userData.email,
-    global.luke.group,
+    global.luke.userData.id,
+    global.astro.id,
     piazzaDelPopoloLocation,
     cesenaCampusLocation,
     new Date(Date.now() + 1_000 * 60 * 15), // ETA: in 15 minutes
@@ -80,18 +80,18 @@ Given("I'm in routing mode", async () => {
 });
 
 When("I arrive at the destination", async () => {
-  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.email, global.luke.group, cesenaCampusLocation)));
+  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, cesenaCampusLocation)));
 });
 
 When("I stop the routing", async () => {
-  await this.lukeWs.send(JSON.stringify(stopRouteEvent(global.luke.userData.email, global.luke.group)));
+  await this.lukeWs.send(JSON.stringify(stopRouteEvent(global.luke.userData.id, global.astro.id)));
 });
 
 Then("the routing is stopped", { timeout: 20_000 }, async () => {
   await eventually(async () => {
     expect(
       receivedUpdates.some(
-        (update) => update.UserUpdate.user === global.luke.userData.email && update.UserUpdate.status === "Active",
+        (update) => update.UserUpdate.user === global.luke.userData.id && update.UserUpdate.status === "Active",
       ),
     ).to.be.true;
   }, 15_000);
@@ -104,11 +104,13 @@ Then("the route discarded", () => {
 Then("my state is updated to `Active`", { timeout: 15_000 }, async () => {
   await eventually(async () => {
     await expectSuccessfulGetRequest(
-      `/api/session/state/${global.luke.group}/${global.luke.userData.email}`,
+      `/api/session/state/${global.astro.id}/${global.luke.userData.id}`,
       global.luke.token,
       {
-        status: { code: "OK", message: "" },
-        state: "ACTIVE",
+        data: {
+          status: { code: "OK", message: "" },
+          state: "ACTIVE",
+        },
       },
     );
   }, 10_000);
@@ -122,20 +124,18 @@ Then("my group's members receive a notification indicating the route has been su
 
 Given("a user in my group is in routing mode", async () => {
   receivedUpdates = [];
-  this.lukeWs = await createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
-  this.leiaWs = await createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
+  this.lukeWs = await createWebsocket(`ws/location/${global.astro.id}/${global.luke.userData.id}`, global.luke.token);
+  this.leiaWs = await createWebsocket(`ws/location/${global.astro.id}/${global.leia.userData.id}`, global.leia.token);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
   const routingModeActivationEvent = startRouteEvent(
-    global.luke.userData.email,
-    global.luke.group,
+    global.luke.userData.id,
+    global.astro.id,
     piazzaDelPopoloLocation,
     cesenaCampusLocation,
     new Date(Date.now() + 1_000 * 60), // ETA: in 1 minute
   );
   this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
-  await this.lukeWs.send(
-    JSON.stringify(sample(global.luke.userData.email, global.luke.group, piazzaDelPopoloLocation)),
-  );
+  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, piazzaDelPopoloLocation)));
 });
 
 When("the user has gone offline", () => {});
