@@ -4,7 +4,7 @@ const HttpBaseError = require("./errors/errors.utils");
 
 async function groupAuthMiddleware(req, res, next) {
   const token = req.headers.authorization || "";
-  const group = req.params.group;
+  const group = req.params.group || "";
 
   console.log("params: ", req.params)
   console.log(`token: ${token}`)
@@ -14,21 +14,24 @@ async function groupAuthMiddleware(req, res, next) {
   }
 
   try {
-    const authorized = await authGroup(token, group);
-
+    const authorized = await authGroup(token.trim(), group.trim());
+    console.log("auth: ", authorized)
     if (authorized) {
-      next();
+      return next();
     } else {
-      next(new HttpBaseError(HTTP_STATUS.UNAUTHORIZED, "Unauthorized" ,"Unauthorized access to group"));
+      return next(new HttpBaseError(HTTP_STATUS.UNAUTHORIZED, "Unauthorized" ,"Unauthorized access to group"));
     }
   } catch (error) {
-    next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error" ,"gRPC Error"));
+    return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error" ,"gRPC Error"));
   }
 }
 
 function authGroup(token, groupId) {
   return new Promise((resolve) => {
+    console.log("token dentro authGroup: ", token);
+    console.log("groupId dentro authGroup: ", groupId);
     authorizeUserToAccessGroup({ token, groupId }, (err, response) => {
+      console.log("response authGroup: ", response)
       if (err) {
         return resolve(false);
       }
