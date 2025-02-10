@@ -7,11 +7,9 @@ const { HTTP_STATUS } = require("./httpStatusCode");
  */
 exports.login = (req, res, next) => {
   const { email, password } = req.body;
-
   if (!email || !password) {
     next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Email and password are required"));
   }
-
   authClient.authenticate(
     {
       email,
@@ -30,19 +28,13 @@ exports.login = (req, res, next) => {
 
 exports.authorize = (req, res, next) => {
   const { token } = req.body;
-
   if (!token) {
     next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Token is required"));
   }
-  authClient.authorize(
-    {
-      token,
-    },
-    (error, response) => {
+  authClient.authorize({ token }, (error, response) => {
       if (error) {
         next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
-
       res.locals.status = response.status;
       res.locals.data = {
         authorized: response.authorized,
@@ -53,10 +45,10 @@ exports.authorize = (req, res, next) => {
 };
 
 exports.authorizeUserToAccessGroup = (req, res, next) => {
-  const { token, groupId } = req.body;
-
+  const token = req.token;
+  const groupId = req.group;
   if (!token || !groupId) {
-    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Token and groupId are required"));
+    next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Inside Controller: Token and groupId are required"));
   }
   authClient.authorizeUserToAccessGroup(
     {
@@ -67,7 +59,6 @@ exports.authorizeUserToAccessGroup = (req, res, next) => {
       if (error) {
         next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
-
       res.locals.status = response.status;
       res.locals.data = {
         authorized: response.authorized,

@@ -14,110 +14,188 @@ const CHAT_API_VERSION = process.env.CHAT_SERVICE_API_VERSION || "v1";
 const router = express.Router();
 expressWs(router);
 
-router.ws("/location/:group/:user", (ws, req) => {
+/**
+ * Proxy for the Location Service WebSocket.
+ * Endpoint: /location/:group/:user
+ */
+router.ws("/location/:group/:user", (clientWs, req) => {
   const { group, user } = req.params;
-  let location_ws = null;
+  let locationWs = null;
+  let authenticated = false;
 
-  // Forward messages from client to location_ws
-  ws.on("message", async (msg) => {
-    //verify if message contains authorization token
-    if (location_ws === null) {
-      if (!msg.includes("Authorization")) {
-        ws.send("Unauthorized");
-        ws.close();
-        return;
-      } else {
-        //get token from json
-        const token = JSON.parse(msg).Authorization;
-        //verify if user is authorized to access group
-        if (!(await authGroup(token, group))) {
-          ws.send("Unauthorized");
-          ws.close();
-          return;
-        } else {
-          location_ws = new WebSocket(`ws://${LOCATION_HTTP_URL}/${LOCATION_API_VERSION}/location/${group}/${user}`);
-          return;
+  const initLocationWebSocket = () => {
+    const backendUrl = `ws://${LOCATION_HTTP_URL}/${LOCATION_API_VERSION}/group/${group}/${user}`;
+    locationWs = new WebSocket(backendUrl);
+    locationWs.on("open", () => {
+        console.log(2);
+        console.log(`Connected to location service at ${backendUrl}`);
+      }
+    );
+    locationWs.on("message", (msg) => {
+      if (clientWs.readyState === WebSocket.OPEN) {
+        console.log("On message ok: " + msg);
+        clientWs.send(msg);
+      }
+    });
+    locationWs.on("error", (error) => {
+      console.error("Error on location service WebSocket:", error);
+      if (clientWs.readyState === WebSocket.OPEN) {
+        clientWs.send("Location service error");
+      }
+    });
+    locationWs.on("close", () => {
+      console.log("Location service WebSocket connection closed");
+      if (clientWs.readyState === WebSocket.OPEN) {
+        clientWs.close();
+      }
+    });
+  };
+
+  // Handle messages from the client
+  clientWs.on("message", async (msg) => {
+    if (!authenticated) {
+      try {
+        const data = JSON.parse(msg);
+        const token = data.Authorization;
+        if (!token) {
+          clientWs.send("Unauthorized");
+          return clientWs.close();
+        }
+        const isAuthorized = await authGroup(token, group);
+        if (!isAuthorized) {
+          clientWs.send("Unauthorized");
+          return clientWs.close();
+        }
+        authenticated = true;
+        console.log("Authenticated");
+        initLocationWebSocket(msg);
+        clientWs.send("OK");
+      } catch (error) {
+        console.error("Error processing authentication message:", error);
+        clientWs.send("Invalid authentication message");
+        return clientWs.close();
+      }
+    } else {
+      console.log("Seems authenticated");
+      // Forward subsequent messages to the location service backend
+      if (locationWs) {
+        try {
+          console.log("Sending to location service" + msg);
+          await ensureWebSocketIsOpen(locationWs);
+          locationWs.send(msg);
+        } catch (error) {
+          console.error("Error sending message to location service:", error);
         }
       }
     }
-    try {
-      await ensureWebSocketIsOpen(location_ws);
-      location_ws.send(msg);
-    } catch (error) {
-      console.error("Error sending message to location_ws:", error);
-    }
   });
 
-  // Forward messages from location_ws to client
-  location_ws.on("message", (msg) => {
-    ws.send(msg);
+  // Handle client WebSocket errors
+  clientWs.on("error", (error) => {
+    console.error("Client WebSocket error on location endpoint:", error);
   });
 
-  ws.on("error", (error) => {
-    console.error("WebSocket error:", error);
-  });
-
-  ws.on("close", () => {
-    if (location_ws.readyState === WebSocket.OPEN) {
-      location_ws.close();
-      console.log("WebSocket connection closed");
+  // When the client connection is closed, close the backend connection if it is open
+  clientWs.on("close", () => {
+    if (locationWs && locationWs.readyState === WebSocket.OPEN) {
+      locationWs.close();
+      console.log("Client closed connection; location service WebSocket closed");
     }
   });
 });
 
-router.ws("/chat/:group/:user", (ws, req) => {
+router.ws("/chat/:group/:user", (clientWs, req) => {
   const { group, user } = req.params;
+  let chatWs = null;
+  let authenticated = false;
 
-  let chat_ws = null;
+  /**
+   * Initializes the backend WebSocket connection to the chat service.
+   * @param {string} initialMsg - The initial message (authentication message) from the client.
+   */
+  const initChatWebSocket = (initialMsg) => {
+    const backendUrl = `ws://${CHAT_HTTP_URL}/${CHAT_API_VERSION}/messages/${group}?user=${user}`;
+    chatWs = new WebSocket(backendUrl);
 
-  // Forward messages from client to chat_ws
-  ws.on("message", async (msg) => {
-    //verify if message contains authorization token
-    if (chat_ws === null) {
-      if (!msg.includes("Authorization")) {
-        ws.send("Unauthorized");
-        ws.close();
-        return;
-      } else {
-        //get token from json
-        const token = JSON.parse(msg).Authorization;
-        //verify if user is authorized to access group
-        if (!(await authGroup(token, group))) {
-          ws.send("Unauthorized");
-          ws.close();
-          return;
-        } else {
-          chat_ws = new WebSocket(`ws://${CHAT_HTTP_URL}/${CHAT_API_VERSION}/messages/${group}?user=${user}`);
+    // Register event listener after creating the backend WebSocket connection
+    chatWs.on("open", () => {
+      console.log(`Connected to chat service at ${backendUrl}`);
+      // Optionally, you may forward the initial message if required:
+      // chatWs.send(initialMsg);
+    });
+
+    // Forward messages from the backend to the client
+    chatWs.on("message", (msg) => {
+      if (clientWs.readyState === WebSocket.OPEN) {
+        clientWs.send(msg);
+      }
+    });
+
+    // Log errors on the backend connection and notify the client if needed
+    chatWs.on("error", (error) => {
+      console.error("Error on chat service WebSocket:", error);
+      if (clientWs.readyState === WebSocket.OPEN) {
+        clientWs.send("Chat service error");
+      }
+    });
+
+    // Close the client connection if the backend connection is closed
+    chatWs.on("close", () => {
+      console.log("Chat service WebSocket connection closed");
+      if (clientWs.readyState === WebSocket.OPEN) {
+        clientWs.close();
+      }
+    });
+  };
+
+  // Handle messages from the client
+  clientWs.on("message", async (msg) => {
+    if (!authenticated) {
+      // Process the first message as the authentication message
+      try {
+        const data = JSON.parse(msg);
+        const token = data.Authorization;
+        if (!token) {
+          clientWs.send("Unauthorized");
+          return clientWs.close();
+        }
+        // Verify if the user is authorized to access the specified group
+        const isAuthorized = await authGroup(token, group);
+        if (!isAuthorized) {
+          clientWs.send("Unauthorized");
+          return clientWs.close();
+        }
+        // Authentication succeeded; mark as authenticated and initialize the backend connection
+        authenticated = true;
+        initChatWebSocket(msg);
+      } catch (error) {
+        console.error("Error processing authentication message:", error);
+        clientWs.send("Invalid authentication message");
+        return clientWs.close();
+      }
+    } else {
+      // Forward subsequent messages to the chat service backend
+      if (chatWs) {
+        try {
+          await ensureWebSocketIsOpen(chatWs);
+          chatWs.send(msg);
+        } catch (error) {
+          console.error("Error sending message to chat service:", error);
         }
       }
     }
-
-    try {
-      await ensureWebSocketIsOpen(chat_ws);
-      chat_ws.send(msg);
-    } catch (error) {
-      console.error("Error sending message to location_ws:", error);
-    }
   });
 
-  // Forward messages from chat_ws to client
-  chat_ws.on("message", async (msg) => {
-    try {
-      await ensureWebSocketIsOpen(chat_ws);
-      ws.send(msg);
-    } catch (error) {
-      console.error("Error sending message to chat_ws:", error);
-    }
+  // Handle client WebSocket errors
+  clientWs.on("error", (error) => {
+    console.error("Client WebSocket error on chat endpoint:", error);
   });
 
-  ws.on("error", (error) => {
-    console.error("WebSocket error:", error);
-  });
-
-  ws.on("close", () => {
-    if (chat_ws.readyState === WebSocket.OPEN) {
-      chat_ws.close();
-      console.log("WebSocket connection closed");
+  // When the client connection is closed, close the backend connection if it is open
+  clientWs.on("close", () => {
+    if (chatWs && chatWs.readyState === WebSocket.OPEN) {
+      chatWs.close();
+      console.log("Client closed connection; chat service WebSocket closed");
     }
   });
 });

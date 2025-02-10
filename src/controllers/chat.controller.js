@@ -5,7 +5,6 @@ const HttpBaseError = require("../middlewares/errors/errors.utils");
 exports.getLastMessages = (req, res, next) => {
   const { group_id, client_id, number_of_messages } = req.body;
   const request = { group_id, client_id, number_of_messages };
-
   if (!group_id || !client_id || !number_of_messages) {
     return next(
       new HttpBaseError(
@@ -15,7 +14,6 @@ exports.getLastMessages = (req, res, next) => {
       ),
     );
   }
-
   chatClient.retrieveLastMessages(request, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.NOT_FOUND, "Not found", "Messages not found"));

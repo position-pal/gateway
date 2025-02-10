@@ -4,7 +4,7 @@ const { HTTP_STATUS } = require("../controllers/httpStatusCode");
 async function groupAuthMiddleware(req, res, next) {
   const token = req.headers.authorization || "";
   const groupId = req.params.group;
-
+  
   if (!token || !groupId) {
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
       error: "Token and groupId are required",

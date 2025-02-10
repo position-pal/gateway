@@ -10,7 +10,6 @@ Given("I'm a logged user", async () => {
         email: "luke.skywalker@gmail.com",
       },
       password: "luk3Skyw4lk3r!",
-      group: "astro",
     });
     global.leia = await setupUser({
       userData: {
@@ -19,7 +18,6 @@ Given("I'm a logged user", async () => {
         email: "leila.Skywalker@gmail.com",
       },
       password: "wowLeia123@",
-      group: "astro",
     });
   }
 });
@@ -33,6 +31,4 @@ Given("I'm in a group with other users", async () => {
       token: global.luke.token,
     });
   }
-  console.log("qualcosa prima ti prego");
-  console.log(global.astro);
 });
