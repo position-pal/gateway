@@ -1,5 +1,5 @@
 const { Given } = require("@cucumber/cucumber");
-const { setupUser } = require("../../utils/users-groups-utils");
+const { setupUser, setupGroup } = require("../../utils/users-groups-utils");
 
 Given("I'm a logged user", async () => {
   if (!global.luke) {
@@ -8,22 +8,27 @@ Given("I'm a logged user", async () => {
         name: "Luke",
         surname: "Skywalker",
         email: "luke.skywalker@gmail.com",
-        role: "user",
       },
       password: "luk3Skyw4lk3r!",
-      group: "astro",
     });
     global.leia = await setupUser({
       userData: {
         name: "Leia",
-        surname: "Organa",
-        email: "leila.organa@gmail.com",
-        role: "user",
+        surname: "Skywalker",
+        email: "leila.Skywalker@gmail.com",
       },
       password: "wowLeia123@",
-      group: "astro",
     });
   }
 });
 
-Given("I'm in a group with other users", () => {});
+Given("I'm in a group with other users", async () => {
+  if (!global.astro) {
+    global.astro = await setupGroup({
+      name: "Astro",
+      members: [global.luke.userData, global.leia.userData],
+      createdBy: global.luke.userData,
+      token: global.luke.token,
+    });
+  }
+});

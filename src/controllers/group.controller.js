@@ -1,66 +1,62 @@
 const groupClient = require("../grpc/clients/groupClient");
-const HTTP_STATUS = require("./httpStatusCode");
+const { HTTP_STATUS } = require("./httpStatusCode");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 exports.createGroup = (req, res, next) => {
   const groupData = req.body;
-  if (!groupData.name || !groupData.owner) {
+  if (!groupData.name || !groupData.createdBy) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group name and owner are required"));
   }
-
   groupClient.createGroup({ group: groupData }, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
-    next();
+    return next();
   });
 };
 
 exports.getGroup = (req, res, next) => {
-  const { id } = req.params;
-  if (!id) {
+  const { group } = req.params;
+  if (!group) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group ID is required"));
   }
-
-  groupClient.getGroup({ groupId: id }, (error, response) => {
+  groupClient.getGroup({ groupId: group }, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
-    next();
+    return next();
   });
 };
 
 exports.updateGroup = (req, res, next) => {
-  const { id } = req.params;
+  const { group } = req.params;
   const groupData = req.body;
-  if (!id) {
+  if (!group) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group ID is required"));
   }
   if (!groupData) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group data is required"));
   }
-
-  groupClient.updateGroup({ groupId: id, group: groupData }, (error, response) => {
+  groupClient.updateGroup({ groupId: group, group: groupData }, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
-    next();
+    return next();
   });
 };
 
 exports.deleteGroup = (req, res, next) => {
-  const { id } = req.params;
-  if (!id) {
+  const { group } = req.params;
+  if (!group) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group ID is required"));
   }
-
-  groupClient.deleteGroup({ groupId: id }, (error, response) => {
+  groupClient.deleteGroup({ groupId: group }, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
@@ -69,41 +65,39 @@ exports.deleteGroup = (req, res, next) => {
       message: "Group deleted successfully",
       groupId: response.groupId,
     };
-    next();
+    return next();
   });
 };
 
 exports.addMember = (req, res, next) => {
-  const { id } = req.params;
+  const { group } = req.params;
   const user = req.body;
-  if (!id) {
+  if (!group) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group ID is required"));
   }
   if (!user || !user.id) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "User data is required"));
   }
-
-  groupClient.addMember({ groupId: id, user }, (error, response) => {
+  groupClient.addMember({ groupId: group, user: user }, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
-    next();
+    return next();
   });
 };
 
 exports.removeMember = (req, res, next) => {
-  const { id } = req.params;
+  const { group } = req.params;
   const user = req.body;
-  if (!id) {
+  if (!group) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group ID is required"));
   }
   if (!user || !user.id) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "User data is required"));
   }
-
-  groupClient.removeMember({ groupId: id, user }, (error, response) => {
+  groupClient.removeMember({ groupId: group, user: user }, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }

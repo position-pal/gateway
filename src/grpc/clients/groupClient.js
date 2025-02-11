@@ -13,16 +13,16 @@ module.exports = {
   getGroup: (groupId, callback) => {
     groupClient.GetGroup(groupId, callback);
   },
-  updateGroup: (groupId, group, callback) => {
-    groupClient.UpdateGroup(groupId, group, callback);
+  updateGroup: (updateGroup, callback) => {
+    groupClient.UpdateGroup(updateGroup, callback);
   },
   deleteGroup: (groupId, callback) => {
     groupClient.DeleteGroup(groupId, callback);
   },
-  addMember: (groupId, user, callback) => {
-    groupClient.AddMember(groupId, user, callback);
+  addMember: (addMember, callback) => {
+    groupClient.AddMember(addMember, callback);
   },
-  removeMember: (groupId, user, callback) => {
-    groupClient.RemoveMember(groupId, user, callback);
+  removeMember: (removeMember, callback) => {
+    groupClient.RemoveMember(removeMember, callback);
   },
 };

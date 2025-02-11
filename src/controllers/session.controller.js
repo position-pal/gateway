@@ -1,5 +1,5 @@
 const sessionClient = require("../grpc/clients/sessionClient");
-const HTTP_STATUS = require("./httpStatusCode");
+const { HTTP_STATUS } = require("./httpStatusCode");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 exports.getCurrentSession = (req, res, next) => {
@@ -7,7 +7,6 @@ exports.getCurrentSession = (req, res, next) => {
   if (!groupId) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group ID is required"));
   }
-
   let sessions = [];
   sessionClient.getCurrentSession(
     { value: groupId },
@@ -20,29 +19,28 @@ exports.getCurrentSession = (req, res, next) => {
         return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
       }
       res.locals.data = { sessions };
-      next();
+      return next();
     },
   );
 };
 
 const getScope = (req) => ({
-  user: { username: req.params.user },
   group: { value: req.params.group },
+  user: { value: req.params.user },
 });
 
 const handleSessionRequest = (method, req, res, next) => {
   const scope = getScope(req);
-  if (!scope.user.username || !scope.group.value) {
+  if (!scope.user.value || !scope.group.value) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "User and Group IDs are required"));
   }
-
   sessionClient[method](scope, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
     res.locals.status = response.status;
     res.locals.data = response;
-    next();
+    return next();
   });
 };
 

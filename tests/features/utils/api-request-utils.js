@@ -23,10 +23,26 @@ async function expectSuccessfulRequest(
   });
 }
 
+/**
+ * Expect a successful GET request to the gateway.
+ * @param route The route of the request.
+ * @param token The token to use for the request. Can be empty.
+ * @param expectedResponseBody The expected response body.
+ * @returns a promise that resolves successfully if the request is successful and the response matches the expected one.
+ */
 async function expectSuccessfulGetRequest(route, token, expectedResponseBody) {
   await expectSuccessfulRequest("get", route, token, 200, expectedResponseBody, {});
 }
 
+/**
+ * Expect a successful POST request to the gateway.
+ * @param route The route of the request.
+ * @param token The token to use for the request. Can be empty.
+ * @param requestBody The request body.
+ * @param expectedResponseCode The expected response code.
+ * @param expectedResponseBody The expected response body.
+ * @returns a promise that resolves successfully if the request is successful and the response matches the expected one.
+ */
 async function expectSuccessfulPostRequest(route, token, requestBody, expectedResponseCode, expectedResponseBody) {
   await expectSuccessfulRequest("post", route, token, expectedResponseCode, expectedResponseBody, requestBody);
 }
@@ -42,8 +58,30 @@ async function fetchSuccessfulRequest(method, route, token, requestBody = {}) {
   return response.data;
 }
 
+/**
+ * Fetch a successful POST request to the gateway.
+ * @param route The route of the request.
+ * @param token The token to use for the request. Can be empty.
+ * @param requestBody The request body.
+ * @returns a promise that resolves successfully with the response data if the request is successful.
+ */
 async function fetchSuccessfulPostRequest(route, token, requestBody) {
   return await fetchSuccessfulRequest("post", route, token, requestBody);
 }
 
-module.exports = { expectSuccessfulGetRequest, expectSuccessfulPostRequest, fetchSuccessfulPostRequest };
+/**
+ * Fetch a successful GET request to the gateway.
+ * @param route The route of the request.
+ * @param token The token to use for the request. Can be empty.
+ * @returns a promise that resolves successfully with the response data if the request is successful.
+ */
+async function fetchSuccessfulGetRequest(route, token) {
+  return await fetchSuccessfulRequest("get", route, token);
+}
+
+module.exports = {
+  expectSuccessfulGetRequest,
+  expectSuccessfulPostRequest,
+  fetchSuccessfulPostRequest,
+  fetchSuccessfulGetRequest,
+};

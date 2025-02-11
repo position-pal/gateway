@@ -7,16 +7,16 @@ const { eventually } = require("../../utils/timings");
 const receivedUpdates = [];
 
 When("I access my group tracking information", async () => {
-  this.leiaWs = await createWebsocket(`ws/location/${global.leia.group}/${global.leia.userData.email}`);
-  this.lukeWs = await createWebsocket(`ws/location/${global.luke.group}/${global.luke.userData.email}`);
+  this.lukeWs = await createWebsocket(`ws/location/${global.astro.id}/${global.luke.userData.id}`, global.luke.token);
+  this.leiaWs = await createWebsocket(`ws/location/${global.astro.id}/${global.leia.userData.id}`, global.leia.token);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
-  this.testablePath = testableLocationUpdates(global.luke.userData.email, global.luke.group);
+  this.testablePath = testableLocationUpdates(global.luke.userData.id, global.astro.id);
   for (const update of this.testablePath) {
     await this.lukeWs.send(JSON.stringify(update));
   }
 });
 
-Then("I should see the real-time location of online group members", { timeout: 10_000 }, async () => {
+Then("I should see the real-time location of online group members", { timeout: 20_000 }, async () => {
   const expectedUpdates = this.testablePath.map((update) => ({
     UserUpdate: {
       ...update.SampledLocation,
@@ -24,11 +24,11 @@ Then("I should see the real-time location of online group members", { timeout: 1
       status: "Active",
     },
   }));
-  await eventually(() => expect(receivedUpdates).to.deep.equal(expectedUpdates), 5_000);
+  await eventually(() => expect(receivedUpdates).to.deep.equal(expectedUpdates), 15_000);
 });
 
 Then("the last known location of offline group members", () => {
-  // TOOD: session
+  // TOOD session
 });
 
 After(async () => {

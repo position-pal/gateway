@@ -18,7 +18,7 @@ const piazzaDelPopoloLocation = {
 
 /**
  * A testable path for location updates, starting from {@link piazzaDelPopoloLocation} and ending at {@link cesenaCampusLocation  }.
- * @returns {Array<{latitude: number, longitude: number}>} An array of locations.
+ * @returns an array of debuggable and reproducible locations.
  */
 function testablePath() {
   return [
@@ -39,28 +39,68 @@ function testablePath() {
  * A testable sequence of location updates (i.e. location service responses).
  * @param userId The user identifier.
  * @param groupId The group identifier
- * @returns {{SampledLocation: {timestamp: *, user: *, group: *, position: *}}[]}
+ * @returns an array of reproducible location updates.
  */
 function testableLocationUpdates(userId, groupId) {
   const path = testablePath();
-  return path.map((location, i) => sample(new Date(Date.now() + i * 10000), userId, groupId, location));
+  return path.map((location, i) => sample(userId, groupId, location, new Date(Date.now() + i * 10_000)));
 }
 
 /**
  * A location sample.
- * @param timestamp The timestamp.
  * @param userId The user identifier.
  * @param groupId The group identifier.
  * @param location The location.
- * @returns {{SampledLocation: {timestamp: string, user, group, position}}} A location sample.
+ * @param timestamp The timestamp. Default is the current date and time.
+ * @returns A location sample.
  */
-function sample(timestamp, userId, groupId, location) {
+function sample(userId, groupId, location, timestamp = new Date()) {
+  return createEvent("SampledLocation", userId, groupId, { position: location }, timestamp);
+}
+
+/**
+ * A sample event indicating the start of a route.
+ * @param userId The user identifier.
+ * @param groupId The group identifier.
+ * @param location The location where the route starts.
+ * @param destination The destination of the route.
+ * @param eta The estimated time of arrival.
+ * @param timestamp The timestamp. Default is the current date and time.
+ * @returns A routing started event.
+ */
+function startRouteEvent(userId, groupId, location, destination, eta, timestamp = new Date()) {
+  return createEvent(
+    "RoutingStarted",
+    userId,
+    groupId,
+    {
+      position: location,
+      mode: "Driving",
+      destination: destination,
+      expectedArrival: eta.toISOString(),
+    },
+    timestamp,
+  );
+}
+
+/**
+ * A sample event indicating the stop of a route.
+ * @param userId The user identifier.
+ * @param groupId The group identifier
+ * @param timestamp The timestamp. Default is the current date and time.
+ * @returns A routing stopped event.
+ */
+function stopRouteEvent(userId, groupId, timestamp = new Date()) {
+  return createEvent("RoutingStopped", userId, groupId, {}, timestamp);
+}
+
+function createEvent(type, userId, groupId, additionalData = {}, timestamp = new Date()) {
   return {
-    SampledLocation: {
+    [type]: {
       timestamp: timestamp.toISOString(),
       user: userId,
       group: groupId,
-      position: location,
+      ...additionalData,
     },
   };
 }
@@ -69,5 +109,7 @@ module.exports = {
   cesenaCampusLocation,
   piazzaDelPopoloLocation,
   sample,
+  startRouteEvent,
+  stopRouteEvent,
   testableLocationUpdates,
 };

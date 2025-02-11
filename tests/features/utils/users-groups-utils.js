@@ -14,21 +14,29 @@ const pick = (obj, keys) => Object.fromEntries(keys.map((key) => [key, obj[key]]
  *         name: "Luke",
  *         surname: "Skywalker",
  *         email: "skywalker@gmail.com",
- *         role: "user",
  *       },
- *       password: "I'm sexy and I know it",
- *       group: "astro",
+ *       password: "luk3Skyw4lk3r!",
  *     });
  */
 async function setupUser(userDetails) {
-  const registrationData = pick(userDetails, ["userData", "password"]);
-  await fetchSuccessfulPostRequest("api/users", "", registrationData);
-  const loginData = { username: userDetails.userData.email, password: userDetails.password };
+  const createdUser = await fetchSuccessfulPostRequest("api/users", "", userDetails);
+  const loginData = { email: userDetails.userData.email, password: userDetails.password };
   const authResponse = await fetchSuccessfulPostRequest("api/auth/login", "", loginData);
   return {
-    ...userDetails,
-    token: authResponse.token,
+    userData: createdUser.data,
+    token: authResponse.data.token,
   };
 }
 
-module.exports = { setupUser };
+/**
+ * Set up a group by creating it, saving its details.
+ * @param groupDetails
+ * @returns {Promise<*>}
+ */
+async function setupGroup(groupDetails) {
+  const createGroupData = pick(groupDetails, ["name", "members", "createdBy"]);
+  const response = await fetchSuccessfulPostRequest("api/groups", groupDetails.token, createGroupData);
+  return response.data;
+}
+
+module.exports = { setupUser, setupGroup };

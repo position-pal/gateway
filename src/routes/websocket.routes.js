@@ -2,87 +2,105 @@ const express = require("express");
 const expressWs = require("express-ws");
 const WebSocket = require("ws");
 const { ensureWebSocketIsOpen } = require("../utils/ws-utils");
-const groupAuthMiddleware = require("../middlewares/groupAuth.middleware");
+const { authGroup } = require("../middlewares/groupAuth.middleware");
 require("dotenv").config();
-
-const LOCATION_HTTP_URL = process.env.LOCATION_SERVICE_HTTP_URL || "127.0.0.1:8080";
-const LOCATION_API_VERSION = process.env.LOCATION_SERVICE_API_VERSION || "v1";
-
-const CHAT_HTTP_URL = process.env.CHAT_SERVICE_HTTP_URL || "127.0.0.1:8081";
-const CHAT_API_VERSION = process.env.CHAT_SERVICE_API_VERSION || "v1";
 
 const router = express.Router();
 expressWs(router);
 
-router.use(groupAuthMiddleware);
+const config = {
+  location: {
+    url: process.env.LOCATION_SERVICE_HTTP_URL || "127.0.0.1:8080",
+    version: process.env.LOCATION_SERVICE_API_VERSION || "v1",
+    getPath: (group, user) => `/group/${group}/${user}`,
+  },
+  chat: {
+    url: process.env.CHAT_SERVICE_HTTP_URL || "127.0.0.1:8081",
+    version: process.env.CHAT_SERVICE_API_VERSION || "v1",
+    getPath: (group, user) => `/messages/${group}?user=${user}`,
+  },
+};
 
-router.ws("/location/:group/:user", (ws, req) => {
-  const { group, user } = req.params;
-
-  const location_ws = new WebSocket(`ws://${LOCATION_HTTP_URL}/${LOCATION_API_VERSION}/group/${group}/${user}`);
-
-  // Forward messages from client to location_ws
-  ws.on("message", async (msg) => {
-    try {
-      await ensureWebSocketIsOpen(location_ws);
-      location_ws.send(msg);
-    } catch (error) {
-      console.error("Error sending message to location_ws:", error);
-    }
-  });
-
-  // Forward messages from location_ws to client
-  location_ws.on("message", (msg) => {
-    ws.send(msg);
-  });
-
-  ws.on("error", (error) => {
-    console.error("WebSocket error:", error);
-  });
-
-  ws.on("close", () => {
-    if (location_ws.readyState === WebSocket.OPEN) {
-      location_ws.close();
-      console.log("WebSocket connection closed");
-    }
-  });
+router.ws("/location/:group/:user", (clientWs, req) => {
+  const handler = new WebSocketHandler("location", req.params.group, req.params.user, config.location);
+  handler.setupClientHandlers(clientWs);
 });
 
-router.ws("/chat/:group/:user", (ws, req) => {
-  const { group, user } = req.params;
+router.ws("/chat/:group/:user", (clientWs, req) => {
+  const handler = new WebSocketHandler("chat", req.params.group, req.params.user, config.chat);
+  handler.setupClientHandlers(clientWs);
+});
 
-  const chat_ws = new WebSocket(`ws://${CHAT_HTTP_URL}/${CHAT_API_VERSION}/messages/${group}?user=${user}`);
+class WebSocketHandler {
+  constructor(service, group, user, config) {
+    Object.assign(this, { service, group, user, config, authenticated: false });
+  }
 
-  // Forward messages from client to chat_ws
-  ws.on("message", async (msg) => {
-    try {
-      await ensureWebSocketIsOpen(chat_ws);
-      chat_ws.send(msg);
-    } catch (error) {
-      console.error("Error sending message to location_ws:", error);
+  setupClientHandlers(clientWs) {
+    clientWs.on("message", (msg) => this.handleMessage(msg, clientWs));
+    clientWs.on("error", (error) => console.error(`Client WebSocket error on ${this.service} endpoint:`, error));
+    clientWs.on("close", () => this.safeClose(this.serviceWs));
+  }
+
+  async handleMessage(msg, clientWs) {
+    if (!this.authenticated) {
+      const success = await this.handleAuthentication(msg, clientWs);
+      if (!success) {
+        return;
+      } else {
+        this.initServiceWebSocket(clientWs);
+        await ensureWebSocketIsOpen(this.serviceWs);
+        clientWs.send("OK");
+      }
     }
-  });
+    this.safeSend(this.serviceWs, msg);
+  }
 
-  // Forward messages from chat_ws to client
-  chat_ws.on("message", async (msg) => {
+  async handleAuthentication(msg, clientWs) {
     try {
-      await ensureWebSocketIsOpen(chat_ws);
+      const { Authorization: token } = JSON.parse(msg);
+      if (!token || !(await authGroup(token, this.group))) {
+        throw new Error("Unauthorized");
+      }
+      this.authenticated = true;
+      return true;
+    } catch (error) {
+      this.handleError(clientWs, `${this.service} authentication error:`, error);
+      return false;
+    }
+  }
+
+  initServiceWebSocket(clientWs) {
+    this.serviceWs = new WebSocket(this.getBackendUrl());
+    this.serviceWs.on("message", (msg) => this.safeSend(clientWs, msg));
+    this.serviceWs.on("error", (error) =>
+      this.handleError(clientWs, `${this.service} service WebSocket error:`, error),
+    );
+    this.serviceWs.on("close", () => this.safeClose(clientWs));
+  }
+
+  getBackendUrl() {
+    const { url, version, getPath } = this.config;
+    return `ws://${url}/${version}${getPath(this.group, this.user)}`;
+  }
+
+  safeSend(ws, msg) {
+    if (ws?.readyState === WebSocket.OPEN) {
       ws.send(msg);
-    } catch (error) {
-      console.error("Error sending message to chat_ws:", error);
     }
-  });
+  }
 
-  ws.on("error", (error) => {
-    console.error("WebSocket error:", error);
-  });
-
-  ws.on("close", () => {
-    if (chat_ws.readyState === WebSocket.OPEN) {
-      chat_ws.close();
-      console.log("WebSocket connection closed");
+  safeClose(ws) {
+    if (ws?.readyState === WebSocket.OPEN) {
+      ws.close();
     }
-  });
-});
+  }
+
+  handleError(ws, logMessage, error) {
+    console.error(logMessage, error);
+    this.safeSend(ws, error.message || "An error occurred");
+    ws.close();
+  }
+}
 
 module.exports = router;
