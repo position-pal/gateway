@@ -1,3 +1,13 @@
+## [2.5.1](https://github.com/position-pal/gateway/compare/2.5.0...2.5.1) (2025-02-11)
+
+### Bug Fixes
+
+* correctly authenticate ws before forwarding them, improving responses ([#50](https://github.com/position-pal/gateway/issues/50)) ([45fd205](https://github.com/position-pal/gateway/commit/45fd205d1ca91afc98360391f21af1093466f093))
+
+### Tests
+
+* test against the latest code and not the latest published docker image ([#48](https://github.com/position-pal/gateway/issues/48)) ([ec157d5](https://github.com/position-pal/gateway/commit/ec157d5437ed446858ea0ff4d943943146106ae6))
+
 ## [2.5.0](https://github.com/position-pal/gateway/compare/2.4.0...2.5.0) (2025-02-07)
 
 ### Features
