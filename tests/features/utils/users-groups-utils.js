@@ -1,4 +1,4 @@
-const { fetchSuccessfulPostRequest } = require("./api-request-utils");
+const { fetchSuccessfulPostRequest, fetchSuccessfulGetRequest } = require("./api-request-utils");
 
 const pick = (obj, keys) => Object.fromEntries(keys.map((key) => [key, obj[key]]));
 
@@ -37,6 +37,15 @@ async function setupGroup(groupDetails) {
   const createGroupData = pick(groupDetails, ["name", "members", "createdBy"]);
   const response = await fetchSuccessfulPostRequest("api/groups", groupDetails.token, createGroupData);
   return response.data;
+}
+
+/**
+ * Get User by ID
+ * @param userId
+ * @returns {Promise<*>}
+ */
+async function getUserById(userId) {
+  return await fetchSuccessfulGetRequest(`api/users/${userId}`, "");
 }
 
 module.exports = { setupUser, setupGroup };
