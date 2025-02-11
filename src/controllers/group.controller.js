@@ -75,7 +75,7 @@ exports.addMember = (req, res, next) => {
   if (!group) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group ID is required"));
   }
-  if (!user || !user.id) {
+  if (!user?.id) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "User data is required"));
   }
   groupClient.addMember({ groupId: group, user: user }, (error, response) => {
@@ -94,7 +94,7 @@ exports.removeMember = (req, res, next) => {
   if (!group) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Group ID is required"));
   }
-  if (!user || !user.id) {
+  if (!user?.id) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "User data is required"));
   }
   groupClient.removeMember({ groupId: group, user: user }, (error, response) => {

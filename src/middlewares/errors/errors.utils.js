@@ -3,7 +3,7 @@ class HttpBaseError extends Error {
     super();
     this.code = code;
     this.name = name;
-    this.message = message ? message : code.toString();
+    this.message = message || code.toString();
   }
 }
 

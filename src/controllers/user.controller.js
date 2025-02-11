@@ -19,7 +19,7 @@ exports.getUser = (req, res, next) => {
 
 exports.createUser = (req, res, next) => {
   const user = req.body;
-  if (!user.userData?.name || !user.userData?.email) {
+  if (!user?.userData?.name || !user?.userData?.email) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad content", "User data with name and email is required"));
   }
   userClient.createUser({ user: user }, (error, response) => {
