@@ -16,7 +16,7 @@ const receivedUpdates = [];
 Given("I'm in routing mode", async () => {
   this.lukeWs = await createWebsocket(`ws/location/${global.astro.id}/${global.luke.userData.id}`, global.luke.token);
   this.leiaWs = await createWebsocket(`ws/location/${global.astro.id}/${global.leia.userData.id}`, global.leia.token);
-  this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
+  this.leiaWs.on("message", data => receivedUpdates.push(JSON.parse(data)));
   const routingModeActivationEvent = startRouteEvent(
     global.luke.userData.id,
     global.astro.id,
@@ -40,7 +40,7 @@ Then("the routing is stopped", { timeout: 20_000 }, async () => {
   await eventually(async () => {
     expect(
       receivedUpdates.some(
-        (update) => update.UserUpdate.user === global.luke.userData.id && update.UserUpdate.status === "Active",
+        update => update.UserUpdate.user === global.luke.userData.id && update.UserUpdate.status === "Active",
       ),
     ).to.be.true;
   }, 15_000);

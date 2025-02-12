@@ -53,7 +53,7 @@ Then(
     await eventually(async () => {
       expect(
         receivedUpdates.some(
-          (update) => update.UserUpdate.user === global.luke.userData.id && update.UserUpdate.status === "Routing",
+          update => update.UserUpdate.user === global.luke.userData.id && update.UserUpdate.status === "Routing",
         ),
       ).to.be.true;
     }, 5_000);
