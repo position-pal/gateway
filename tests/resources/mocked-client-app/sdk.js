@@ -7,28 +7,15 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
 import { isSupported as isSwSupported } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-sw.js";
 
-const error = function error(ns, message, err) {
-  console.group(
-    `%c FCM %c [sdk] %c [Error] %c [${ns}] - ${message}`,
-    "background: #E72020; color: #fff",
-    "background: #E6956C; color: #fff",
-    "background: #F39C12; color: black",
-    "background: #FCE4E4; color: black"
-  );
+const error = (ns, message, err) => {
+  console.group(`[FCM] [sdk] [Error] [${ns}] - ${message}`);
   console.error(err);
   console.groupEnd();
 };
 
-const log = function log(ns) {
-  const args = Array.prototype.slice.call(arguments, ns ? 1 : 0);
-  console.group(
-    `%c FCM %c [sdk] %c [Info] %c [${ns}]`,
-    "background: #E72020; color: #fff",
-    "background: #E6956C; color: #fff",
-    "background: #1E88E5; color: #fff",
-    "background: #BBE6CC; color: black"
-  );
-  console.log.apply(console, args);
+const log = (ns, ...args) => {
+  console.group(`[FCM] [sdk] [Info] [${ns}]`);
+  console.log(...args);
   console.groupEnd();
 };
 
@@ -63,11 +50,21 @@ const log = function log(ns) {
     const subscribeToken = async (fcmToken) => {
       log("Notification Subscribe", "Subscribing Token", fcmToken);
       if (!!fcmToken === false) return;
-      return fetch(`${SERVER_URL}/register`, {
+      const userId = window.localStorage.getItem("userId");
+      const bearerToken = window.localStorage.getItem("bearerToken");
+      if (!bearerToken || !userId) {
+        error("Notification Subscribe", "Bearer Token or User Id is not available");
+        return;
+      }
+      return fetch(`${SERVER_URL}/api/notifications/register`, {
         method: "POST",
-        headers: new Headers({ "Content-type": "application/json" }),
-        body: JSON.stringify({ fcmToken }),
-      }).then(() => log("Notification Subscribe", "Token Subscribed", fcmToken))
+        headers: new Headers({
+          "Content-type": "application/json" ,
+          "Authorization": `Bearer ${bearerToken}`
+        }),
+        body: JSON.stringify({ user: userId, token: fcmToken }),
+      }).then(res => res.json())
+        .then(data => log("Notification Subscribe", "Token Subscribed", fcmToken, " || ", data))
         .catch(err => error("Notification Subscribe", "Notification Subscribe", err));
     };
 
@@ -105,7 +102,7 @@ const log = function log(ns) {
         }
         return sw
           .update()
-          .then((registration) => {
+          .then(registration => {
             log("Notification Service Worker", "Update Service Worker", registration);
             return registration;
           })
