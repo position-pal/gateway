@@ -64,7 +64,7 @@ const log = (ns, ...args) => {
         }),
         body: JSON.stringify({ user: userId, token: fcmToken }),
       }).then(res => res.json())
-        .then(data => log("Notification Subscribe", "Token Subscribed", fcmToken, " || ", data))
+        .then(data => log("Notification Subscribe", "Token Subscribed", fcmToken, " - ", data))
         .catch(err => error("Notification Subscribe", "Notification Subscribe", err));
     };
 
@@ -154,15 +154,6 @@ const log = (ns, ...args) => {
       }
     };
 
-    const showNotification = (payload) => {
-      const { data: { title, body, actionUrl, icon } } = payload;
-      const notification = new window.Notification(title, { body, icon });
-      notification.onclick = event => {
-        event.preventDefault(); // prevent the browser from focusing the Notification's tab
-        window.open(actionUrl, "_blank").focus();
-      };
-    };
-
     const firebaseConfig = await loadFirebaseConfig();
     if (!firebaseConfig) {
       return;
@@ -172,7 +163,6 @@ const log = (ns, ...args) => {
     await requestPermission(firebaseConfig);
     onMessage(messaging, (payload) => {
       log("FCM onMessage", "Message received", payload);
-      showNotification(payload);
     });
   }
 })(window);

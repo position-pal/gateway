@@ -6,13 +6,7 @@ importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-com
 
   const log = function log(ns) {
     const args = Array.prototype.slice.call(arguments, ns ? 1 : 0);
-    console.group(
-      `%c FCM %c [sw] %c [Info] %c [${ns}]`,
-      "background: #E72020; color: #fff",
-      "background: #007E80; color: #fff",
-      "background: #1E88E5; color: #fff",
-      "background: #BBE6CC; color: black",
-    );
+    console.group(`FCM [sw] [Info] [${ns}]`);
     console.log.apply(console, args);
     console.groupEnd();
   };
@@ -57,7 +51,7 @@ importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-com
       };
       log("Notification onBackgroundMessage", "Start showNotification", payload);
       const promiseChain = new Promise(resolve =>
-        self.registration.showNotification(title, notificationOptions).then(() => resolve())
+        self.registration.showNotifiokcation(title, notificationOptions).then(() => resolve())
       );
       event.waitUntil(promiseChain);
       log("Notification onBackgroundMessage", "End showNotification", payload);
