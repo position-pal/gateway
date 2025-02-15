@@ -26,9 +26,9 @@ jobs:
       - name: Setup firebase-config secret
         uses: mobiledevops/secret-to-file-action@be5f14e82c235ccde011f6ab0f6c984b35dc34c6 # v1
         with:
-          base64-encoded-secret: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          filename: service-account.json
-          working-directory: ./secrets
+          base64-encoded-secret: ${{ secrets.FIREBASE_CONFIG }}
+          filename: firebase-config.json
+          working-directory: ./tests/resources/mocked-client-app
       - name: Test
         # Tests need docker to run, that is not available on macOS and Windows ouch!
         if: contains(matrix.os, 'ubuntu')
