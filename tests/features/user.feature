@@ -7,16 +7,13 @@ Feature: User Management
     Then the system successfully registers the user
 
   Scenario: Login with Valid Credentials
-    Given that the user is already registered
-    When logging in with the correct email and password
-    Then the system returns a valid authentication token
+    Given logged user with the correct email and password
+    When system returns a valid authentication token
+    Then authentication token can be use to authorize requests
 
   Scenario: Update User Profile
-    Given that the user is authenticated
+    Given new user logged in
     When updating the profile information
     Then the system successfully updates the user data
-
-  Scenario: Delete User Profile
-    Given that the user is authenticated
     When requesting the deletion of the user profile
     Then the system deletes the user data and confirms the deletion

@@ -1,4 +1,8 @@
-const { fetchSuccessfulPostRequest, fetchSuccessfulGetRequest } = require("./api-request-utils");
+const {
+  fetchSuccessfulPostRequest,
+  fetchSuccessfulGetRequest,
+  fetchSuccessfulPutRequest,
+} = require("./api-request-utils");
 
 const pick = (obj, keys) => Object.fromEntries(keys.map((key) => [key, obj[key]]));
 
@@ -20,12 +24,41 @@ const pick = (obj, keys) => Object.fromEntries(keys.map((key) => [key, obj[key]]
  */
 async function setupUser(userDetails) {
   const createdUser = await fetchSuccessfulPostRequest("api/users", "", userDetails);
-  const loginData = { email: userDetails.userData.email, password: userDetails.password };
-  const authResponse = await fetchSuccessfulPostRequest("api/auth/login", "", loginData);
+  const authResponse = await loginUser({ userData: userDetails.userData, password: userDetails.password });
   return {
     userData: createdUser.data,
     token: authResponse.data.token,
   };
+}
+
+/**
+ * Register User
+ *
+ * @param userDetails
+ * @returns {Promise<*>}
+ */
+async function registerUser(userDetails) {
+  const registeredUser = await fetchSuccessfulPostRequest("api/users", "", userDetails);
+  return registeredUser.data;
+}
+
+/**
+ * Login User
+ * @param userDetails
+ * @returns {Promise<*>}
+ */
+async function loginUser(userDetails) {
+  const loginData = { email: userDetails.userData.email, password: userDetails.password };
+  return await fetchSuccessfulPostRequest("api/auth/login", "", loginData);
+}
+
+/**
+ * Authorize User
+ * @param token
+ * @returns {Promise<*>}
+ */
+async function authorizeUser(token) {
+  return await fetchSuccessfulPostRequest("api/auth/authorize", "", { token: token });
 }
 
 /**
@@ -42,10 +75,22 @@ async function setupGroup(groupDetails) {
 /**
  * Get User by ID
  * @param userId
+ * @param token
  * @returns {Promise<*>}
  */
-async function getUserById(userId) {
-  return await fetchSuccessfulGetRequest(`api/users/${userId}`, "");
+async function getUserById(userId, token) {
+  return await fetchSuccessfulGetRequest(`api/users/${userId}`, token);
 }
 
-module.exports = { setupUser, setupGroup };
+/**
+ * Update User by ID
+ * @param userId
+ * @param token
+ * @param updateData
+ * @returns {Promise<*>}
+ */
+async function updateUserById(userId, token, updateData) {
+  return await fetchSuccessfulPutRequest(`api/users/${userId}`, token, { user: updateData });
+}
+
+module.exports = { setupUser, setupGroup, getUserById, loginUser, registerUser, authorizeUser, updateUserById };
