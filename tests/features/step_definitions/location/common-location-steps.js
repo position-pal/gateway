@@ -20,6 +20,14 @@ Given("I am a logged user", async () => {
       },
       password: "wowLeia123@",
     });
+    global.han = await setupUser({
+      userData: {
+        name: "Han",
+        surname: "Solo",
+        email: "han.solo@gmail.com",
+      },
+      password: "h@nS0l0!",
+    });
   }
 });
 
@@ -27,7 +35,7 @@ Given("I am in a group with other users", async () => {
   if (!global.astro) {
     global.astro = await setupGroup({
       name: "Astro",
-      members: [global.luke.userData, global.leia.userData],
+      members: [global.luke.userData, global.leia.userData, global.han.userData],
       createdBy: global.luke.userData,
       token: global.luke.token,
     });
@@ -52,7 +60,7 @@ Given("with a registered device", { timeout: 70_000 }, async () => {
       if (args.includes("Message received")) {
         global.leiaDevice.receivedNotifications.push(...args.slice(1));
       }
-      console.log("LOG: ", ...args);
+      console.debug("LOG: ", ...args);
     });
     global.leiaDevice.page.setDefaultTimeout(60_000);
     global.leiaDevice.page.evaluateOnNewDocument(

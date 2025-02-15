@@ -41,7 +41,7 @@ Then("my state is updated to `Routing`", { timeout: 15_000 }, async () => {
   }, 10_000);
 });
 
-Then("my group's members receive a notification indicating I've started a routing", { timeout: 70_000 }, async () => {
+Then("my group's members receive a notification indicating I've started a routing", { timeout: 65_000 }, async () => {
   await expectNotification(global.leiaDevice, {
     title: `${global.luke.userData.id} started a journey`,
   });

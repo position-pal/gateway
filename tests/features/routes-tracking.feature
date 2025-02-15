@@ -22,16 +22,15 @@ Feature: Users routes tracking
     Examples:
       | event |
       | I have arrived at the destination |
-      | I have stopped the routing
+      | I have stopped the routing        |
 
-  @ignore
   Scenario Outline: Route notifications
     Given I'm in routing mode
     When <event>
     Then my group's members receive a notification indicating <event>
 
-    Examples:
+    Examples:  
       | event |
-      | I have not arrived by the estimated time |
+      | I have gone offline                                |
+      | I have not arrived by the estimated time           |
       | I have been stuck in the same position for a while |
-      | I have gone offline |
