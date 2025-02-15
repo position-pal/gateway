@@ -7,7 +7,7 @@ importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-com
   const log = function log(ns) {
     const args = Array.prototype.slice.call(arguments, ns ? 1 : 0);
     console.group(`FCM [sw] [Info] [${ns}]`);
-    console.log.apply(console, args);
+    console.log(...args);
     console.groupEnd();
   };
 
@@ -23,9 +23,9 @@ importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-com
     event.waitUntil(
       clients.matchAll({ type: "window", includeUncontrolled: true }).then(clientsArr => {
         // If a Window tab matching the targeted URL already exists, focus that;
-        const hadWindowToFocus = clientsArr.some((windowClient) => {
-          windowClient.url === actionUrl ? (windowClient.focus(), true) : false;
-        });
+        const hadWindowToFocus = clientsArr.some((windowClient) =>
+          windowClient.url === actionUrl ? (windowClient.focus(), true) : false
+        );
         // Otherwise, open a new tab to the applicable URL and focus it.
         if (!hadWindowToFocus) {
           return clients.openWindow(actionUrl);
