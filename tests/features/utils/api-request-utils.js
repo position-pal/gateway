@@ -81,6 +81,16 @@ async function fetchSuccessfulPutRequest(route, token, requestBody) {
 }
 
 /**
+ * Fetch a successful DELETE request to the gateway.
+ * @param route
+ * @param token
+ * @returns {Promise<any>}
+ */
+async function fetchSuccessfulDeleteRequest(route, token) {
+  return await fetchSuccessfulRequest("delete", route, token);
+}
+
+/**
  * Fetch a successful GET request to the gateway.
  * @param route The route of the request.
  * @param token The token to use for the request. Can be empty.
@@ -96,4 +106,5 @@ module.exports = {
   fetchSuccessfulPutRequest,
   fetchSuccessfulPostRequest,
   fetchSuccessfulGetRequest,
+  fetchSuccessfulDeleteRequest,
 };

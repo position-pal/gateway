@@ -2,6 +2,7 @@ const {
   fetchSuccessfulPostRequest,
   fetchSuccessfulGetRequest,
   fetchSuccessfulPutRequest,
+  fetchSuccessfulDeleteRequest,
 } = require("./api-request-utils");
 
 const pick = (obj, keys) => Object.fromEntries(keys.map((key) => [key, obj[key]]));
@@ -93,4 +94,24 @@ async function updateUserById(userId, token, updateData) {
   return await fetchSuccessfulPutRequest(`api/users/${userId}`, token, { user: updateData });
 }
 
-module.exports = { setupUser, setupGroup, getUserById, loginUser, registerUser, authorizeUser, updateUserById };
+/**
+ * Delete User by ID
+ *
+ * @param userId
+ * @param token
+ * @returns {Promise<*>}
+ */
+async function deleteUserById(userId, token) {
+  return await fetchSuccessfulDeleteRequest(`api/users/${userId}`, token);
+}
+
+module.exports = {
+  setupUser,
+  setupGroup,
+  getUserById,
+  loginUser,
+  registerUser,
+  authorizeUser,
+  updateUserById,
+  deleteUserById,
+};

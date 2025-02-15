@@ -1,5 +1,11 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
-const { registerUser, loginUser, authorizeUser, updateUserById } = require("../../utils/users-groups-utils");
+const {
+  registerUser,
+  loginUser,
+  authorizeUser,
+  updateUserById,
+  deleteUserById,
+} = require("../../utils/users-groups-utils");
 const { assert } = require("chai");
 
 Given("that the user is not yet registered", async function () {
@@ -68,10 +74,11 @@ Then("the system successfully updates the user data", function () {
   assert.equal(global.updatedr2d2.data.email, global.c3po.userData.email);
 });
 
-When("requesting the deletion of the user profile", function () {
-  // Code to request the deletion of the user profile
+When("requesting the deletion of the user profile", async function () {
+  global.deletedUser = await deleteUserById(global.updatedr2d2.data.id, global.loggedR2D2.data.token);
 });
 
 Then("the system deletes the user data and confirms the deletion", function () {
-  // Code to verify the user data is deleted and the deletion is confirmed
+  assert.equal(global.deletedUser.data.message, "User deleted successfully");
+  assert.equal(global.deletedUser.data.userId, global.updatedr2d2.data.id);
 });
