@@ -14,7 +14,7 @@ AfterAll(async () => teardownLocalDeployment());
 const setupLocalDeployment = () => {
   console.log("Bring up the local testing environment");
   run("docker build --no-cache -t local-gateway .");
-  run(`${deploymentScript} up --override gateway:local-gateway --override location-service:local-location`);
+  run(`${deploymentScript} up --override gateway:local-gateway`);
   run(`cd ${mockedClientAppPath} && docker build --no-cache -t mocked-client-app .`);
   run(`docker run -d -p 8080:8080 mocked-client-app`);
   run("sleep 5");
