@@ -48,7 +48,7 @@ const log = (ns, ...args) => {
     const encodeConfig = (firebaseConfig) => window.btoa(JSON.stringify(firebaseConfig));
 
     const subscribeToken = async (fcmToken) => {
-      log("Notification Subscribe", "Subscribing Token", fcmToken);
+      log("Notification Subscribe", "Subscribing Token");
       if (!!fcmToken === false) return;
       const userId = window.localStorage.getItem("userId");
       const bearerToken = window.localStorage.getItem("bearerToken");
@@ -64,7 +64,7 @@ const log = (ns, ...args) => {
         }),
         body: JSON.stringify({ user: userId, token: fcmToken }),
       }).then(res => res.json())
-        .then(data => log("Notification Subscribe", "Token Subscribed", fcmToken, " - ", data))
+        .then(data => log("Notification Subscribe", "Token Subscribe", " - ", data))
         .catch(err => error("Notification Subscribe", "Notification Subscribe", err));
     };
 
@@ -120,10 +120,7 @@ const log = (ns, ...args) => {
         return getFCMToken(
           messaging,
           { serviceWorkerRegistration: ServiceWorkerRegistration, vapidKey: firebaseConfig.VAPID }
-        ).then((token) => {
-          log("Notification getToken", token);
-          return token;
-        }).catch((err) => {
+        ).then((token) => token).catch((err) => {
           error("Notification getToken", "Can not Get FCM Token", err);
           return null;
         });
