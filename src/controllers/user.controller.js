@@ -9,7 +9,7 @@ exports.getUser = (req, res, next) => {
   }
   userClient.getUser({ userId: id }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response.user;
@@ -24,7 +24,7 @@ exports.createUser = (req, res, next) => {
   }
   userClient.createUser({ user: user }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response.user;
@@ -43,7 +43,7 @@ exports.updateUser = (req, res, next) => {
   }
   userClient.updateUser({ userId: id, user: user }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response.user;
@@ -58,7 +58,7 @@ exports.deleteUser = (req, res, next) => {
   }
   userClient.deleteUser({ userId: id }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = { message: "User deleted successfully", userId: response.userId };

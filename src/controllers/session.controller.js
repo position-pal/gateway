@@ -16,7 +16,7 @@ exports.getCurrentSession = (req, res, next) => {
     },
     (error) => {
       if (error) {
-        return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+        return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
       }
       res.locals.data = { sessions };
       return next();
@@ -36,7 +36,7 @@ const handleSessionRequest = (method, req, res, next) => {
   }
   sessionClient[method](scope, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response;

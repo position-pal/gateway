@@ -9,7 +9,7 @@ exports.createGroup = (req, res, next) => {
   }
   groupClient.createGroup({ group: groupData }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
@@ -24,7 +24,7 @@ exports.getGroup = (req, res, next) => {
   }
   groupClient.getGroup({ groupId: group }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
@@ -43,7 +43,7 @@ exports.updateGroup = (req, res, next) => {
   }
   groupClient.updateGroup({ groupId: group, group: groupData }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
@@ -58,7 +58,7 @@ exports.deleteGroup = (req, res, next) => {
   }
   groupClient.deleteGroup({ groupId: group }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = {
@@ -80,7 +80,7 @@ exports.addMember = (req, res, next) => {
   }
   groupClient.addMember({ groupId: group, user: user }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
@@ -99,7 +99,7 @@ exports.removeMember = (req, res, next) => {
   }
   groupClient.removeMember({ groupId: group, user: user }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response.group;
