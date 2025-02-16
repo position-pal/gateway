@@ -9,7 +9,7 @@ exports.login = (req, res, next) => {
   }
   authClient.authenticate({ email, password }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = { token: response.token };
@@ -24,7 +24,7 @@ exports.authorize = (req, res, next) => {
   }
   authClient.authorize({ token }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = { authorized: response.authorized };
@@ -40,7 +40,7 @@ exports.authorizeUserToAccessGroup = (req, res, next) => {
   }
   authClient.authorizeUserToAccessGroup({ token, groupId }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = { authorized: response.authorized };
