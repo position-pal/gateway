@@ -136,7 +136,7 @@ const log = (ns, ...args) => {
         if (permission === "granted") {
           const token = await getToken(firebaseConfig);
           if (token) {
-            log("Notification Permission", "Notification permission granted", token);
+            log("Notification Permission", "Notification permission granted");
             await subscribeToken(token);
           }
         } else {
