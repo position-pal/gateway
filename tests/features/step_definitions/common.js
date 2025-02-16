@@ -5,6 +5,7 @@ const fs = require("fs");
 
 const deploymentScriptName = "./local-deployment/local-deploy.sh";
 const deploymentScript = path.resolve(deploymentScriptName);
+const mockedAppPath = path.resolve("./tests/resources/mocked-client-app");
 
 BeforeAll(async () => setupLocalDeployment());
 
@@ -14,12 +15,15 @@ const setupLocalDeployment = () => {
   console.log("Bring up the local testing environment");
   run("docker build --no-cache -t local-gateway .");
   run(`${deploymentScript} up --override gateway:local-gateway`);
+  run(`cd ${mockedAppPath} && docker build --no-cache -t mocked-app .`);
+  run(`docker run -d -v ${mockedAppPath}/firebase-config.json:/app/firebase-config.json -p 8080:8080 mocked-app`);
   run("sleep 5");
 };
 
 const teardownLocalDeployment = () => {
   console.log("Tearing down the local testing environment");
   run(`${deploymentScript} down`);
+  run('docker rm $(docker stop $(docker ps -a -q --filter ancestor=mocked-app --format="{{.ID}}"))');
 };
 
 const run = (command) => {

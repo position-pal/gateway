@@ -1,8 +1,9 @@
 Feature: Users routes tracking
 
   Background:
-    Given I'm a logged user
-    And I'm in a group with other users
+    Given I am a logged user
+    * with a registered device
+    And I am in a group with other users
 
   Scenario: User can activate a route that is recorded and visible to group members
     When I activate the routing mode indicating a destination and the ETA
@@ -16,20 +17,20 @@ Feature: Users routes tracking
     Then the routing is stopped
     * the route discarded
     * my state is updated to `Active`
-    And my group's members receive a notification indicating the route has been successfully stopped
+    And my group's members receive a notification indicating <event>
 
     Examples:
       | event |
-      | I arrive at the destination |
-      | I stop the routing |
+      | I have arrived at the destination |
+      | I have stopped the routing        |
 
   Scenario Outline: Route notifications
     Given I'm in routing mode
     When <event>
     Then my group's members receive a notification indicating <event>
 
-    Examples:
+    Examples:  
       | event |
-      | I have not arrived by the estimated time |
+      | I have gone offline                                |
+      | I have not arrived by the estimated time           |
       | I have been stuck in the same position for a while |
-      | I have gone offline |

@@ -1,8 +1,9 @@
 Feature: Users real-time tracking
 
   Background:
-    Given I'm a logged user
-    And I'm in a group with other users
+    Given I am a logged user
+    * with a registered device
+    And I am in a group with other users
 
   Scenario: User can track other users in their groups in real-time
     When I access my group tracking information

@@ -7,6 +7,9 @@ import eslintPluginJest from "eslint-plugin-jest";
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
+    ignores: ["**/resources/**"],
+  },
+  {
     files: ["**/*.js"],
     languageOptions: {
       sourceType: "commonjs",
@@ -20,6 +23,7 @@ export default [
       globals: {
         ...globals.node,
         ...globals.jest,
+        ...globals.browser,
       },
     },
     plugins: {

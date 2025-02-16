@@ -9,10 +9,10 @@ exports.registerToken = (req, res, next) => {
   }
   notificationClient.registerToken({ user, token }, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
     res.locals.status = response.status;
-    res.locals.data = { message: "Token registered successfully" };
+    res.locals.data = { message: "Token successfully registered" };
     return next();
   });
 };
@@ -27,7 +27,7 @@ exports.invalidateToken = (req, res, next) => {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
     res.locals.status = response.status;
-    res.locals.data = { message: "Token invalidated successfully" };
+    res.locals.data = { message: "Token successfully invalidated" };
     return next();
   });
 };

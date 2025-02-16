@@ -16,7 +16,7 @@ logs/
 .DS_Store
 Thumbs.db
 
-# IDE e editor
+# IDE / editor
 .idea/
 .vscode/
 *.swp
@@ -30,10 +30,10 @@ coverage/
 dist/
 build/
 
-# Docker (se usi Docker)
+# Docker
 docker-compose.override.yml
 
-# ProtoBuf compilati (se usi protoc per generare file)
+# ProtoBuf
 *.d.ts
 *.pb.*
 
@@ -46,3 +46,6 @@ temp/
 
 # Generated reports
 reports/
+
+# Firebase
+*firebase-config*

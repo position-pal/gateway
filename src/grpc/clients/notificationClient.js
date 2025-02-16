@@ -2,7 +2,7 @@ const grpc = require("@grpc/grpc-js");
 const { notificationTokenProto } = require("../proto");
 
 const notificationClient = new notificationTokenProto.UsersTokensService(
-  process.env.NOTIFICATION_SERVICE_URL || "localhost:50051",
+  process.env.NOTIFICATION_SERVICE_GRPC_URL || "localhost:50051",
   grpc.credentials.createInsecure(),
 );
 

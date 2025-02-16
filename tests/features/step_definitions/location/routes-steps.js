@@ -9,6 +9,7 @@ const {
 const { eventually } = require("../../utils/timings");
 const { expectSuccessfulGetRequest } = require("../../utils/api-request-utils");
 const { expect } = require("chai");
+const { expectNotification } = require("../../utils/notification-utils");
 
 const receivedUpdates = [];
 
@@ -33,17 +34,18 @@ Then("my state is updated to `Routing`", { timeout: 15_000 }, async () => {
       `/api/session/state/${global.astro.id}/${global.luke.userData.id}`,
       global.luke.token,
       {
-        data: {
-          status: { code: "OK", message: "" },
-          state: "ROUTING",
-        },
+        status: { code: "OK", message: "" },
+        state: "ROUTING",
       },
     );
   }, 10_000);
 });
 
-Then("my group's members receive a notification indicating I've started a routing", () => {
-  // TODO: notification service
+Then("my group's members receive a notification indicating I've started a routing", { timeout: 65_000 }, async () => {
+  await expectNotification(global.leiaDevice, {
+    title: `${global.luke.userData.id} started a journey`,
+  });
+  global.leiaDevice.receivedNotifications = [];
 });
 
 Then(

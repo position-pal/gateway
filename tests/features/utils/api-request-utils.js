@@ -18,7 +18,7 @@ async function expectSuccessfulRequest(
   }
   await req.expect(expectedResponseCode).expect((res) => {
     Object.entries(expectedResponseBody).forEach(([key, value]) => {
-      expect(res.body[key]).to.deep.equal(value);
+      expect(res.body.data[key]).to.deep.equal(value);
     });
   });
 }

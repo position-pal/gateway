@@ -10,37 +10,49 @@ const {
 const { eventually } = require("../../utils/timings");
 const { expect } = require("chai");
 const { expectSuccessfulGetRequest } = require("../../utils/api-request-utils");
+const { expectNotification } = require("../../utils/notification-utils");
 
-const receivedUpdates = [];
+let receivedUpdates = [];
 
-Given("I'm in routing mode", async () => {
-  this.lukeWs = await createWebsocket(`ws/location/${global.astro.id}/${global.luke.userData.id}`, global.luke.token);
+Given("I'm in routing mode", { timeout: 20_000 }, async () => {
+  receivedUpdates = [];
+  this.hanWs = await createWebsocket(`ws/location/${global.astro.id}/${global.han.userData.id}`, global.han.token);
   this.leiaWs = await createWebsocket(`ws/location/${global.astro.id}/${global.leia.userData.id}`, global.leia.token);
   this.leiaWs.on("message", (data) => receivedUpdates.push(JSON.parse(data)));
   const routingModeActivationEvent = startRouteEvent(
-    global.luke.userData.id,
+    global.han.userData.id,
     global.astro.id,
     piazzaDelPopoloLocation,
     cesenaCampusLocation,
     new Date(Date.now() + 1_000 * 60 * 2), // ETA: in 2 minutes
   );
-  await this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
-  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, piazzaDelPopoloLocation)));
+  await this.hanWs.send(JSON.stringify(routingModeActivationEvent));
+  await this.hanWs.send(JSON.stringify(sample(global.han.userData.id, global.astro.id, piazzaDelPopoloLocation)));
+  await eventually(async () => {
+    await expectSuccessfulGetRequest(
+      `/api/session/state/${global.astro.id}/${global.han.userData.id}`,
+      global.han.token,
+      {
+        status: { code: "OK", message: "" },
+        state: "ROUTING",
+      },
+    );
+  }, 15_000);
 });
 
-When("I arrive at the destination", async () => {
-  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, cesenaCampusLocation)));
+When("I have arrived at the destination", async () => {
+  await this.hanWs.send(JSON.stringify(sample(global.han.userData.id, global.astro.id, cesenaCampusLocation)));
 });
 
-When("I stop the routing", async () => {
-  await this.lukeWs.send(JSON.stringify(stopRouteEvent(global.luke.userData.id, global.astro.id)));
+When("I have stopped the routing", async () => {
+  await this.hanWs.send(JSON.stringify(stopRouteEvent(global.han.userData.id, global.astro.id)));
 });
 
 Then("the routing is stopped", { timeout: 20_000 }, async () => {
   await eventually(async () => {
     expect(
       receivedUpdates.some(
-        (update) => update.UserUpdate.user === global.luke.userData.id && update.UserUpdate.status === "Active",
+        (update) => update.UserUpdate.user === global.han.userData.id && update.UserUpdate.status === "Active",
       ),
     ).to.be.true;
   }, 15_000);
@@ -53,18 +65,87 @@ Then("the route discarded", () => {
 Then("my state is updated to `Active`", { timeout: 15_000 }, async () => {
   await eventually(async () => {
     await expectSuccessfulGetRequest(
-      `/api/session/state/${global.astro.id}/${global.luke.userData.id}`,
-      global.luke.token,
+      `/api/session/state/${global.astro.id}/${global.han.userData.id}`,
+      global.han.token,
       {
-        data: {
-          status: { code: "OK", message: "" },
-          state: "ACTIVE",
-        },
+        status: { code: "OK", message: "" },
+        state: "ACTIVE",
       },
     );
   }, 10_000);
 });
 
-Then("my group's members receive a notification indicating the route has been successfully stopped", () => {
-  // TODO: notification service
+Then(
+  "my group's members receive a notification indicating I have arrived at the destination",
+  { timeout: 65_000 },
+  async () => {
+    await expectNotification(global.leiaDevice, {
+      body: `${global.han.userData.id} has reached their destination on time.`,
+      title: `${global.han.userData.id} arrived!`,
+    });
+    global.leiaDevice.receivedNotifications = [];
+  },
+);
+
+Then(
+  "my group's members receive a notification indicating I have stopped the routing",
+  { timeout: 65_000 },
+  async () => {
+    await expectNotification(global.leiaDevice, {
+      body: `${global.han.userData.id} journey completed successfully.`,
+      title: `${global.han.userData.id} journey ended`,
+    });
+    global.leiaDevice.receivedNotifications = [];
+  },
+);
+
+When("I have gone offline", { timeout: 65_000 }, async () => {
+  await new Promise((resolve) => setTimeout(resolve, 60_000));
 });
+
+Then("my group's members receive a notification indicating I have gone offline", { timeout: 65_000 }, async () => {
+  await expectNotification(global.leiaDevice, {
+    title: `${global.han.userData.id} connection lost!`,
+    body: `User ${global.han.userData.id} went offline while in Routing mode!`,
+  });
+  await this.hanWs.send(JSON.stringify(stopRouteEvent(global.han.userData.id, global.astro.id)));
+  global.leiaDevice.receivedNotifications = [];
+});
+
+When("I have not arrived by the estimated time", { timeout: 125_000 }, async () => {
+  await new Promise((resolve) => setTimeout(resolve, 120_000));
+  await this.hanWs.send(JSON.stringify(sample(global.han.userData.id, global.astro.id, piazzaDelPopoloLocation)));
+});
+
+Then(
+  "my group's members receive a notification indicating I have not arrived by the estimated time",
+  { timeout: 65_000 },
+  async () => {
+    await expectNotification(global.leiaDevice, {
+      title: `${global.han.userData.id} delay alert!`,
+      body: `${global.han.userData.id} has not reached their destination as expected, yet.`,
+    });
+    await this.hanWs.send(JSON.stringify(stopRouteEvent(global.han.userData.id, global.astro.id)));
+    global.leiaDevice.receivedNotifications = [];
+  },
+);
+
+When("I have been stuck in the same position for a while", { timeout: 35_000 }, async () => {
+  for (let i = 0; i < 30; i++) {
+    await new Promise((resolve) => setTimeout(resolve, 1_000));
+    await this.hanWs.send(JSON.stringify(sample(global.han.userData.id, global.astro.id, piazzaDelPopoloLocation)));
+  }
+});
+
+Then(
+  "my group's members receive a notification indicating I have been stuck in the same position for a while",
+  { timeout: 65_000 },
+  async () => {
+    await expectNotification(global.leiaDevice, {
+      body: `${global.han.userData.id} has been stuck in the same position for a while.`,
+      title: `${global.han.userData.id} stationary alert!`,
+    });
+    await this.hanWs.send(JSON.stringify(stopRouteEvent(global.han.userData.id, global.astro.id)));
+    global.leiaDevice.receivedNotifications = [];
+  },
+);
