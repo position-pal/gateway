@@ -10,7 +10,7 @@ const {
 const { eventually } = require("../../utils/timings");
 const { expect } = require("chai");
 const { expectSuccessfulGetRequest } = require("../../utils/api-request-utils");
-const { expectNotification } = require("../../utils/notification.utils");
+const { expectNotification } = require("../../utils/notification-utils");
 
 let receivedUpdates = [];
 
