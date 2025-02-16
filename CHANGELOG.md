@@ -1,3 +1,39 @@
+## [2.5.2](https://github.com/position-pal/gateway/compare/2.5.1...2.5.2) (2025-02-16)
+
+### Dependency updates
+
+* **deps:** update dependency @grpc/grpc-js to v1.12.6 ([#49](https://github.com/position-pal/gateway/issues/49)) ([fae720b](https://github.com/position-pal/gateway/commit/fae720bce614a2d2b2d8a6cbc3466a313f01e7ce))
+* **deps:** update dependency eslint to v9.20.1 ([#64](https://github.com/position-pal/gateway/issues/64)) ([aaf200f](https://github.com/position-pal/gateway/commit/aaf200fc8a6e63197886fde787b33d9faf37dd0d))
+* **deps:** update dependency globals to v15.15.0 ([#70](https://github.com/position-pal/gateway/issues/70)) ([4ceb18a](https://github.com/position-pal/gateway/commit/4ceb18a7aa6f1eda0c4a51fcf2c40416fbc13830))
+* **deps:** update dependency prettier to v3.5.0 ([#56](https://github.com/position-pal/gateway/issues/56)) ([5d64ec6](https://github.com/position-pal/gateway/commit/5d64ec6a4fb8afbcd468497c52ac902d15cca21e))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.123 ([#69](https://github.com/position-pal/gateway/issues/69)) ([bd3a0c9](https://github.com/position-pal/gateway/commit/bd3a0c90122b34f6213ac0d7cd545a267e8b7683))
+* **deps:** update eslint monorepo to v9.20.0 ([#51](https://github.com/position-pal/gateway/issues/51)) ([916b97e](https://github.com/position-pal/gateway/commit/916b97e56e110547c99bd54291fcbfaec93f4b02))
+* **deps:** update local-deployment digest to 1f51711 ([#58](https://github.com/position-pal/gateway/issues/58)) ([0ab811e](https://github.com/position-pal/gateway/commit/0ab811eedff99456a38ce3d301af881ca8f583b5))
+* **deps:** update local-deployment digest to 3fca7b6 ([#63](https://github.com/position-pal/gateway/issues/63)) ([8d96047](https://github.com/position-pal/gateway/commit/8d96047f7409037bcab161994894a89792d26ec3))
+* **deps:** update local-deployment digest to 484c082 ([#54](https://github.com/position-pal/gateway/issues/54)) ([75a7568](https://github.com/position-pal/gateway/commit/75a75688e388fdc4bb76e7ca26f02771eb51ae4d))
+* **deps:** update local-deployment digest to 575ab82 ([#53](https://github.com/position-pal/gateway/issues/53)) ([2c9905e](https://github.com/position-pal/gateway/commit/2c9905e23ddf44e0be37fcea126c1885687a8834))
+* **deps:** update local-deployment digest to 7247834 ([#68](https://github.com/position-pal/gateway/issues/68)) ([788c60c](https://github.com/position-pal/gateway/commit/788c60cc7eed9261a7470421c68e1344b847a77f))
+* **deps:** update local-deployment digest to 78b4c33 ([#52](https://github.com/position-pal/gateway/issues/52)) ([daaa72b](https://github.com/position-pal/gateway/commit/daaa72b67b13544ad2976eac21e02aecda3acf03))
+* **deps:** update local-deployment digest to 9cf136f ([#59](https://github.com/position-pal/gateway/issues/59)) ([b55435e](https://github.com/position-pal/gateway/commit/b55435e6a4677d9cf6a9959a9b6ab73bf26e378d))
+* **deps:** update local-deployment digest to c601bb5 ([#57](https://github.com/position-pal/gateway/issues/57)) ([62428b0](https://github.com/position-pal/gateway/commit/62428b0fd781ae71293d5e92a627336842b2a943))
+* **deps:** update local-deployment digest to ccf46ab ([#55](https://github.com/position-pal/gateway/issues/55)) ([1ef9b08](https://github.com/position-pal/gateway/commit/1ef9b088e07157e8337fd0a6e951972e6ee606c3))
+* **deps:** update local-deployment digest to e6a5970 ([#65](https://github.com/position-pal/gateway/issues/65)) ([ac817f0](https://github.com/position-pal/gateway/commit/ac817f0d74ca26755bf33effa05febe7b6acb1ec))
+* **deps:** update node.js to 22.14 ([#62](https://github.com/position-pal/gateway/issues/62)) ([f2268a7](https://github.com/position-pal/gateway/commit/f2268a75ff000dfbc9c882a28f3e46a19f3c9fa0))
+* **deps:** update node.js to 7c6b02a ([#60](https://github.com/position-pal/gateway/issues/60)) ([213f617](https://github.com/position-pal/gateway/commit/213f6173b9ad8afed5cef438949d1109ba51ed6f))
+* **deps:** update node.js to cfef443 ([#61](https://github.com/position-pal/gateway/issues/61)) ([86e6a2c](https://github.com/position-pal/gateway/commit/86e6a2ccf0f8d68f956a3b11c62764d6b1afd4e2))
+
+### Bug Fixes
+
+* users endpoint and integration test for the user ([#66](https://github.com/position-pal/gateway/issues/66)) ([f8fbd9e](https://github.com/position-pal/gateway/commit/f8fbd9e8dc6811e96456f93e7739b308c31a1364))
+
+### Build and continuous integration
+
+* publish cucumber reports ([b650b0b](https://github.com/position-pal/gateway/commit/b650b0befd51fa79183ae8d40452a0e2c214f4a2))
+
+### Refactoring
+
+* use optional chaining and simpler control flow ([adf8fd7](https://github.com/position-pal/gateway/commit/adf8fd7d78eb883bce254ff41120aac7ba87fef9))
+
 ## [2.5.1](https://github.com/position-pal/gateway/compare/2.5.0...2.5.1) (2025-02-11)
 
 ### Bug Fixes
