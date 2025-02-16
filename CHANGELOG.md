@@ -1,3 +1,13 @@
+## [2.5.3](https://github.com/position-pal/gateway/compare/2.5.2...2.5.3) (2025-02-16)
+
+### Bug Fixes
+
+* **notification:** use correct env for gRPC endpoint and add e2e tests ([#67](https://github.com/position-pal/gateway/issues/67)) ([3dc97f7](https://github.com/position-pal/gateway/commit/3dc97f783bd08b433ae4277335e3b7f2d7d9bf92))
+
+### Refactoring
+
+* include in gRPC error messages the real cause instead of just an opaque 'gRPC error' ([#71](https://github.com/position-pal/gateway/issues/71)) ([dc52369](https://github.com/position-pal/gateway/commit/dc52369a226d7a8e6689ab64cf530305b08be977))
+
 ## [2.5.2](https://github.com/position-pal/gateway/compare/2.5.1...2.5.2) (2025-02-16)
 
 ### Dependency updates
