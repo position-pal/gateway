@@ -37,6 +37,13 @@ jobs:
           command: npm test
       - name: Check
         run: npx eslint .
+      - name: Upload test reports
+        if: ${{ contains(matrix.os, 'ubuntu') && matrix.node-version == '23.x' }}
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        with:
+          name: test-reports
+          path: reports/
+          if-no-files-found: error
 
   dry-delivery:
     needs: build
@@ -118,24 +125,30 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ needs.release.outputs.release_version }}
 
-  #  publish-doc:
-  #    needs:
-  #      - release
-  #    # Trigger this job only if the semantic release bot has released a new version
-  #    if: ${{ needs.release.outputs.release-status == 'released' }}
-  #    runs-on: ubuntu-24.04
-  #    steps:
-  #      - name: Checkout repository
-  #        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-  #        with:
-  #          ref: ${{ needs.release.outputs.release_version }}
-  #          fetch-tags: true
-  #      - name: Generate doc
-  #        run: 'true' # TODO: generate documentation
-  #      - name: Publish on Github pages
-  #        uses: JamesIves/github-pages-deploy-action@15de0f09300eea763baee31dff6c6184995c5f6a # v4
-  #        with:
-  #          folder: generated/docs/ # TODO: specify the folder where the documentation is generated
+  publish-doc:
+    needs:
+      - release
+    # Trigger this job only if the semantic release bot has released a new version
+    if: ${{ needs.release.outputs.release-status == 'released' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          ref: ${{ needs.release.outputs.release_version }}
+          fetch-tags: true
+      - name: Download fatjar from uploaded artifact
+        uses: dawidd6/action-download-artifact@20319c5641d495c8a52e688b7dc5fada6c3a9fbc # v8
+        with:
+          workflow: dispatcher.yml
+          workflow_conclusion: in_progress
+          commit: ${{ github.sha }}
+          name: test-reports
+          path: docs/reports/
+      - name: Publish on Github pages
+        uses: JamesIves/github-pages-deploy-action@15de0f09300eea763baee31dff6c6184995c5f6a # v4
+        with:
+          folder: docs/
 
   success:
     needs:
