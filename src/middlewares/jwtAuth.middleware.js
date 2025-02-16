@@ -3,12 +3,13 @@ const { HTTP_STATUS } = require("../controllers/httpStatusCode");
 const HttpBaseError = require("./errors/errors.utils");
 
 function jwtAuthMiddleware(req, res, next) {
-  if (req.path.startsWith("/auth/login")) {
+  if (req.path.startsWith("/auth/login") || req.path.startsWith("/auth/authorize")) {
     return next();
   }
   if (req.path.startsWith("/user") && req.method === "POST") {
     return next();
   }
+
   const token = req.headers.authorization || "";
   authorize({ token }, (err, response) => {
     if (err || !response?.authorized) {

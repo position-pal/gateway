@@ -18,7 +18,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.authorize = (req, res, next) => {
-  const { token } = req.body;
+  const token = req.body.token;
   if (!token) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "Token is required"));
   }

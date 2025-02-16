@@ -52,7 +52,7 @@ async function fetchSuccessfulRequest(method, route, token, requestBody = {}) {
     method,
     url: `${gatewayEndpoint}/${route}`,
     headers: { Authorization: `Bearer ${token}` },
-    data: method === "post" ? requestBody : undefined,
+    data: method === "post" || method === "put" ? requestBody : undefined,
   };
   const response = await axios(config);
   return response.data;
@@ -70,6 +70,27 @@ async function fetchSuccessfulPostRequest(route, token, requestBody) {
 }
 
 /**
+ * Fetch a successful PUT request to the gateway.
+ * @param route The route of the request.
+ * @param token The token to use for the request. Can be empty.
+ * @param requestBody The request body.
+ * @returns a promise that resolves successfully with the response data if the request is successful.
+ */
+async function fetchSuccessfulPutRequest(route, token, requestBody) {
+  return await fetchSuccessfulRequest("put", route, token, requestBody);
+}
+
+/**
+ * Fetch a successful DELETE request to the gateway.
+ * @param route
+ * @param token
+ * @returns {Promise<any>}
+ */
+async function fetchSuccessfulDeleteRequest(route, token) {
+  return await fetchSuccessfulRequest("delete", route, token);
+}
+
+/**
  * Fetch a successful GET request to the gateway.
  * @param route The route of the request.
  * @param token The token to use for the request. Can be empty.
@@ -82,6 +103,8 @@ async function fetchSuccessfulGetRequest(route, token) {
 module.exports = {
   expectSuccessfulGetRequest,
   expectSuccessfulPostRequest,
+  fetchSuccessfulPutRequest,
   fetchSuccessfulPostRequest,
   fetchSuccessfulGetRequest,
+  fetchSuccessfulDeleteRequest,
 };

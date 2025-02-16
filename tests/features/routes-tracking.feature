@@ -28,8 +28,8 @@ Feature: Users routes tracking
     When <event>
     Then my group's members receive a notification indicating <event>
 
-    Examples:  
-      | event |  
+    Examples:
+      | event |
       | I have not arrived by the estimated time |
       | I have been stuck in the same position for a while |
       | I have gone offline |

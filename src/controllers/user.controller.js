@@ -34,14 +34,14 @@ exports.createUser = (req, res, next) => {
 
 exports.updateUser = (req, res, next) => {
   const { id } = req.params;
-  const userData = req.body;
+  const user = req.body.user;
   if (!id) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad content", "User ID is required"));
   }
-  if (!userData) {
+  if (!user) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad content", "User data is required"));
   }
-  userClient.updateUser({ userId: id, user: userData }, (error, response) => {
+  userClient.updateUser({ userId: id, user: user }, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", "gRPC Error"));
     }
