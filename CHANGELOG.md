@@ -1,3 +1,18 @@
+## [2.5.4](https://github.com/position-pal/gateway/compare/2.5.3...2.5.4) (2025-02-17)
+
+### Dependency updates
+
+* **deps:** pin dependency puppeteer to v24.2.0 ([#72](https://github.com/position-pal/gateway/issues/72)) ([24f8609](https://github.com/position-pal/gateway/commit/24f860969b876bf98dd1ea4650edc793492f09d7))
+* **deps:** update dependency prettier to v3.5.1 ([#75](https://github.com/position-pal/gateway/issues/75)) ([fbea3f0](https://github.com/position-pal/gateway/commit/fbea3f01ea60b4aadd602c802cab48ced379a695))
+* **deps:** update dependency puppeteer to v24.2.1 ([#77](https://github.com/position-pal/gateway/issues/77)) ([1167b90](https://github.com/position-pal/gateway/commit/1167b908f608fefefb53cfbb90a3e15bbdaa8767))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.124 ([#76](https://github.com/position-pal/gateway/issues/76)) ([f67a15f](https://github.com/position-pal/gateway/commit/f67a15fd368b7e1a35f8431a1867c5cb7e8beb03))
+* **deps:** update local-deployment digest to 3de0f5a ([#74](https://github.com/position-pal/gateway/issues/74)) ([c00be4c](https://github.com/position-pal/gateway/commit/c00be4cb4a628885bda5d23475fc5186db51690d))
+* **deps:** update local-deployment digest to 53ac0b0 ([#73](https://github.com/position-pal/gateway/issues/73)) ([1bc4d4c](https://github.com/position-pal/gateway/commit/1bc4d4c1857fcd343f60b94bfac9d8dea3025dcc))
+
+### Bug Fixes
+
+* add headers for cors validation ([#78](https://github.com/position-pal/gateway/issues/78)) ([1b7bd56](https://github.com/position-pal/gateway/commit/1b7bd56b5ba815a333d0607c1d001f29aa296cff))
+
 ## [2.5.3](https://github.com/position-pal/gateway/compare/2.5.2...2.5.3) (2025-02-16)
 
 ### Bug Fixes
