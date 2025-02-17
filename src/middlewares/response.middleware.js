@@ -1,9 +1,8 @@
 const HttpBaseError = require("./errors/errors.utils");
-const { getHttpStatusCode } = require("../controllers/httpStatusCode");
 
 function defaultResponseHandler(req, res, next) {
   const data = res.locals.data;
-  const code = getHttpStatusCode(res.locals.status.code);
+  const code = res.locals.code;
   if (data === undefined || code === undefined) {
     return next(new HttpBaseError("The route doesn't exist"));
   }

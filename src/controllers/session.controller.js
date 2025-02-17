@@ -18,7 +18,7 @@ exports.getCurrentSession = (req, res, next) => {
       sessions.push(response.session);
     },
     () => {
-      res.locals.status = "OK";
+      res.locals.status = { code: "OK" };
       res.locals.data = { sessions };
       return next();
     },
