@@ -22,9 +22,7 @@ exports.getCurrentSession = (req, res, next) => {
       res.locals.data = { sessions };
       return next();
     },
-    (error) => {
-      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
-    },
+    (error) => next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`)),
   );
 };
 
