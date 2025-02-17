@@ -4,7 +4,6 @@ const { getHttpStatusCode } = require("../controllers/httpStatusCode");
 function grpcErrorHandler(req, res, next) {
   const status = res.locals.status;
   const statusCode = getHttpStatusCode(status.code);
-
   if (String(statusCode).startsWith("2")) {
     res.locals.data = {
       success: true,
