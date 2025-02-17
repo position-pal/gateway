@@ -1,3 +1,9 @@
+## [2.5.7](https://github.com/position-pal/gateway/compare/2.5.6...2.5.7) (2025-02-17)
+
+### Bug Fixes
+
+* session endpoint correctly handle grpc results stream ([#82](https://github.com/position-pal/gateway/issues/82)) ([68dd40a](https://github.com/position-pal/gateway/commit/68dd40a8a679f74fa1a1eb52d90078245dfcf427))
+
 ## [2.5.6](https://github.com/position-pal/gateway/compare/2.5.5...2.5.6) (2025-02-17)
 
 ### Dependency updates
