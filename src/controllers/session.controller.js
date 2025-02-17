@@ -1,5 +1,5 @@
 const sessionClient = require("../grpc/clients/sessionClient");
-const { HTTP_STATUS } = require("./httpStatusCode");
+const { HTTP_STATUS, getHttpStatusCode } = require("./httpStatusCode");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 exports.getCurrentSession = (req, res, next) => {
@@ -11,15 +11,19 @@ exports.getCurrentSession = (req, res, next) => {
   sessionClient.getCurrentSession(
     { value: groupId },
     (response) => {
-      sessions.push(response.session);
-      res.locals.status = response.status;
-    },
-    (error) => {
-      if (error) {
-        return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
+      const code = getHttpStatusCode(response.status.code);
+      if (code !== HTTP_STATUS.OK) {
+        return next();
       }
+      sessions.push(response.session);
+    },
+    () => {
+      res.locals.status = "OK";
       res.locals.data = { sessions };
       return next();
+    },
+    (error) => {
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     },
   );
 };

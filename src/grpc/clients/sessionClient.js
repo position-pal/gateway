@@ -7,10 +7,11 @@ const sessionClient = new trakingProto.UserSessionService(
 );
 
 module.exports = {
-  getCurrentSession: (groupId, onData, onEnd) => {
+  getCurrentSession: (groupId, onData, onEnd, onError) => {
     const call = sessionClient.GetCurrentSession(groupId);
     call.on("data", onData);
     call.on("end", onEnd);
+    call.on("error", onError);
   },
   getCurrentLocation: (scope, callback) => {
     sessionClient.GetCurrentLocation(scope, callback);
