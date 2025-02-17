@@ -1,3 +1,13 @@
+## [2.5.6](https://github.com/position-pal/gateway/compare/2.5.5...2.5.6) (2025-02-17)
+
+### Dependency updates
+
+* **deps:** update local-deployment digest to 26745c3 ([#81](https://github.com/position-pal/gateway/issues/81)) ([cd418cb](https://github.com/position-pal/gateway/commit/cd418cb383de82d94f14a71bc7dcdd35bbbe9a26))
+
+### Bug Fixes
+
+* cors ([a2d41b7](https://github.com/position-pal/gateway/commit/a2d41b73c781ba80e3d7f8935bb54853b6cd3839))
+
 ## [2.5.5](https://github.com/position-pal/gateway/compare/2.5.4...2.5.5) (2025-02-17)
 
 ### Dependency updates
