@@ -19,4 +19,7 @@ module.exports = {
   deleteUser: (userId, callback) => {
     userClient.DeleteUser(userId, callback);
   },
+  getUserByEmail: (email, callback) => {
+    userClient.GetUserByEmail(email, callback);
+  },
 };

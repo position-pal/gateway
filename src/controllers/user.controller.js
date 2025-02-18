@@ -65,3 +65,18 @@ exports.deleteUser = (req, res, next) => {
     return next();
   });
 };
+
+exports.getUserByEmail = (req, res, next) => {
+  const { email } = req.params;
+  if (!email) {
+    return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad content", "User email is required"));
+  }
+  userClient.getUserByEmail({ email: email }, (error, response) => {
+    if (error) {
+      return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
+    }
+    res.locals.status = response.status;
+    res.locals.data = response.user;
+    return next();
+  });
+};
