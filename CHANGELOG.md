@@ -1,3 +1,16 @@
+## [2.6.0](https://github.com/position-pal/gateway/compare/2.5.7...2.6.0) (2025-02-18)
+
+### Features
+
+* getUserByEmail ([#86](https://github.com/position-pal/gateway/issues/86)) ([b60ad55](https://github.com/position-pal/gateway/commit/b60ad5599cb8a0d047f1855f3477d230a8baa79d))
+
+### Dependency updates
+
+* **deps:** update dependency chai to v5.2.0 ([#84](https://github.com/position-pal/gateway/issues/84)) ([40c71ca](https://github.com/position-pal/gateway/commit/40c71ca1bdd244789e11f6862554c437f8de919d))
+* **deps:** update local-deployment digest to 04ad736 ([#85](https://github.com/position-pal/gateway/issues/85)) ([df19fe7](https://github.com/position-pal/gateway/commit/df19fe78dfde7c24aa251e2b49e0cf3e04c934f0))
+* **deps:** update local-deployment digest to 39230ef ([#83](https://github.com/position-pal/gateway/issues/83)) ([df5ce63](https://github.com/position-pal/gateway/commit/df5ce636d3217beea7b8c337d64b0a1eba87cf1c))
+* **deps:** update local-deployment digest to ce5ded7 ([#87](https://github.com/position-pal/gateway/issues/87)) ([2c019c9](https://github.com/position-pal/gateway/commit/2c019c948b4ec717af1bf6ec55aaa8143b60f7d9))
+
 ## [2.5.7](https://github.com/position-pal/gateway/compare/2.5.6...2.5.7) (2025-02-17)
 
 ### Bug Fixes
