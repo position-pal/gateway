@@ -67,7 +67,7 @@ exports.deleteUser = (req, res, next) => {
 };
 
 exports.getUserByEmail = (req, res, next) => {
-  const { email } = req.params;
+  const { email } = req.body.email;
   if (!email) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad content", "User email is required"));
   }
