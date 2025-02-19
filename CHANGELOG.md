@@ -1,3 +1,14 @@
+## [2.6.1](https://github.com/position-pal/gateway/compare/2.6.0...2.6.1) (2025-02-19)
+
+### Dependency updates
+
+* **deps:** update local-deployment digest to 6df9c66 ([#89](https://github.com/position-pal/gateway/issues/89)) ([ce87a35](https://github.com/position-pal/gateway/commit/ce87a3520ba7f6af50cae3f52d1a04f9fd3dd257))
+* **deps:** update local-deployment digest to f2397c7 ([#88](https://github.com/position-pal/gateway/issues/88)) ([97b8a65](https://github.com/position-pal/gateway/commit/97b8a654f80c376f47fd6c65e92470e7bdb2d354))
+
+### Bug Fixes
+
+* change get to post ([cd492a1](https://github.com/position-pal/gateway/commit/cd492a15629355c0291f5c6c14735cfc897d27c0))
+
 ## [2.6.0](https://github.com/position-pal/gateway/compare/2.5.7...2.6.0) (2025-02-18)
 
 ### Features
