@@ -1,3 +1,9 @@
+## [2.6.3](https://github.com/position-pal/gateway/compare/2.6.2...2.6.3) (2025-02-20)
+
+### Bug Fixes
+
+* user update ([de8c032](https://github.com/position-pal/gateway/commit/de8c0324f70a907c6c1244966401d577d95ad304))
+
 ## [2.6.2](https://github.com/position-pal/gateway/compare/2.6.1...2.6.2) (2025-02-20)
 
 ### Dependency updates
