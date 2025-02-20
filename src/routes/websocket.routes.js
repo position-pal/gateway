@@ -45,15 +45,14 @@ class WebSocketHandler {
   async handleMessage(msg, clientWs) {
     if (!this.authenticated) {
       const success = await this.handleAuthentication(msg, clientWs);
-      if (!success) {
-        return;
-      } else {
+      if (success) {
         this.initServiceWebSocket(clientWs);
         await ensureWebSocketIsOpen(this.serviceWs);
-        clientWs.send("OK");
+        this.safeSend(clientWs, "OK");
       }
+    } else {
+      this.safeSend(this.serviceWs, msg);
     }
-    this.safeSend(this.serviceWs, msg);
   }
 
   async handleAuthentication(msg, clientWs) {
@@ -71,12 +70,16 @@ class WebSocketHandler {
   }
 
   initServiceWebSocket(clientWs) {
-    this.serviceWs = new WebSocket(this.getBackendUrl());
-    this.serviceWs.on("message", (msg) => this.safeSend(clientWs, msg));
-    this.serviceWs.on("error", (error) =>
-      this.handleError(clientWs, `${this.service} service WebSocket error:`, error),
-    );
-    this.serviceWs.on("close", () => this.safeClose(clientWs));
+    try {
+      this.serviceWs = new WebSocket(this.getBackendUrl());
+      this.serviceWs.on("message", (msg) => this.safeSend(clientWs, msg));
+      this.serviceWs.on("error", (error) =>
+        this.handleError(clientWs, `${this.service} service WebSocket error:`, error),
+      );
+      this.serviceWs.on("close", () => this.safeClose(clientWs));
+    } catch (error) {
+      this.handleError(clientWs, `${this.service} service WebSocket initialization error:`, error);
+    }
   }
 
   getBackendUrl() {
@@ -85,8 +88,12 @@ class WebSocketHandler {
   }
 
   safeSend(ws, msg) {
-    if (ws?.readyState === WebSocket.OPEN) {
-      ws.send(msg);
+    try {
+      if (ws?.readyState === WebSocket.OPEN) {
+        ws.send(msg);
+      }
+    } catch (error) {
+      this.handleError(ws, "WebSocket send error:", error);
     }
   }
 
@@ -99,7 +106,7 @@ class WebSocketHandler {
   handleError(ws, logMessage, error) {
     console.error(logMessage, error);
     this.safeSend(ws, error.message || "An error occurred");
-    ws.close();
+    this.safeClose(ws);
   }
 }
 
