@@ -1,3 +1,18 @@
+## [2.6.2](https://github.com/position-pal/gateway/compare/2.6.1...2.6.2) (2025-02-20)
+
+### Dependency updates
+
+* **deps:** update local-deployment digest to 2bd31aa ([#90](https://github.com/position-pal/gateway/issues/90)) ([51b3cb9](https://github.com/position-pal/gateway/commit/51b3cb9818919591f667ae3bd2fe8153a911ff97))
+
+### Bug Fixes
+
+* **ws:** do not forward token to services once authenticated ([#93](https://github.com/position-pal/gateway/issues/93)) ([a52a7b7](https://github.com/position-pal/gateway/commit/a52a7b78d0204857bbe88f079959029a62057e47))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action digest to 0adf995 ([#91](https://github.com/position-pal/gateway/issues/91)) ([2aa6b5a](https://github.com/position-pal/gateway/commit/2aa6b5ac1e6d46a2302ce29f56d96ec1ed1f3d3e))
+* **deps:** update jamesives/github-pages-deploy-action digest to 6c2d9db ([#92](https://github.com/position-pal/gateway/issues/92)) ([b907842](https://github.com/position-pal/gateway/commit/b9078429a07ecd9b33c781963a16fb500104ca43))
+
 ## [2.6.1](https://github.com/position-pal/gateway/compare/2.6.0...2.6.1) (2025-02-19)
 
 ### Dependency updates
