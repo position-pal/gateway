@@ -1,3 +1,23 @@
+## [2.7.0](https://github.com/position-pal/gateway/compare/2.6.3...2.7.0) (2025-02-24)
+
+### Features
+
+* **grpc:** update proto file for chat service ([6238c8d](https://github.com/position-pal/gateway/commit/6238c8df8e9932b333edc949808588c0c0f83bb1))
+
+### Dependency updates
+
+* **deps:** update dependency globals to v16 ([#99](https://github.com/position-pal/gateway/issues/99)) ([65db4d4](https://github.com/position-pal/gateway/commit/65db4d403c972c15f9ca8f23c7735ac93cad2162))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.125 ([#96](https://github.com/position-pal/gateway/issues/96)) ([32f21ed](https://github.com/position-pal/gateway/commit/32f21edfd170cd5198238549048eab5033a89ac9))
+* **deps:** update dependency ws to v8.18.1 ([#101](https://github.com/position-pal/gateway/issues/101)) ([5a808c3](https://github.com/position-pal/gateway/commit/5a808c34447898730d8ef865126df559b5eb8840))
+* **deps:** update local-deployment digest to 0b2fc9f ([#95](https://github.com/position-pal/gateway/issues/95)) ([abb9067](https://github.com/position-pal/gateway/commit/abb9067ec82dc14cf9385b3a3240d7df1d04ed61))
+* **deps:** update local-deployment digest to 842daec ([#94](https://github.com/position-pal/gateway/issues/94)) ([27363a2](https://github.com/position-pal/gateway/commit/27363a27cd811014f2c38c4b122a45dafa613f2b))
+* **deps:** update local-deployment digest to 94e9453 ([#100](https://github.com/position-pal/gateway/issues/100)) ([cd27703](https://github.com/position-pal/gateway/commit/cd277032c154373a131fe24aaba0dadfedde359e))
+* **deps:** update local-deployment digest to e2d48cf ([#98](https://github.com/position-pal/gateway/issues/98)) ([4bc3492](https://github.com/position-pal/gateway/commit/4bc3492f71c4c7ae3b0ca237e0a5d4c8f128f844))
+
+### Build and continuous integration
+
+* **deps:** update actions/upload-artifact action to v4.6.1 ([#97](https://github.com/position-pal/gateway/issues/97)) ([db77a68](https://github.com/position-pal/gateway/commit/db77a68b4896b62f0a488731c7247132c101a0e1))
+
 ## [2.6.3](https://github.com/position-pal/gateway/compare/2.6.2...2.6.3) (2025-02-20)
 
 ### Bug Fixes
