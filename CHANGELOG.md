@@ -1,3 +1,13 @@
+## [2.8.2](https://github.com/position-pal/gateway/compare/2.8.1...2.8.2) (2025-02-26)
+
+### Dependency updates
+
+* **deps:** update local-deployment digest to 7c2b7bb ([#113](https://github.com/position-pal/gateway/issues/113)) ([c6d1f7b](https://github.com/position-pal/gateway/commit/c6d1f7bb01c433aa117cb70a7a077c9265ea2519))
+
+### Bug Fixes
+
+* change endpoint param ([398b8dc](https://github.com/position-pal/gateway/commit/398b8dc821acd8c0bf7c766c952547b1e92ff7a8))
+
 ## [2.8.1](https://github.com/position-pal/gateway/compare/2.8.0...2.8.1) (2025-02-26)
 
 ### Bug Fixes
