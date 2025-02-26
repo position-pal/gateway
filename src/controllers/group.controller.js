@@ -107,12 +107,12 @@ exports.removeMember = (req, res, next) => {
   });
 };
 
-exports.getGroupsByEmail = (req, res, next) => {
-  const { email } = req.params;
-  if (!email) {
-    return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "User email is required"));
+exports.getGroupsById = (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "User id is required"));
   }
-  groupClient.getGroupsByEmail({ email: email }, (error, response) => {
+  groupClient.getGroupsByEmail({ email: id }, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }

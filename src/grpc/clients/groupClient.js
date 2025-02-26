@@ -25,7 +25,7 @@ module.exports = {
   removeMember: (removeMember, callback) => {
     groupClient.RemoveMember(removeMember, callback);
   },
-  getGroupsByEmail: (email, callback) => {
-    groupClient.GetGroupsByEmail(email, callback);
+  getGroupsById: (id, callback) => {
+    groupClient.getGroupsById(id, callback);
   },
 };
