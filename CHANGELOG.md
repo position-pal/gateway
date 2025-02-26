@@ -1,3 +1,9 @@
+## [2.8.1](https://github.com/position-pal/gateway/compare/2.8.0...2.8.1) (2025-02-26)
+
+### Bug Fixes
+
+* change method of get groups ([bab1178](https://github.com/position-pal/gateway/commit/bab1178e6bdb9806ebba27724069d873aaf393fb))
+
 ## [2.8.0](https://github.com/position-pal/gateway/compare/2.7.0...2.8.0) (2025-02-26)
 
 ### Features
