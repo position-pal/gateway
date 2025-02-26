@@ -12,6 +12,6 @@ router.put("/:group", groupController.updateGroup);
 router.delete("/:group", groupController.deleteGroup);
 router.post("/:group/addMember", groupController.addMember);
 router.post("/:group/removeMember", groupController.removeMember);
-router.post("/groups/:email", groupController.getGroupsByEmail);
+router.get("/groups/:email", groupController.getGroupsByEmail);
 
 module.exports = router;
