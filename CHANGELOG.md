@@ -1,3 +1,25 @@
+## [2.8.0](https://github.com/position-pal/gateway/compare/2.7.0...2.8.0) (2025-02-26)
+
+### Features
+
+* get groups of user by email ([3eef9dc](https://github.com/position-pal/gateway/commit/3eef9dc0a16cec299dd80fdc1ad3a14aabf513d8))
+
+### Dependency updates
+
+* **deps:** update dependency prettier to v3.5.2 ([#105](https://github.com/position-pal/gateway/issues/105)) ([c78f168](https://github.com/position-pal/gateway/commit/c78f168cbfe5a0719a2a95537c514a38c2af8bc9))
+* **deps:** update eslint monorepo to v9.21.0 ([#104](https://github.com/position-pal/gateway/issues/104)) ([10cbbe9](https://github.com/position-pal/gateway/commit/10cbbe96141c598da6efd1643d3f4ed012e54e41))
+* **deps:** update local-deployment digest to 3e2cbe9 ([#110](https://github.com/position-pal/gateway/issues/110)) ([58bcdb4](https://github.com/position-pal/gateway/commit/58bcdb414b83ad92a0d5dcc81ae9e9b4cf1ba4eb))
+* **deps:** update local-deployment digest to 430f1b5 ([#103](https://github.com/position-pal/gateway/issues/103)) ([5ce2f04](https://github.com/position-pal/gateway/commit/5ce2f04dcc294faa0b1849d4d4f386133a1736a9))
+* **deps:** update local-deployment digest to 86f031d ([#108](https://github.com/position-pal/gateway/issues/108)) ([0d614db](https://github.com/position-pal/gateway/commit/0d614db3f9d4185828ac0e9d55887aa90c7e7d1a))
+* **deps:** update local-deployment digest to e22baec ([#106](https://github.com/position-pal/gateway/issues/106)) ([bb99fd8](https://github.com/position-pal/gateway/commit/bb99fd861f1635f06fe4f5facc3a6f51dabc6e47))
+* **deps:** update node.js to 2094ac6 ([#111](https://github.com/position-pal/gateway/issues/111)) ([9b48d62](https://github.com/position-pal/gateway/commit/9b48d62a312c97426abfe99d5bf1f1c2fbd36fe4))
+* **deps:** update node.js to a279671 ([#107](https://github.com/position-pal/gateway/issues/107)) ([a56af59](https://github.com/position-pal/gateway/commit/a56af59ae60982de1d1adb8400af828823dbb7b9))
+* **deps:** update node.js to f6b9c31 ([#112](https://github.com/position-pal/gateway/issues/112)) ([d07f106](https://github.com/position-pal/gateway/commit/d07f10649edcd36220403304eadde6fa9788ab0e))
+
+### Build and continuous integration
+
+* **deps:** update nick-fields/retry digest to ce71cc2 ([#109](https://github.com/position-pal/gateway/issues/109)) ([04d5b91](https://github.com/position-pal/gateway/commit/04d5b910b529cb8bea34b869d31bebde60f485f2))
+
 ## [2.7.0](https://github.com/position-pal/gateway/compare/2.6.3...2.7.0) (2025-02-24)
 
 ### Features
