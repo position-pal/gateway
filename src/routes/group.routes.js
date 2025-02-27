@@ -5,7 +5,7 @@ const { groupAuthMiddleware } = require("../middlewares/groupAuth.middleware");
 const router = express.Router();
 
 router.get("/user/:userId", groupController.getGroupsById);
-router.post("/", groupAuthMiddleware, groupController.createGroup);
+router.post("/", groupController.createGroup);
 router.get("/:group", groupAuthMiddleware, groupController.getGroup);
 router.put("/:group", groupAuthMiddleware, groupController.updateGroup);
 router.delete("/:group", groupAuthMiddleware, groupController.deleteGroup);
