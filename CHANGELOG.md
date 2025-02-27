@@ -1,3 +1,23 @@
+## [2.8.3](https://github.com/position-pal/gateway/compare/2.8.2...2.8.3) (2025-02-27)
+
+### Dependency updates
+
+* **deps:** update local-deployment digest to 263870f ([#119](https://github.com/position-pal/gateway/issues/119)) ([64a1641](https://github.com/position-pal/gateway/commit/64a16412b21ad553d957d874ec562f7b69e5471c))
+* **deps:** update local-deployment digest to 43b2bf1 ([#114](https://github.com/position-pal/gateway/issues/114)) ([d3c35db](https://github.com/position-pal/gateway/commit/d3c35db1d31ddb5ccaa66693bee4fb9a258fc147))
+* **deps:** update local-deployment digest to 9912a00 ([#118](https://github.com/position-pal/gateway/issues/118)) ([93cdf9f](https://github.com/position-pal/gateway/commit/93cdf9ff3deb170eb567c63a44eb4f05e3045e30))
+* **deps:** update local-deployment digest to f061865 ([#120](https://github.com/position-pal/gateway/issues/120)) ([e340b8f](https://github.com/position-pal/gateway/commit/e340b8f0dfdc1016bf0c5bcc167a711bafbb96cf))
+
+### Bug Fixes
+
+* get groups by id route ([c2701f8](https://github.com/position-pal/gateway/commit/c2701f80899b0e26f6cd8cc1a6d88fd9dcbdff05))
+* remove middleware for group creation ([f20a49a](https://github.com/position-pal/gateway/commit/f20a49a15f8f65e8447b94bb5420a42e3212de05))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action digest to 471d1dc ([#115](https://github.com/position-pal/gateway/issues/115)) ([034571c](https://github.com/position-pal/gateway/commit/034571cc4cc05fd500906713da144d5b8a2aebb9))
+* **deps:** update docker/setup-buildx-action digest to b5ca514 ([#116](https://github.com/position-pal/gateway/issues/116)) ([0b364f3](https://github.com/position-pal/gateway/commit/0b364f3fa94a01a5c07923ecef119fc81421a698))
+* **deps:** update docker/setup-qemu-action digest to 5964de0 ([#117](https://github.com/position-pal/gateway/issues/117)) ([f6f1b65](https://github.com/position-pal/gateway/commit/f6f1b6569d05dd1988cb25e101dcf1241241f23e))
+
 ## [2.8.2](https://github.com/position-pal/gateway/compare/2.8.1...2.8.2) (2025-02-26)
 
 ### Dependency updates
