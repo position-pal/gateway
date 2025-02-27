@@ -9,6 +9,7 @@ service GroupService {
   rpc DeleteGroup(DeleteGroupRequest) returns (DeleteGroupResponse);
   rpc AddMember(AddMemberRequest) returns (AddMemberResponse);
   rpc RemoveMember(RemoveMemberRequest) returns (RemoveMemberResponse);
+  rpc GetGroupsOfUser(GetGroupsRequest) returns (GetGroupsResponse);
 }
 
 message Group {
@@ -72,6 +73,15 @@ message RemoveMemberRequest {
 
 message RemoveMemberResponse {
   Group group = 1;
+  Status status = 2;
+}
+
+message GetGroupsRequest {
+  string userId = 1;
+}
+
+message GetGroupsResponse {
+  repeated Group groups = 1;
   Status status = 2;
 }
 

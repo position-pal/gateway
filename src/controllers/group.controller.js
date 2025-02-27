@@ -108,11 +108,11 @@ exports.removeMember = (req, res, next) => {
 };
 
 exports.getGroupsById = (req, res, next) => {
-  const { id } = req.params;
-  if (!id) {
+  const userId = req.params.userId;
+  if (!userId) {
     return next(new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad request", "User id is required"));
   }
-  groupClient.getGroupsByEmail({ email: id }, (error, response) => {
+  groupClient.getGroupsById({ userId: userId }, (error, response) => {
     if (error) {
       return next(new HttpBaseError(HTTP_STATUS.GENERIC_ERROR, "Internal server error", `gRPC Error: ${error}`));
     }
