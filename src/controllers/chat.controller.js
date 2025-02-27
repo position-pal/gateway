@@ -2,9 +2,21 @@ const chatClient = require("../grpc/clients/chatClient");
 const { HTTP_STATUS } = require("./httpStatusCode");
 const HttpBaseError = require("../middlewares/errors/errors.utils");
 
+const getScope = (req) => ({
+  group: req.params.group,
+  client: req.params.user,
+  number_of_messages: req.params.num,
+});
+
 exports.getLastMessages = (req, res, next) => {
-  const { group_id, client_id, number_of_messages } = req.body;
+  const scope = getScope(req);
+
+  const group_id = scope.group;
+  const client_id = scope.client;
+  const number_of_messages = scope.number_of_messages;
+
   const request = { group_id, client_id, number_of_messages };
+
   if (!group_id || !client_id || !number_of_messages) {
     return next(
       new HttpBaseError(
@@ -16,7 +28,7 @@ exports.getLastMessages = (req, res, next) => {
   }
   chatClient.retrieveLastMessages(request, (error, response) => {
     if (error) {
-      return next(new HttpBaseError(HTTP_STATUS.NOT_FOUND, "Not found", "Messages not found"));
+      return next(new HttpBaseError(HTTP_STATUS.NOT_FOUND, "Not found", `Error retrieve messages ${error}`));
     }
     res.locals.status = response.status;
     res.locals.data = response.messages;
