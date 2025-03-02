@@ -3,6 +3,6 @@ const { getLastMessages } = require("../controllers/chat.controller");
 
 const router = express.Router();
 
-router.get("/last/:group/:user/:num", getLastMessages);
+router.get("/last/:group/:num", getLastMessages);
 
 module.exports = router;
