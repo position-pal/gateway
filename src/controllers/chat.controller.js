@@ -4,7 +4,6 @@ const HttpBaseError = require("../middlewares/errors/errors.utils");
 
 const getScope = (req) => ({
   group: req.params.group,
-  client: req.params.user,
   number_of_messages: req.params.num,
 });
 
@@ -12,18 +11,13 @@ exports.getLastMessages = (req, res, next) => {
   const scope = getScope(req);
 
   const group_id = scope.group;
-  const client_id = scope.client;
   const number_of_messages = scope.number_of_messages;
 
-  const request = { group_id, client_id, number_of_messages };
+  const request = { group_id, number_of_messages };
 
-  if (!group_id || !client_id || !number_of_messages) {
+  if (!group_id || !number_of_messages) {
     return next(
-      new HttpBaseError(
-        HTTP_STATUS.BAD_REQUEST,
-        "Bad content",
-        "group_id, client_id and number_of_messages are required",
-      ),
+      new HttpBaseError(HTTP_STATUS.BAD_REQUEST, "Bad content", "group_id and number_of_messages are required"),
     );
   }
   chatClient.retrieveLastMessages(request, (error, response) => {
