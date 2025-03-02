@@ -1,3 +1,19 @@
+## [2.8.4](https://github.com/position-pal/gateway/compare/2.8.3...2.8.4) (2025-02-28)
+
+### Dependency updates
+
+* **deps:** update dependency puppeteer to v24.3.0 ([#124](https://github.com/position-pal/gateway/issues/124)) ([b673441](https://github.com/position-pal/gateway/commit/b6734418f2dba87ef5e48050c78b7d94e7a698c5))
+* **deps:** update local-deployment digest to 38f857a ([#123](https://github.com/position-pal/gateway/issues/123)) ([7a0527c](https://github.com/position-pal/gateway/commit/7a0527cec6b12220874b412a221d59e1ba4101c6))
+* **deps:** update local-deployment digest to 65d1256 ([#121](https://github.com/position-pal/gateway/issues/121)) ([2b902b1](https://github.com/position-pal/gateway/commit/2b902b1011d9c4793734b757f91203cc1da2ff82))
+
+### Bug Fixes
+
+* passing parameters of last messages endpoint in the url like a proper get request ([a41a92b](https://github.com/position-pal/gateway/commit/a41a92b94ca0220606b66dd3a783fb29bc793b94))
+
+### Build and continuous integration
+
+* **deps:** update dawidd6/action-download-artifact action to v9 ([#122](https://github.com/position-pal/gateway/issues/122)) ([fbb752f](https://github.com/position-pal/gateway/commit/fbb752fa00990a6a308413d2236e123ffebb0889))
+
 ## [2.8.3](https://github.com/position-pal/gateway/compare/2.8.2...2.8.3) (2025-02-27)
 
 ### Dependency updates
