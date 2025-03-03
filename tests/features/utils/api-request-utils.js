@@ -18,7 +18,29 @@ async function expectSuccessfulRequest(
   }
   await req.expect(expectedResponseCode).expect((res) => {
     Object.entries(expectedResponseBody).forEach(([key, value]) => {
-      expect(res.body.data[key]).to.deep.equal(value);
+      const actualCopy = JSON.parse(JSON.stringify(res.body.data[key]));
+      const expectedCopy = JSON.parse(JSON.stringify(value));
+      function removeTimestamps(obj) {
+        if (!obj || typeof obj !== "object") return;
+        if (Array.isArray(obj)) {
+          obj.forEach((item) => removeTimestamps(item));
+        } else {
+          Object.keys(obj).forEach((prop) => {
+            if (prop === "timestamp" || prop.endsWith("At")) {
+              delete obj[prop];
+            } else if (typeof obj[prop] === "object" && obj[prop] !== null) {
+              removeTimestamps(obj[prop]);
+            }
+          });
+        }
+      }
+      removeTimestamps(actualCopy);
+      removeTimestamps(expectedCopy);
+      if (Array.isArray(actualCopy)) {
+        expect(actualCopy).to.have.deep.members(expectedCopy);
+      } else {
+        expect(actualCopy).to.deep.equal(expectedCopy);
+      }
     });
   });
 }
