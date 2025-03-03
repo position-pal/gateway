@@ -59,6 +59,36 @@ Then(
         ),
       ).to.be.true;
     }, 5_000);
-    // TODO: get session
+    await eventually(async () => {
+      await expectSuccessfulGetRequest(`/api/session/session/${global.astro.id}`, global.luke.token, {
+        sessions: [
+          {
+            scope: {
+              user: { value: global.luke.userData.id },
+              group: { value: global.astro.id },
+            },
+            state: "ROUTING",
+            activeTracking: {
+              route: {
+                locations: [
+                  {
+                    location: piazzaDelPopoloLocation,
+                    user: { value: global.luke.userData.id },
+                  },
+                  {
+                    location: piazzaDelPopoloLocation,
+                    user: { value: global.luke.userData.id },
+                  },
+                ],
+              },
+            },
+            lastSampledLocation: {
+              location: piazzaDelPopoloLocation,
+              user: { value: global.luke.userData.id },
+            },
+          },
+        ],
+      });
+    }, 5_000);
   },
 );
