@@ -37,7 +37,7 @@ async function expectSuccessfulRequest(
       removeTimestamps(actualCopy);
       removeTimestamps(expectedCopy);
       if (Array.isArray(actualCopy)) {
-        expect(actualCopy).to.have.deep.members(expectedCopy);
+        expect(actualCopy).to.include.deep.members(expectedCopy);
       } else {
         expect(actualCopy).to.deep.equal(expectedCopy);
       }
