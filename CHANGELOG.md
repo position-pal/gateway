@@ -1,3 +1,23 @@
+## [2.9.0](https://github.com/position-pal/gateway/compare/2.8.4...2.9.0) (2025-03-03)
+
+### Features
+
+* change route invocation ([f9f9700](https://github.com/position-pal/gateway/commit/f9f97006c1f6d84cb6face9a7aa54deadc064077))
+
+### Dependency updates
+
+* **deps:** update dependency axios to v1.8.0 ([#131](https://github.com/position-pal/gateway/issues/131)) ([18f5739](https://github.com/position-pal/gateway/commit/18f5739ca16129c3de86d30af9073d0b78255054))
+* **deps:** update dependency axios to v1.8.1 ([#132](https://github.com/position-pal/gateway/issues/132)) ([0303dfd](https://github.com/position-pal/gateway/commit/0303dfd4310d68b8f91b084d09e00a40df13a3bf))
+* **deps:** update dependency eslint-config-prettier to v10.0.2 ([#133](https://github.com/position-pal/gateway/issues/133)) ([7a2a2e4](https://github.com/position-pal/gateway/commit/7a2a2e46413fbd3af94ae9f9405d6c3fc68a6e24))
+* **deps:** update local-deployment digest to 463317b ([#129](https://github.com/position-pal/gateway/issues/129)) ([db9c1bd](https://github.com/position-pal/gateway/commit/db9c1bd8e1337117fc7a70457408ea5d2a0e6737))
+* **deps:** update local-deployment digest to 6f3a9ea ([#126](https://github.com/position-pal/gateway/issues/126)) ([f0d2ca3](https://github.com/position-pal/gateway/commit/f0d2ca37b5266615b8e8b89489d6e3e1ce1d195c))
+* **deps:** update local-deployment digest to 8011db0 ([#128](https://github.com/position-pal/gateway/issues/128)) ([f302dc5](https://github.com/position-pal/gateway/commit/f302dc51625e1b013ffd99845592961e054fc936))
+* **deps:** update local-deployment digest to f103257 ([#130](https://github.com/position-pal/gateway/issues/130)) ([6ff8cc1](https://github.com/position-pal/gateway/commit/6ff8cc1cca28ab8050a64d9dc500306c9313b632))
+
+### Build and continuous integration
+
+* **deps:** update docker/setup-qemu-action digest to 2910929 ([#127](https://github.com/position-pal/gateway/issues/127)) ([09ae880](https://github.com/position-pal/gateway/commit/09ae88030b65efa542a71e8f70338dae8c04c286))
+
 ## [2.8.4](https://github.com/position-pal/gateway/compare/2.8.3...2.8.4) (2025-02-28)
 
 ### Dependency updates
