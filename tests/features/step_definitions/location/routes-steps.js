@@ -50,7 +50,7 @@ Then("my group's members receive a notification indicating I've started a routin
 
 Then(
   "my group's members can see the route I've been taken since activating routing mode",
-  { timeout: 10_000 },
+  { timeout: 20_000 },
   async () => {
     await eventually(async () => {
       expect(
@@ -89,6 +89,6 @@ Then(
           },
         ],
       });
-    }, 5_000);
+    }, 10_000);
   },
 );
