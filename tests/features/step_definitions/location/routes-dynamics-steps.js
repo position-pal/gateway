@@ -59,10 +59,28 @@ Then("the routing is stopped", { timeout: 20_000 }, async () => {
       ),
     ).to.be.true;
   }, 15_000);
+  await this.hanWs.send(JSON.stringify(sample(global.han.userData.id, global.astro.id, cesenaCampusLocation)));
 });
 
-Then("the route discarded", () => {
-  // TODO: check the tracking session is none
+Then("the route discarded", { timeout: 15_000 }, async () => {
+  await eventually(async () => {
+    await expectSuccessfulGetRequest(`/api/session/session/${global.astro.id}`, global.luke.token, {
+      sessions: [
+        {
+          scope: {
+            user: { value: global.han.userData.id },
+            group: { value: global.astro.id },
+          },
+          state: "ACTIVE",
+          activeTracking: null,
+          lastSampledLocation: {
+            location: cesenaCampusLocation,
+            user: { value: global.han.userData.id },
+          },
+        },
+      ],
+    });
+  }, 10_000);
 });
 
 Then("my state is updated to `Active`", { timeout: 15_000 }, async () => {
