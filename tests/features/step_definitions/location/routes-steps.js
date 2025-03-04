@@ -84,7 +84,7 @@ Then(
               },
             },
             lastSampledLocation: {
-              location: piazzaDelPopoloLocation,
+              location: testableLocationUpdates(global.luke.userData.id, global.astro.id)[1].SampledLocation.position,
               user: { value: global.luke.userData.id },
             },
           },

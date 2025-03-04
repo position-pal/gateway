@@ -39,8 +39,10 @@ async function expectSuccessfulRequest(
       console.log("actualCopy", JSON.stringify(actualCopy, null, 2));
       console.log("expectedCopy", JSON.stringify(expectedCopy, null, 2));
       if (Array.isArray(actualCopy)) {
+        console.log("array");
         expect(actualCopy).to.include.deep.members(expectedCopy);
       } else {
+        console.log("object");
         expect(actualCopy).to.deep.equal(expectedCopy);
       }
     });
