@@ -3,8 +3,9 @@ const { createWebsocket } = require("../../utils/ws-utils");
 const {
   startRouteEvent,
   piazzaDelPopoloLocation,
+  intermediateLocation,
   cesenaCampusLocation,
-  testableLocationUpdates,
+  sample,
 } = require("../../utils/tracking-utils");
 const { eventually } = require("../../utils/timings");
 const { expectSuccessfulGetRequest } = require("../../utils/api-request-utils");
@@ -25,7 +26,7 @@ When("I activate the routing mode indicating a destination and the ETA", async (
     new Date(Date.now() + 1_000 * 60 * 15), // ETA: in 15 minutes
   );
   await this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
-  await this.lukeWs.send(JSON.stringify(testableLocationUpdates(global.luke.userData.id, global.astro.id)[1]));
+  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, intermediateLocation)));
 });
 
 Then("my state is updated to `Routing`", { timeout: 15_000 }, async () => {
@@ -76,15 +77,14 @@ Then(
                     user: { value: global.luke.userData.id },
                   },
                   {
-                    location: testableLocationUpdates(global.luke.userData.id, global.astro.id)[1].SampledLocation
-                      .position,
+                    location: intermediateLocation,
                     user: { value: global.luke.userData.id },
                   },
                 ],
               },
             },
             lastSampledLocation: {
-              location: testableLocationUpdates(global.luke.userData.id, global.astro.id)[1].SampledLocation.position,
+              location: intermediateLocation,
               user: { value: global.luke.userData.id },
             },
           },

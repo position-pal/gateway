@@ -17,6 +17,15 @@ const piazzaDelPopoloLocation = {
 };
 
 /**
+ * An intermediate location between {@link piazzaDelPopoloLocation} and {@link cesenaCampusLocation
+ * @type {{latitude: number, longitude: number}}
+ */
+const intermediateLocation = {
+  latitude: 44.14176154018782,
+  longitude: 12.242786540498049,
+};
+
+/**
  * A testable path for location updates, starting from {@link piazzaDelPopoloLocation} and ending at {@link cesenaCampusLocation  }.
  * @returns an array of debuggable and reproducible locations.
  */
@@ -26,7 +35,7 @@ function testablePath() {
     { latitude: 44.138017476200716, longitude: 12.243344846276443 },
     { latitude: 44.13765039628027, longitude: 12.245009358944937 },
     { latitude: 44.13964872372436, longitude: 12.246433745126328 },
-    { latitude: 44.14176154018782, longitude: 12.242786540498049 },
+    intermediateLocation,
     { latitude: 44.14192095254784, longitude: 12.24027836844145 },
     { latitude: 44.14212467001738, longitude: 12.238297335920198 },
     { latitude: 44.14372253536823, longitude: 12.235647290979074 },
@@ -107,6 +116,7 @@ function createEvent(type, userId, groupId, additionalData = {}, timestamp = new
 
 module.exports = {
   cesenaCampusLocation,
+  intermediateLocation,
   piazzaDelPopoloLocation,
   sample,
   startRouteEvent,
