@@ -26,6 +26,7 @@ When("I activate the routing mode indicating a destination and the ETA", async (
     new Date(Date.now() + 1_000 * 60 * 15), // ETA: in 15 minutes
   );
   await this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
+  await new Promise((resolve) => setTimeout(resolve, 1_000));
   await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, intermediateLocation)));
 });
 
