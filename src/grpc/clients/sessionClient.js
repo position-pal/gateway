@@ -1,7 +1,7 @@
 const grpc = require("@grpc/grpc-js");
 const { trakingProto } = require("../proto");
 
-const sessionClient = new trakingProto.UserSessionService(
+const sessionClient = new trakingProto.UserSessionsService(
   process.env.LOCATION_SERVICE_GRPC_URL || "127.0.0.1:50052",
   grpc.credentials.createInsecure(),
 );

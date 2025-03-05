@@ -26,7 +26,7 @@ Given("I'm in routing mode", { timeout: 20_000 }, async () => {
     global.han.userData.id,
     global.astro.id,
     piazzaDelPopoloLocation,
-    cesenaCampusLocation,
+    { name: "Cesena Campus", position: cesenaCampusLocation },
     new Date(Date.now() + 1_000 * 60 * 2), // ETA: in 2 minutes
   );
   await this.hanWs.send(JSON.stringify(routingModeActivationEvent));

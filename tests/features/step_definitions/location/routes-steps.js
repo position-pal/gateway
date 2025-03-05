@@ -22,7 +22,7 @@ When("I activate the routing mode indicating a destination and the ETA", async (
     global.luke.userData.id,
     global.astro.id,
     piazzaDelPopoloLocation,
-    cesenaCampusLocation,
+    { name: "Cesena Campus", position: cesenaCampusLocation },
     new Date(Date.now() + 1_000 * 60 * 15), // ETA: in 15 minutes
   );
   await this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
