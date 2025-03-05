@@ -3,6 +3,7 @@ const { createWebsocket } = require("../../utils/ws-utils");
 const {
   startRouteEvent,
   piazzaDelPopoloLocation,
+  intermediateLocation,
   cesenaCampusLocation,
   sample,
 } = require("../../utils/tracking-utils");
@@ -25,7 +26,8 @@ When("I activate the routing mode indicating a destination and the ETA", async (
     new Date(Date.now() + 1_000 * 60 * 15), // ETA: in 15 minutes
   );
   await this.lukeWs.send(JSON.stringify(routingModeActivationEvent));
-  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, piazzaDelPopoloLocation)));
+  await new Promise((resolve) => setTimeout(resolve, 250)); // otherwise updates are overwritten
+  await this.lukeWs.send(JSON.stringify(sample(global.luke.userData.id, global.astro.id, intermediateLocation)));
 });
 
 Then("my state is updated to `Routing`", { timeout: 15_000 }, async () => {
@@ -50,7 +52,7 @@ Then("my group's members receive a notification indicating I've started a routin
 
 Then(
   "my group's members can see the route I've been taken since activating routing mode",
-  { timeout: 10_000 },
+  { timeout: 20_000 },
   async () => {
     await eventually(async () => {
       expect(
@@ -59,6 +61,36 @@ Then(
         ),
       ).to.be.true;
     }, 5_000);
-    // TODO: get session
+    await eventually(async () => {
+      await expectSuccessfulGetRequest(`/api/session/session/${global.astro.id}`, global.luke.token, {
+        sessions: [
+          {
+            scope: {
+              user: { value: global.luke.userData.id },
+              group: { value: global.astro.id },
+            },
+            state: "ROUTING",
+            activeTracking: {
+              route: {
+                locations: [
+                  {
+                    location: piazzaDelPopoloLocation,
+                    user: { value: global.luke.userData.id },
+                  },
+                  {
+                    location: intermediateLocation,
+                    user: { value: global.luke.userData.id },
+                  },
+                ],
+              },
+            },
+            lastSampledLocation: {
+              location: intermediateLocation,
+              user: { value: global.luke.userData.id },
+            },
+          },
+        ],
+      });
+    }, 10_000);
   },
 );
