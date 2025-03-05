@@ -3,7 +3,7 @@ const { execSync } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 
-const deploymentScriptName = "./local-deployment/local-deploy.sh";
+const deploymentScriptName = "./tests/resources/local-deployment/local-deploy.sh";
 const deploymentScript = path.resolve(deploymentScriptName);
 const mockedAppPath = path.resolve("./tests/resources/mocked-client-app");
 

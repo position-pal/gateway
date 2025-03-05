@@ -26,7 +26,7 @@ Given("I'm in routing mode", { timeout: 20_000 }, async () => {
     global.han.userData.id,
     global.astro.id,
     piazzaDelPopoloLocation,
-    cesenaCampusLocation,
+    { name: "Cesena Campus", position: cesenaCampusLocation },
     new Date(Date.now() + 1_000 * 60 * 2), // ETA: in 2 minutes
   );
   await this.hanWs.send(JSON.stringify(routingModeActivationEvent));
@@ -101,8 +101,8 @@ Then(
   { timeout: 65_000 },
   async () => {
     await expectNotification(global.leiaDevice, {
-      body: `${global.han.userData.id} has reached their destination on time.`,
-      title: `${global.han.userData.id} arrived!`,
+      title: `${global.han.userData.name} ${global.han.userData.surname} arrived!`,
+      body: `${global.han.userData.name} ${global.han.userData.surname} has reached their destination on time.`,
     });
     global.leiaDevice.receivedNotifications = [];
   },
@@ -113,8 +113,8 @@ Then(
   { timeout: 65_000 },
   async () => {
     await expectNotification(global.leiaDevice, {
-      body: `${global.han.userData.id} journey completed successfully.`,
-      title: `${global.han.userData.id} journey ended`,
+      title: `${global.han.userData.name} ${global.han.userData.surname}'s journey ended`,
+      body: `${global.han.userData.name} ${global.han.userData.surname}'s journey has completed successfully.`,
     });
     global.leiaDevice.receivedNotifications = [];
   },
@@ -126,8 +126,8 @@ When("I have gone offline", { timeout: 65_000 }, async () => {
 
 Then("my group's members receive a notification indicating I have gone offline", { timeout: 65_000 }, async () => {
   await expectNotification(global.leiaDevice, {
-    title: `${global.han.userData.id} connection lost!`,
-    body: `User ${global.han.userData.id} went offline while in Routing mode!`,
+    title: `${global.han.userData.name} ${global.han.userData.surname} went offline!`,
+    body: `${global.han.userData.name} ${global.han.userData.surname} went offline. Please check on their real-time location and status!`,
   });
 });
 
@@ -141,8 +141,8 @@ Then(
   { timeout: 65_000 },
   async () => {
     await expectNotification(global.leiaDevice, {
-      title: `${global.han.userData.id} delay alert!`,
-      body: `${global.han.userData.id} has not reached their destination as expected, yet.`,
+      title: `${global.han.userData.name} ${global.han.userData.surname} delay alert!`,
+      body: `${global.han.userData.name} ${global.han.userData.surname} has not reached their destination as expected, yet.`,
     });
   },
 );
@@ -159,8 +159,8 @@ Then(
   { timeout: 65_000 },
   async () => {
     await expectNotification(global.leiaDevice, {
-      body: `${global.han.userData.id} has been stuck in the same position for a while.`,
-      title: `${global.han.userData.id} stationary alert!`,
+      title: `${global.han.userData.name} ${global.han.userData.surname} stationary alert!`,
+      body: `${global.han.userData.name} ${global.han.userData.surname} has been stuck in the same position for a while.`,
     });
   },
 );

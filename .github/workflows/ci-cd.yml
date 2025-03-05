@@ -28,7 +28,7 @@ jobs:
         with:
           base64-encoded-secret: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           filename: service-account.json
-          working-directory: ./local-deployment/secrets
+          working-directory: ./tests/resources/local-deployment/secrets
       - name: Setup firebase-config secret
         uses: mobiledevops/secret-to-file-action@be5f14e82c235ccde011f6ab0f6c984b35dc34c6 # v1
         with:

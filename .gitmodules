@@ -1,3 +1,3 @@
 [submodule "local-deployment"]
-	path = local-deployment
+	path = tests/resources/local-deployment
 	url = https://github.com/position-pal/local-deployment.git
