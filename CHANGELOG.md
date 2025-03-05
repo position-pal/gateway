@@ -1,3 +1,21 @@
+## [3.0.0](https://github.com/position-pal/gateway/compare/2.9.0...3.0.0) (2025-03-05)
+
+### ⚠ BREAKING CHANGES
+
+* **api-deps:** update location-service to v5.x
+
+### Features
+
+* **api-deps:** update location-service to v5.x ([e5f7158](https://github.com/position-pal/gateway/commit/e5f7158c223d3b3ab628443d7931d81f3da2e1e4))
+
+### Dependency updates
+
+* **deps:** update local-deployment digest to 311054c ([#136](https://github.com/position-pal/gateway/issues/136)) ([4a8f884](https://github.com/position-pal/gateway/commit/4a8f8847a8216d867e6ec3899f9d90bc820b6e2d))
+
+### Tests
+
+* complete routes tests with session updates responses checks ([#137](https://github.com/position-pal/gateway/issues/137)) ([7670b65](https://github.com/position-pal/gateway/commit/7670b65ea15f45425bcd5a1193d4b42b3a4eced2))
+
 ## [2.9.0](https://github.com/position-pal/gateway/compare/2.8.4...2.9.0) (2025-03-03)
 
 ### Features
