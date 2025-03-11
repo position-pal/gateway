@@ -31,18 +31,6 @@ jobs:
             && github.event_name != 'pull_request'
           }}
         run: "false"
-      - name: Comment PR if no secrets are available
-        if: ${{ steps.check-secrets.outputs.secrets_available == 'false' && github.event_name == 'pull_request' }}
-        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3
-        with:
-          message: |
-            Hi there! Thanks for submitting a PR :tada:.
-            This is a friendly reminder that no integration tests will be run because needed secrets are missing and
-            in PRs our secrets are not available for security reasons.
-            Await a feedback from a maintainer that, after a successful review, will merge this in a pre-release branch
-            where integration tests will be run. If everything goes well, the PR will be merged into the main branch.
-            :rocket:
-            Thanks for your contribution!
 
   build:
     strategy:

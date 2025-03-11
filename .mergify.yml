@@ -1,1 +1,21 @@
 extends: mergify-config
+pull_request_rules:
+  - name: Request for review to the dev team
+    conditions:
+      - "#files > 0"
+    actions:
+      request_reviews:
+        users_from_teams:
+          - "SAP-SPE-Team"
+        bot_account: position-pal-mate
+  - name: Comment with instructions on opening a PR
+    conditions:
+      - "#files > 0"
+    actions:
+      comment:
+        message: |
+          Hi there! Thanks for submitting a PR :tada:.
+          Await a feedback from a maintainer that, after a successful review, will merge this in a pre-release branch
+          where integration tests will be run. If everything goes well, the PR will be merged into the main branch.
+          :rocket:
+          Thanks for your contribution!
