@@ -1,13 +1,5 @@
 extends: mergify-config
 pull_request_rules:
-  - name: Request for review to the dev team
-    conditions:
-      - "#files > 0"
-    actions:
-      request_reviews:
-        users_from_teams:
-          - "SAP-SPE-Team"
-        bot_account: position-pal-mate
   - name: Comment with instructions on opening a PR
     conditions:
       - "#files > 0"
