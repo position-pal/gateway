@@ -17,7 +17,7 @@ jobs:
           REQUIRED_SECRETS=("FIREBASE_SERVICE_ACCOUNT" "FIREBASE_CONFIG" "MAPBOX_API_KEY" "AKKA_LICENSE_KEY")          
           for SECRET in "${REQUIRED_SECRETS[@]}"; do
             if ! echo "$SECRETS" | jq -e "has(\"$SECRET\")" > /dev/null 2>&1; then
-              echo "Secret $SECRETS is missing. No integration tests will be run."
+              echo "Secret $SECRET is missing. No integration tests will be run."
               echo "secrets_available=false" >> $GITHUB_OUTPUT
               exit 0
             fi
