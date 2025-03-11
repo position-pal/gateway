@@ -13,17 +13,17 @@ jobs:
       - name: Check if e2e testing secrets are available
         id: detect-secrets
         run: |
-          REQUIRED_SECRETS=("FIREBASE_SERVICE_ACCOUNT" "FIREBASE_CONFIG" "MAPBOX_API_KEY" "AKKA_LICENSE_KEY")
+          SECRETS='${{ toJson(secrets) }}'
+          REQUIRED_SECRETS=("FIREBASE_SERVICE_ACCOUNT" "FIREBASE_CONFIG" "MAPBOX_API_KEY" "AKKA_LICENSE_KEY")          
           for SECRET in "${REQUIRED_SECRETS[@]}"; do
-            value="${REQUIRED_SECRETS[SECRET]}"
-            if [[ -z "$value" ]]; then
+            if ! echo "$SECRETS" | jq -e "has(\"$SECRET\")" > /dev/null 2>&1; then
               echo "Secret $secret is missing. No integration tests will be run."
               echo "secrets_available=false" >> $GITHUB_OUTPUT
+              exit 0
             fi
           done
           echo "All integration tests secrets are available."
           echo "secrets_available=true" >> $GITHUB_OUTPUT
-      - run: echo ${{ steps.detect-secrets.outputs.secrets_available }}
       - name: Fail if no secrets are available and is not a pull request
         if: ${{ steps.detect-secrets.outputs.secrets_available == 'false' && !github.event.repository.fork }}
         run: "false"
