@@ -13,9 +13,11 @@ pull_request_rules:
       - "#files > 0"
     actions:
       comment:
+        bot_account: position-pal-mate
         message: |
           Hi there! Thanks for submitting a PR :tada:.
+          Just a friendly heads-up: if you're not a member of the dev team, integration tests may not run, as they 
+          require secrets that are not accessible in forked PRs for security reasons.
           Await a feedback from a maintainer that, after a successful review, will merge this in a pre-release branch
-          where integration tests will be run. If everything goes well, the PR will be merged into the main branch.
-          :rocket:
-          Thanks for your contribution!
+          where integration tests will be run. If everything goes well, the PR will be merged into the main branch :rocket:.
+          Thanks for your contribution :heart:!
