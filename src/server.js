@@ -17,5 +17,5 @@ app.listen(PORT, () => {
             ██   ███ ███████    ██    █████   ██  █  ██ ███████   ████                 
             ██    ██ ██   ██    ██    ██      ██ ███ ██ ██   ██    ██                  
              ██████  ██   ██    ██    ███████  ███ ███  ██   ██    ██                  `);
-  console.log(`\n\nServer running on http://localhost:${PORT}`);
+  console.log(`\n\nServer running on http://localhost:${PORT}.`);
 });
