@@ -25,7 +25,11 @@ jobs:
           echo "All integration tests secrets are available."
           echo "secrets_available=true" >> $GITHUB_OUTPUT
       - name: Fail if no secrets are available and is not a pull request
-        if: ${{ steps.check-secrets.outputs.secrets_available == 'false' && !github.event.repository.fork }}
+        if: >-
+          ${{ steps.check-secrets.outputs.secrets_available == 'false' 
+            && !github.event.repository.fork 
+            && github.event_name != 'pull_request'
+          }}
         run: "false"
       - name: Comment PR if no secrets are available
         if: ${{ steps.check-secrets.outputs.secrets_available == 'false' && github.event_name == 'pull_request' }}
