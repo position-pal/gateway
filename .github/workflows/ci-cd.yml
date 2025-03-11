@@ -5,6 +5,41 @@ on:
   workflow_dispatch:
 
 jobs:
+  check-secrets:
+    runs-on: ubuntu-22.04
+    outputs:
+      secrets_available: ${{ steps.detect-secrets.outputs.secrets_available }}
+    steps:
+      - name: Check if e2e testing secrets are available
+        id: detect-secrets
+        run: |
+          REQUIRED_SECRETS=("FIREBASE_SERVICE_ACCOUNT" "FIREBASE_CONFIG" "MAPBOX_API_KEY" "AKKA_LICENSE_KEY")
+          for SECRET in "${REQUIRED_SECRETS[@]}"; do
+            value="${REQUIRED_SECRETS[SECRET]}"
+            if [[ -z "$value" ]]; then
+              echo "Secret $secret is missing. No integration tests will be run."
+              echo "secrets_available=false" >> $GITHUB_OUTPUT
+            fi
+          done
+          echo "All integration tests secrets are available."
+          echo "secrets_available=true" >> $GITHUB_OUTPUT
+      - run: echo ${{ steps.detect-secrets.outputs.secrets_available }}
+      - name: Fail if no secrets are available and is not a pull request
+        if: ${{ steps.detect-secrets.outputs.secrets_available == 'false' && !github.event.repository.fork }}
+        run: "false"
+      - name: Comment PR if no secrets are available
+        if: ${{ steps.detect-secrets.outputs.secrets_available == 'false' && github.event_name == 'pull_request' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            Hi there! Thanks for submitting a PR :tada:.
+            This is a friendly reminder that no integration tests will be run because needed secrets are missing and
+            in PRs our secrets are not available for security reasons.
+            Await a feedback from a maintainer that, after a successful review, will merge this in a pre-release branch
+            where integration tests will be run. If everything goes well, the PR will be merged into the main branch.
+            :rocket:
+            Thanks for your contribution!
+
   build:
     strategy:
       matrix:
@@ -12,6 +47,33 @@ jobs:
         node-version: [22.x, 23.x]
       fail-fast: false
     runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          submodules: true
+      - name: Set up Node ${{ matrix.jvm-version }}
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm install
+      - name: Unit test
+        run: npm run test:jest
+      - name: Lint
+        run: npx eslint .
+
+  e2e-tests:
+    strategy:
+      matrix:
+        os: [ubuntu-22.04] # Tests need docker to run, that is not available on macOS and Windows ouch!
+        node-version: [22.x, 23.x]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    needs:
+      - check-secrets
+      - build
+    if: ${{ needs.check-secrets.outputs.secrets_available == 'true' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -35,9 +97,7 @@ jobs:
           base64-encoded-secret: ${{ secrets.FIREBASE_CONFIG }}
           filename: firebase-config.json
           working-directory: ./tests/resources/mocked-client-app
-      - name: Test
-        # Tests need docker to run, that is not available on macOS and Windows ouch!
-        if: contains(matrix.os, 'ubuntu')
+      - name: End2End Test
         env:
           MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
           AKKA_LICENSE_KEY: ${{ secrets.AKKA_LICENSE_KEY }}
@@ -46,9 +106,7 @@ jobs:
           max_attempts: 2
           retry_on: error
           timeout_minutes: 30
-          command: npm test
-      - name: Check
-        run: npx eslint .
+          command: npm run test:cucumber
       - name: Upload test reports
         if: ${{ contains(matrix.os, 'ubuntu') && matrix.node-version == '23.x' }}
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
@@ -58,7 +116,9 @@ jobs:
           if-no-files-found: error
 
   dry-delivery:
-    needs: build
+    needs:
+      - build
+      - e2e-tests
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
@@ -165,10 +225,11 @@ jobs:
   success:
     needs:
       - build
+      - e2e-tests
       - dry-delivery
       - release
       - publish-images
-      #- publish-doc
+      - publish-doc
     if:
       >- # run if at least one needed job has failed or all needed jobs have not been cancelled
       always() && (
