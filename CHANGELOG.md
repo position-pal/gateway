@@ -1,3 +1,37 @@
+## [3.0.1](https://github.com/position-pal/gateway/compare/3.0.0...3.0.1) (2025-03-12)
+
+### Dependency updates
+
+* **deps:** update commitlint monorepo to v19.8.0 ([#148](https://github.com/position-pal/gateway/issues/148)) ([bd29771](https://github.com/position-pal/gateway/commit/bd297716d4e2ceba302a3195c8bd394208138458))
+* **deps:** update dependency axios to v1.8.2 [security] ([#145](https://github.com/position-pal/gateway/issues/145)) ([343edbc](https://github.com/position-pal/gateway/commit/343edbc72b0e1cbc8029492c1595417ce6830fb2))
+* **deps:** update dependency eslint-config-prettier to v10.1.1 ([#147](https://github.com/position-pal/gateway/issues/147)) ([7a2ba5a](https://github.com/position-pal/gateway/commit/7a2ba5a143f09647a6d060036218b2536f408e3d))
+* **deps:** update dependency prettier to v3.5.3 ([#140](https://github.com/position-pal/gateway/issues/140)) ([f40ee0d](https://github.com/position-pal/gateway/commit/f40ee0db69058665ae5d51d5d3cc8982e45d2539))
+* **deps:** update dependency puppeteer to v24.3.1 ([#143](https://github.com/position-pal/gateway/issues/143)) ([c4374df](https://github.com/position-pal/gateway/commit/c4374df109ddf4761be68df79683f73d1504f4d8))
+* **deps:** update dependency puppeteer to v24.4.0 ([#144](https://github.com/position-pal/gateway/issues/144)) ([eeb0a5c](https://github.com/position-pal/gateway/commit/eeb0a5cf62938ca2f27837e2ed2f66b2d2ce9b91))
+* **deps:** update eslint monorepo to v9.22.0 ([#149](https://github.com/position-pal/gateway/issues/149)) ([7eb99a3](https://github.com/position-pal/gateway/commit/7eb99a394d0456719349b5bc8637e9405577888b))
+* **deps:** update tests/resources/local-deployment digest to 8ccfa9e ([#141](https://github.com/position-pal/gateway/issues/141)) ([733f945](https://github.com/position-pal/gateway/commit/733f945b114ef4257f0a0af0d4e11eba4e9e8c52))
+* **deps:** update tests/resources/local-deployment digest to ce00170 ([#154](https://github.com/position-pal/gateway/issues/154)) ([6526ed8](https://github.com/position-pal/gateway/commit/6526ed8d6b5b235ba6672543b84808d5dde26ff0))
+* **deps:** update tests/resources/local-deployment digest to d07ea79 ([#139](https://github.com/position-pal/gateway/issues/139)) ([12c9566](https://github.com/position-pal/gateway/commit/12c9566ce7321fb96d002fc3e501c0e652affcf3))
+* **deps:** update tests/resources/local-deployment digest to d2f77ea ([#153](https://github.com/position-pal/gateway/issues/153)) ([e80af4a](https://github.com/position-pal/gateway/commit/e80af4a5db9c3721ee68d183628f1b3ff753a4c0))
+* **deps:** update tests/resources/local-deployment digest to d52b3ab ([#142](https://github.com/position-pal/gateway/issues/142)) ([cd70bd3](https://github.com/position-pal/gateway/commit/cd70bd3b707c9869d7c7aa6ec0c68c398edaad81))
+
+### Documentation
+
+* **license:** create LICENSE ([5980d24](https://github.com/position-pal/gateway/commit/5980d24c9840661eb0d91120fe314eddf0189268))
+
+### Build and continuous integration
+
+* avoid commenting from workflow in case no integration tests are run but comment through mergify ([a442c84](https://github.com/position-pal/gateway/commit/a442c84b87c410b9afecfd424706154a6228a20b))
+* check also is not a pr before failing in case no secrets is available ([8182f46](https://github.com/position-pal/gateway/commit/8182f4678e3ead3bb1029502b539ddb01bfac8e0))
+* correctly spot all secrets in the repo ([0e18f26](https://github.com/position-pal/gateway/commit/0e18f267d465305ab1d9f2047dc999eaaede4e6a))
+* **deps:** pin thollander/actions-comment-pull-request action to 24bffb9 ([#150](https://github.com/position-pal/gateway/issues/150)) ([28b515a](https://github.com/position-pal/gateway/commit/28b515ac39c0d612c3f8373ea6c5aa781cec79b0))
+* **deps:** update dependency ubuntu to v24 ([#151](https://github.com/position-pal/gateway/issues/151)) ([0d4fcb4](https://github.com/position-pal/gateway/commit/0d4fcb4b2b060f423c8512830350e7458b9ea143))
+* improve ci to catch non set secrets in PR needed for e2e tests and warn about it ([cc483c1](https://github.com/position-pal/gateway/commit/cc483c134f18a87b3b42376c47549ae3903a3c48))
+* improve mergify messages on PRs ([b64bfff](https://github.com/position-pal/gateway/commit/b64bfff3b9e1c1e856d3328d4d984b28c87b7355))
+* improve steps name ([ee113f4](https://github.com/position-pal/gateway/commit/ee113f45dd599a8829b2354d8a3d0e1c26daef75))
+* remove auto request review since include in shared config ([b7a9cd5](https://github.com/position-pal/gateway/commit/b7a9cd542e16038877af423f1218872d3f9d10a6))
+* use correct variable ([ec5420e](https://github.com/position-pal/gateway/commit/ec5420e38766398d9a7c0f16ef314d98c2af1985))
+
 ## [3.0.0](https://github.com/position-pal/gateway/compare/2.9.0...3.0.0) (2025-03-05)
 
 ### ⚠ BREAKING CHANGES
