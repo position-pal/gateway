@@ -3,6 +3,8 @@ pull_request_rules:
   - name: Comment with instructions on opening a PR
     conditions:
       - "#files > 0"
+      - '-author=renovate[bot]'
+      - '-author=dependabot[bot]'
     actions:
       comment:
         bot_account: position-pal-mate
