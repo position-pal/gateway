@@ -6,7 +6,7 @@
     "description": "Position Pal Gateway API"
   },
   "paths": {
-    "/auth/login": {
+    "/api/auth/login": {
       "post": {
         "summary": "Logs in a user",
         "tags": [
@@ -78,7 +78,7 @@
         }
       }
     },
-    "/auth/authorize": {
+    "/api/auth/authorize": {
       "post": {
         "summary": "Authorizes a user",
         "tags": [
@@ -102,7 +102,38 @@
         },
         "responses": {
           "200": {
-            "description": "Successfully authorized"
+            "description": "Successfully authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-03-17T18:08:54.953Z"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "authorized": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Malformed request body"
@@ -116,11 +147,214 @@
         }
       }
     },
-    "/auth/authorizeUserToAccessGroup": {
-      "post": {
-        "summary": "Authorizes a user to access a group",
+    "/api/chat/last/{group}/{num}": {
+      "get": {
+        "summary": "Get the last messages in a group chat",
         "tags": [
-          "Auth"
+          "Chat"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+            },
+            "description": "The group ID"
+          },
+          {
+            "in": "path",
+            "name": "num",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 20
+            },
+            "description": "Number of messages to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved messages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "Hello everyone!"
+                          },
+                          "sender": {
+                            "type": "string",
+                            "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                          },
+                          "timestamp": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "groupId": {
+                            "type": "string",
+                            "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Group ID and number of messages are required"
+          },
+          "404": {
+            "description": "Not found - Error retrieving messages"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/groups/user/{userId}": {
+      "get": {
+        "summary": "Get groups by user ID",
+        "tags": [
+          "Group"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string",
+              "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+            },
+            "required": true,
+            "description": "The ID of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Pizza Lovers"
+                      },
+                      "members": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "John"
+                            },
+                            "surname": {
+                              "type": "string",
+                              "example": "Doe"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "john.doe@gmail.com"
+                            }
+                          }
+                        }
+                      },
+                      "createdBy": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "John"
+                          },
+                          "surname": {
+                            "type": "string",
+                            "example": "Doe"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "john.doe@gmail.com"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request body"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/groups/": {
+      "post": {
+        "summary": "Create a new group",
+        "tags": [
+          "Group"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "requestBody": {
           "required": true,
@@ -129,13 +363,286 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "token": {
+                  "name": {
                     "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMjM0NTY3ODkwLCJpYXQiOjE2MjMwODk4NzIsImV4cCI6MTYyMzA5MzQ3Mn0.PK9Cm1_vD5hH2pDZqR5Jkv25e19CgihUE8-jf3k2c-w"
+                    "example": "Pizza Lovers"
                   },
-                  "groupId": {
+                  "members": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "John"
+                        },
+                        "surname": {
+                          "type": "string",
+                          "example": "Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "john.doe@gmail.com"
+                        }
+                      }
+                    }
+                  },
+                  "createdBy": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "John"
+                      },
+                      "surname": {
+                        "type": "string",
+                        "example": "Doe"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "john.doe@gmail.com"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Group created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Pizza Lovers"
+                        },
+                        "members": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "John"
+                              },
+                              "surname": {
+                                "type": "string",
+                                "example": "Doe"
+                              },
+                              "email": {
+                                "type": "string",
+                                "example": "john.doe@gmail.com"
+                              }
+                            }
+                          }
+                        },
+                        "createdBy": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "John"
+                            },
+                            "surname": {
+                              "type": "string",
+                              "example": "Doe"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "john.doe@gmail.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request body"
+          },
+          "409": {
+            "description": "Group already exists"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/groups/{group}": {
+      "get": {
+        "summary": "Get a group by ID",
+        "tags": [
+          "Group"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group",
+            "schema": {
+              "type": "string",
+              "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+            },
+            "required": true,
+            "description": "The ID of the group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Pizza Lovers"
+                    },
+                    "members": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "John"
+                          },
+                          "surname": {
+                            "type": "string",
+                            "example": "Doe"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "john.doe@gmail.com"
+                          }
+                        }
+                      }
+                    },
+                    "createdBy": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "John"
+                        },
+                        "surname": {
+                          "type": "string",
+                          "example": "Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "john.doe@gmail.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request body"
+          },
+          "401": {
+            "description": "Unauthorized access to group"
+          },
+          "404": {
+            "description": "Group not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a group",
+        "tags": [
+          "Group"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group",
+            "schema": {
+              "type": "string",
+              "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+            },
+            "required": true,
+            "description": "The ID of the group"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
                     "type": "string",
-                    "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+                    "example": "Updated Pizza Lovers"
                   }
                 }
               }
@@ -144,10 +651,417 @@
         },
         "responses": {
           "200": {
-            "description": "Successfully authorized user"
+            "description": "Group updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "New Pizza Lovers"
+                        },
+                        "members": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "surname": {
+                                "type": "string"
+                              },
+                              "email": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "createdBy": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "John"
+                            },
+                            "surname": {
+                              "type": "string",
+                              "example": "Doe"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "john.doe@gmail.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request body"
           },
           "401": {
-            "description": "Authorization failed"
+            "description": "Unauthorized access to group"
+          },
+          "404": {
+            "description": "Group not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a group",
+        "tags": [
+          "Group"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group",
+            "schema": {
+              "type": "string",
+              "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+            },
+            "required": true,
+            "description": "The ID of the group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Group deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Group deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to group"
+          },
+          "404": {
+            "description": "Group not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/groups/{group}/addMember": {
+      "post": {
+        "summary": "Add a member to a group",
+        "tags": [
+          "Group"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group",
+            "schema": {
+              "type": "string",
+              "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+            },
+            "required": true,
+            "description": "The ID of the group"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "951c6d72-f5ee-4ae2-afa2-6fa914dcb58f"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Jane"
+                  },
+                  "surname": {
+                    "type": "string",
+                    "example": "Smith"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "jane.smith@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Member added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Pizza Lovers"
+                        },
+                        "members": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "surname": {
+                                "type": "string"
+                              },
+                              "email": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "createdBy": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "John"
+                            },
+                            "surname": {
+                              "type": "string",
+                              "example": "Doe"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "john.doe@gmail.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request body"
+          },
+          "401": {
+            "description": "Unauthorized access to group"
+          },
+          "404": {
+            "description": "Group not found"
+          },
+          "409": {
+            "description": "Member already in group"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/groups/{group}/removeMember": {
+      "post": {
+        "summary": "Remove a member from a group",
+        "tags": [
+          "Group"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "group",
+            "schema": {
+              "type": "string",
+              "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+            },
+            "required": true,
+            "description": "The ID of the group"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "951c6d72-f5ee-4ae2-afa2-6fa914dcb58f"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Jane"
+                  },
+                  "surname": {
+                    "type": "string",
+                    "example": "Smith"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "jane.smith@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Member removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "3428020f-2332-4d67-9031-98f636a55ce5"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Pizza Lovers"
+                        },
+                        "members": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "surname": {
+                                "type": "string"
+                              },
+                              "email": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "createdBy": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "John"
+                            },
+                            "surname": {
+                              "type": "string",
+                              "example": "Doe"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "john.doe@gmail.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request body"
+          },
+          "401": {
+            "description": "Unauthorized access to group"
+          },
+          "404": {
+            "description": "Group or member not found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
@@ -833,6 +1747,437 @@
           },
           "404": {
             "description": "User in specified group not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "summary": "Get a user by ID",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+            },
+            "description": "The user ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "John"
+                        },
+                        "surname": {
+                          "type": "string",
+                          "example": "Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "john.doe@example.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - User ID is required"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+            },
+            "description": "The user ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "object",
+                    "properties": {
+                      "userData": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "John"
+                          },
+                          "surname": {
+                            "type": "string",
+                            "example": "Doe"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "john.doe@example.com"
+                          }
+                        }
+                      },
+                      "password": {
+                        "type": "string",
+                        "example": "newP@ssw0rd"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "John"
+                        },
+                        "surname": {
+                          "type": "string",
+                          "example": "Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "john.doe@example.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+            },
+            "description": "The user ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "User deleted successfully"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - User ID is required"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/users/getuser": {
+      "post": {
+        "summary": "Get a user by email",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "john.doe@example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "John"
+                        },
+                        "surname": {
+                          "type": "string",
+                          "example": "Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "john.doe@example.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Email is required"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "post": {
+        "summary": "Create a new user",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userData": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "John"
+                      },
+                      "surname": {
+                        "type": "string",
+                        "example": "Doe"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "john.doe@example.com"
+                      }
+                    }
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "secureP@ssw0rd"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "851c6d72-f5ee-4ae2-afa2-6fa914dcb57e"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "John"
+                        },
+                        "surname": {
+                          "type": "string",
+                          "example": "Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "john.doe@example.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - User data is incomplete"
+          },
+          "409": {
+            "description": "Conflict - User already exists"
           },
           "500": {
             "description": "Internal server error"
