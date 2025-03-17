@@ -201,7 +201,7 @@ jobs:
         with:
           ref: ${{ needs.release.outputs.release_version }}
           fetch-tags: true
-      - name: Download fatjar from uploaded artifact
+      - name: Download e2e test reports
         uses: dawidd6/action-download-artifact@07ab29fd4a977ae4d2b275087cf67563dfdf0295 # v9
         with:
           workflow: dispatcher.yml
@@ -209,6 +209,14 @@ jobs:
           commit: ${{ github.sha }}
           name: test-reports
           path: docs/reports/
+      - name: Generate swagger API
+        run: npm run generate-swagger-doc
+      - name: Generate swagger UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: docs/swagger-ui
+          spec-file: ./swagger-output.json
+          GITHUB_TOKEN: ${{ secrets.POSITION_PAL_BOT_TOKEN }}
       - name: Publish on Github pages
         uses: JamesIves/github-pages-deploy-action@6c2d9db40f9296374acc17b90404b6e8864128c8 # v4
         with:
