@@ -212,7 +212,7 @@ jobs:
       - name: Generate swagger API
         run: npm run generate-swagger-doc
       - name: Generate swagger UI
-        uses: Legion2/swagger-ui-action@v1
+        uses: Legion2/swagger-ui-action@eff65dc3f193f0a749872be82f74baa35be0797d # v1
         with:
           output: docs/swagger-ui
           spec-file: ./swagger-output.json
