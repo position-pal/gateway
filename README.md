@@ -46,4 +46,6 @@ git commit -m "chore(deps): update local-deployment digest to <COMMIT>"
 
 ## Documentation
 
+The swagger API documentation is available [here](https://position-pal.github.io/gateway/swagger-ui/).
+
 Refer to the [project documentation](https://position-pal.github.io/docs/) for more details on the project.
