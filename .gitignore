@@ -49,3 +49,6 @@ reports/
 
 # Firebase
 *firebase-config*
+
+# Swagger API docs
+*swagger-output.json
