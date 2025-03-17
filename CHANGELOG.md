@@ -1,3 +1,9 @@
+## [3.1.1](https://github.com/position-pal/gateway/compare/3.1.0...3.1.1) (2025-03-17)
+
+### Bug Fixes
+
+* **ci:** npm install before generating swagger api ([5849b70](https://github.com/position-pal/gateway/commit/5849b7050cfa2b57f382d1ec1ecd7888b2ee2e4d))
+
 ## [3.1.0](https://github.com/position-pal/gateway/compare/3.0.1...3.1.0) (2025-03-17)
 
 ### Features
