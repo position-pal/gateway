@@ -1,3 +1,26 @@
+## [3.1.0](https://github.com/position-pal/gateway/compare/3.0.1...3.1.0) (2025-03-17)
+
+### Features
+
+* add swagger doc ([defbbf7](https://github.com/position-pal/gateway/commit/defbbf78f202556edb7d8d183cbbf0398fe5ee4a))
+
+### Dependency updates
+
+* **deps:** update dependency @grpc/grpc-js to v1.13.0 ([#157](https://github.com/position-pal/gateway/issues/157)) ([5b1965a](https://github.com/position-pal/gateway/commit/5b1965a48d1a8ef49c41b283dfb79e6fec60d42b))
+* **deps:** update dependency axios to v1.8.3 ([#158](https://github.com/position-pal/gateway/issues/158)) ([34cf6e5](https://github.com/position-pal/gateway/commit/34cf6e549cc0db820bbf7f693c83b9e77b17e6db))
+
+### Build and continuous integration
+
+* **deps:** pin legion2/swagger-ui-action action to eff65dc ([#161](https://github.com/position-pal/gateway/issues/161)) ([ddde053](https://github.com/position-pal/gateway/commit/ddde053a93277cfc76df98b8fc5f11e5c2e82fe3))
+* **deps:** update actions/setup-node action to v4.3.0 ([#159](https://github.com/position-pal/gateway/issues/159)) ([1802d58](https://github.com/position-pal/gateway/commit/1802d58bede6c599b127dae8e759ee232264885d))
+* **deps:** update actions/setup-node digest to cdca736 ([#160](https://github.com/position-pal/gateway/issues/160)) ([840da38](https://github.com/position-pal/gateway/commit/840da383dda7965a0fd84862176025eb941ee7d8))
+* **deps:** update docker/login-action digest to 74a5d14 ([#156](https://github.com/position-pal/gateway/issues/156)) ([2cc004a](https://github.com/position-pal/gateway/commit/2cc004ab51244824ab63b4d9a210a7df49d6fe8c))
+* do not comment PR for warning about e2e tests if the author is a bot ([ffe4566](https://github.com/position-pal/gateway/commit/ffe456625ae7ee3978299808554e6dd8faca4098))
+
+### General maintenance
+
+* **readme:** update readme ([cf66f77](https://github.com/position-pal/gateway/commit/cf66f77cc0f0e7d1b513ad6407c82fb66a65fd6e))
+
 ## [3.0.1](https://github.com/position-pal/gateway/compare/3.0.0...3.0.1) (2025-03-12)
 
 ### Dependency updates
