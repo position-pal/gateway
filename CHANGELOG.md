@@ -1,3 +1,18 @@
+## [3.2.0](https://github.com/position-pal/gateway/compare/3.1.1...3.2.0) (2025-03-17)
+
+### Features
+
+* add swagger doc for groups ([764f4db](https://github.com/position-pal/gateway/commit/764f4dbb984a13c93a6963782600d83d398f287a))
+* add swagger for: user, auth and chat ([cbc6515](https://github.com/position-pal/gateway/commit/cbc6515d3549973bd72b9d9d0a4aa32dbed7c218))
+
+### Build and continuous integration
+
+* fix fork release ([#162](https://github.com/position-pal/gateway/issues/162)) ([65c2d84](https://github.com/position-pal/gateway/commit/65c2d84702ddb7f7f6bcccb3e34b0e137d296921))
+
+### General maintenance
+
+* untrack swagger output fileD ([7880ddd](https://github.com/position-pal/gateway/commit/7880ddd35bd02d4641b22c3bc4706a392b343bd7))
+
 ## [3.1.1](https://github.com/position-pal/gateway/compare/3.1.0...3.1.1) (2025-03-17)
 
 ### Bug Fixes
