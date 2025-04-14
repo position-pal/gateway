@@ -45,7 +45,7 @@ jobs:
         with:
           submodules: true
       - name: Set up Node ${{ matrix.jvm-version }}
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -72,7 +72,7 @@ jobs:
         with:
           submodules: true
       - name: Set up Node ${{ matrix.node-version }}
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -210,7 +210,7 @@ jobs:
           name: test-reports
           path: docs/reports/
       - name: Set up Node
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 23.x
       - name: Install dependencies
