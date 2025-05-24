@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/position-pal/gateway#readme",
   "dependencies": {
-    "@grpc/grpc-js": "1.13.3",
+    "@grpc/grpc-js": "1.13.4",
     "@grpc/proto-loader": "^0.7.13",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
