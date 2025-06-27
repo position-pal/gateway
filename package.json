@@ -4,7 +4,7 @@
   "description": "This is the gateway for the PositionPal project.",
   "main": "index.js",
   "engines": {
-    "node": "22.16"
+    "node": "22.17"
   },
   "scripts": {
     "start": "node src/server.js",
