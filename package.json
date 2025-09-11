@@ -54,7 +54,7 @@
     "poll-until-promise": "4.2.0",
     "prettier": "3.6.2",
     "puppeteer": "24.19.0",
-    "semantic-release-preconfigured-conventional-commits": "1.1.141",
+    "semantic-release-preconfigured-conventional-commits": "1.1.142",
     "supertest": "7.1.4"
   },
   "overrides": {
