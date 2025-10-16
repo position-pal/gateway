@@ -53,7 +53,7 @@
     "jest": "30.2.0",
     "poll-until-promise": "4.2.0",
     "prettier": "3.6.2",
-    "puppeteer": "24.24.0",
+    "puppeteer": "24.24.1",
     "semantic-release-preconfigured-conventional-commits": "1.1.147",
     "supertest": "7.1.4"
   },
