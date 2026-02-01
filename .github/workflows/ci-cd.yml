@@ -202,7 +202,7 @@ jobs:
           ref: ${{ needs.release.outputs.release_version }}
           fetch-tags: true
       - name: Download e2e test reports
-        uses: dawidd6/action-download-artifact@883bc3da0e2f55ddd0a8fc8e99378551c1991a55 # v13
+        uses: dawidd6/action-download-artifact@5c98f0b039f36ef966fdb7dfa9779262785ecb05 # v14
         with:
           workflow: dispatcher.yml
           workflow_conclusion: in_progress
