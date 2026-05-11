@@ -50,7 +50,7 @@
     "eslint-plugin-prettier": "5.5.5",
     "globals": "17.6.0",
     "husky": "9.1.7",
-    "jest": "30.4.0",
+    "jest": "30.4.1",
     "poll-until-promise": "4.2.0",
     "prettier": "3.8.3",
     "puppeteer": "24.43.0",
