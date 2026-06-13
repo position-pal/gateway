@@ -52,7 +52,7 @@
     "husky": "9.1.7",
     "jest": "30.4.2",
     "poll-until-promise": "4.2.0",
-    "prettier": "3.8.3",
+    "prettier": "3.8.4",
     "puppeteer": "25.1.0",
     "semantic-release-preconfigured-conventional-commits": "1.1.157",
     "supertest": "7.2.2"
