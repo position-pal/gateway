@@ -78,13 +78,13 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Setup firebase service account secret
-        uses: mobiledevops/secret-to-file-action@be5f14e82c235ccde011f6ab0f6c984b35dc34c6 # v1
+        uses: mobiledevops/secret-to-file-action@085a45b601133564d1311589e82b5b136d0839bb # v2
         with:
           base64-encoded-secret: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           filename: service-account.json
           working-directory: ./tests/resources/local-deployment/secrets
       - name: Setup firebase-config secret
-        uses: mobiledevops/secret-to-file-action@be5f14e82c235ccde011f6ab0f6c984b35dc34c6 # v1
+        uses: mobiledevops/secret-to-file-action@085a45b601133564d1311589e82b5b136d0839bb # v2
         with:
           base64-encoded-secret: ${{ secrets.FIREBASE_CONFIG }}
           filename: firebase-config.json
