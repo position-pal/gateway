@@ -41,7 +41,7 @@
   "devDependencies": {
     "@commitlint/cli": "21.2.1",
     "@commitlint/config-conventional": "21.2.0",
-    "@cucumber/cucumber": "13.0.0",
+    "@cucumber/cucumber": "13.1.0",
     "@eslint/js": "9.39.5",
     "chai": "6.2.2",
     "eslint": "9.39.5",
