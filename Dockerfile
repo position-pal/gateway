@@ -1,10 +1,10 @@
-FROM node:24@sha256:538e581635ea0180e8cf02297a4054d4b883be79a8697f1d0c44f66948ed748a AS build
+FROM node:24@sha256:934240a162082fd8b8a2f90cd5114446443f1eba1c5378f6687167ca405e6584 AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts
 COPY src ./src
 
-FROM node:24@sha256:538e581635ea0180e8cf02297a4054d4b883be79a8697f1d0c44f66948ed748a
+FROM node:24@sha256:934240a162082fd8b8a2f90cd5114446443f1eba1c5378f6687167ca405e6584
 RUN groupadd -r nonroot && useradd -r -g nonroot nonroot
 WORKDIR /app
 # Create and set npm cache directory with correct permissions
