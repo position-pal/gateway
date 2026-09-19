@@ -15,3 +15,5 @@ pull_request_rules:
           Await a feedback from a maintainer that, after a successful review, will merge this in a pre-release branch
           where integration tests will be run. If everything goes well, the PR will be merged into the main branch :rocket:.
           Thanks for your contribution :heart:!
+merge_protections_settings:
+  reporting_method: check-runs
