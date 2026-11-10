@@ -55,7 +55,7 @@
     "prettier": "3.9.10",
     "puppeteer": "25.16.0",
     "semantic-release-preconfigured-conventional-commits": "1.1.158",
-    "supertest": "7.3.1"
+    "supertest": "7.3.2"
   },
   "overrides": {
     "conventional-changelog-conventionalcommits": ">= 8.0.0"
